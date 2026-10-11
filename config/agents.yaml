@@ -1,0 +1,44 @@
+agents:
+  - agent_id: recon_agent
+    name: Recon
+    description: Maps the declared fixture surface without expanding scope.
+    objective: Maximize bounded coverage
+    system_prompt: Inventory only declared routes. Abstain from exploitability claims without direct evidence.
+    skills: [inventory]
+    allowed_checks: [inventory]
+  - agent_id: injection_agent
+    name: Injection
+    description: Advocates investigating ambiguous parser signals.
+    objective: Avoid prematurely dismissing plausible issues
+    system_prompt: Propose signals as hypotheses. Compare benign controls and lower confidence when reproduction fails.
+    skills: [injection]
+    allowed_checks: [injection_signal, benign_control, injection_reproduce]
+  - agent_id: access_control_agent
+    name: Access control
+    description: Checks object authorization between two synthetic identities.
+    objective: Detect demonstrated cross-user access
+    system_prompt: Confirm only visible cross-user records. Revise prior belief when a guard denies access.
+    skills: [access_control]
+    allowed_checks: [cross_user_access, access_reproduce]
+  - agent_id: hardening_agent
+    name: Hardening
+    description: Tests synthetic configuration against defensive defaults.
+    objective: Prioritize observable configuration weaknesses
+    system_prompt: Check configuration appropriate to the finding category. Header absence cannot prove broken authorization. Guard configuration is context; direct record visibility is required to establish access.
+    skills: [hardening, guard_configuration]
+    allowed_checks: [headers, headers_reproduce, guard_config]
+  - agent_id: evidence_skeptic
+    name: Evidence skeptic
+    description: Challenges claims with benign controls and independent checks.
+    objective: Minimize false positives
+    system_prompt: Find falsifiable checks. Independent repetition or a matched benign signal must inform your vote.
+    skills: [verification]
+    allowed_checks: [benign_control, injection_reproduce, access_reproduce, headers_reproduce]
+  - agent_id: risk_remediation_agent
+    name: Risk & remediation
+    description: Weighs evidence, bounded impact, and remediation cost.
+    objective: Minimize unsupported risk and expensive false alarms
+    system_prompt: Read shared evidence only. Assess impact and practical fixes. Preserve uncertainty when facts are missing.
+    skills: [risk]
+    allowed_checks: []
+

@@ -1,0 +1,47 @@
+scenarios:
+  - id: tenant_invoice
+    name: Billing portal · cross-tenant invoice leak
+    description: Real authenticated HTTP reads against a fictional SaaS billing API. Verify customer isolation without blocking legitimate colleagues.
+    expected: CONFIRMED
+    skill: access_control
+  - id: tenant_invoice_change
+    name: Billing portal · patch during incident
+    description: Observe the invoice leak, switch to the corrected deployment, and preserve the earlier exposure in the incident record.
+    expected: DISPUTED
+    skill: access_control
+  - id: ambiguous_injection
+    name: Ambiguous injection
+    description: An error signal meets a benign control. Is the signal actually proof?
+    expected: NOT_REPRODUCED
+    skill: injection
+  - id: access_control
+    name: Broken access control
+    description: Two synthetic users. One missing authorization guard.
+    expected: CONFIRMED
+    skill: access_control
+  - id: patched_access
+    name: Patch & reassess
+    description: New guard evidence challenges a previously supported claim.
+    expected: NOT_REPRODUCED
+    skill: access_control
+  - id: hardening
+    name: Configuration review
+    description: Verify a missing synthetic security header independently.
+    expected: CONFIRMED
+    skill: hardening
+  - id: incomplete_access
+    name: Incomplete evidence
+    description: A partial fixture response cannot justify a confirmed finding.
+    expected: NEEDS_HUMAN
+    skill: access_control
+  - id: scope_violation
+    name: Scope boundary
+    description: A named forbidden check exercises the fail-closed safety gate.
+    expected: NEEDS_HUMAN
+    skill: access_control
+
+  - id: changing_access
+    name: Surprise · guard changes mid-run
+    description: An initial cross-user observation meets a newly enabled guard. Preserve the conflicting history.
+    expected: DISPUTED
+    skill: access_control

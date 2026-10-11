@@ -1,0 +1,29 @@
+# Verification status
+
+Status describes executed checks. The revised suite passes **89 tests**; the remaining warning is an upstream A2A/Starlette deprecation. Production TypeScript/Vite builds, the Docker stack, public-API real SLIM acceptance, and Chrome interaction/layout checks have been exercised.
+
+| Component | Status | Evidence / limit |
+| --- | --- | --- |
+| Fixture and fail-closed gateway | Verified | Exact origins, named checks, permissions, budget, deadlines, global stop, immutable trusted observations, and finding-family isolation. |
+| Deterministic resolver | Verified | Independent direct observations, duplicate detection, failed reproduction, conflict retention, incomplete evidence, safety priority. Resolver remains model-independent. |
+| Adaptive selection | Verified | Three initial members selected by task; surprise recruits a fourth by guard_configuration skill; unused specialists stay available. |
+| Mid-run adaptation | Verified | Public intervention endpoint, automatic reproducible surprise, versioned evidence, earlier positive plus later negative, DISPUTED result. Late changes without fresh observations require human review. |
+| Real SLIM / A2A | Verified with rule agents | Six independent worker services; selected groups actually exchange packets. Five public-API rule acceptance scenarios, including recruitment, are recorded in live-verification.json. The same five expected dispositions passed with actual Qwen3 4B over SLIM in model-slim-verification.json. |
+| Fairer baseline evaluation | Verified with rule agents | 39 separately executed assessments, 13 distinct authored conditions, development/stress split, measured resources, same limits and permissions, no peer evidence in independent baselines. Unknown-truth confirmations are separate from benign false positives. |
+| Model planning and positions | Verified core local and live-SLIM acceptance | Real Qwen3 4B inference completed core dispositions and a focused current-state guard reassessment. Five model-backed public-API scenarios also passed over real SLIM. After the guard change, access and skeptic probabilities fell from .95 to 0; risk retained a disputed position. The pure resolver retained historical conflict. Earlier failed attempts remain in model-attempts.json. Mock tests additionally cover invalid tools, references, probability fields, cached positions and stale citations. |
+| Native local inference | Verified core runs | Qwen3 4B downloaded and exercised; 8B exceeded practical local timing limits. Schema-constrained names/IDs, bounded generation, thinking disabled, provider usage recorded. A 120-second deadline remains enforced. |
+| Dashboard | Verified | Live SSE, intervention control, recruited/unselected states, versioned evidence, stress scores, costs, confidence intervals, report export, themes, mobile without overflow. |
+| Persistence and contracts | Verified | Strict Pydantic contracts, SQLite snapshots, per-run reasoning/model attribution and append-only event rows, durable completion before terminal state, authenticated per-worker tool calls. |
+| Telemetry | Instrumented | Tool, exchange, specialist and resolution spans; external collector not validated. |
+| Directory / Identity service | Not implemented | Local registry and SLIM shared-secret identity are labeled accurately. |
+| General security scanning | Excluded | Finite synthetic fixture only; no arbitrary target tools or exploit payloads. |
+
+Use `make test`, `make evaluate`, `scripts/verify_live.py` and `scripts/validate_model.py` to reproduce the respective checks. Model acceptance is separate from rule-mode acceptance and from SLIM transport acceptance. Inspect the actual `validated` field and errors before claiming real model completion. Model attempt history is retained in model-attempts.json. Confidence and synthetic case accuracy are not real-world calibration or generalization evidence.
+
+The executable billing API adds authenticated tenant-isolation checks with owner and colleague controls, a second-invoice reproduction, and per-HTTP-request accounting. See billing-use-case.md and the separate billing-verification.json live report. These are fictional records in a deliberately vulnerable local application, not a production deployment.
+
+The three billing scenarios passed actual HTTP + SLIM + Qwen3 4B model acceptance: vulnerable CONFIRMED, corrected-only NOT_REPRODUCED, and mid-incident deployment switch DISPUTED. Each executed 15 HTTP requests and 11 model calls. Inspect billing-verification.json for durations, independent observations and positions. Two earlier unsuccessful attempts are preserved in billing-attempts.json. Model prompt size and policy/hypothesis ambiguity were corrected; votes are still model-generated and the resolver remains deterministic.
+
+Live repository audit adds three separate audit worker identities. It reads actual pinned artifacts, queries public OSV/GitHub records, checks package releases, and keeps bounded model peer reviews. See live-repository-audit.md and the separate real-public-API acceptance report; the authored synthetic benchmark does not evaluate this workflow.
+
+Actual public-API + Qwen3 4B + SLIM acceptance passed for two sources: the real workspace (302 unique declared package versions; one NLTK advisory match) and an immutable historical Apache Airflow artifact (500 queried of 643 versions; 466 advisory hits, eight detailed). Each has six model reviews and 12 recorded peer receipts. All returned match IDs remain exported. The public-source follow-up queried published authlib 1.6.11 and found two remaining advisory records; it is not asserted to be a safe upgrade. See repository-audit-verification.json. Model source interpretations still require review; earlier opinions are retained in repository-audit-attempts.json.

@@ -1,0 +1,10 @@
+# Optional local-model judging mode. Requires Ollama + qwen3:4b on the host.
+# No paid API or secret key is used by this overlay.
+services:
+  api:
+    environment:
+      AGENT_REASONING: llm
+      LLM_PROVIDER: ollama
+      LLM_BASE_URL: http://host.docker.internal:11434/v1
+      LLM_MODEL: ${LOCAL_LLM_MODEL:-qwen3:4b}
+      LLM_API_KEY: local-ollama

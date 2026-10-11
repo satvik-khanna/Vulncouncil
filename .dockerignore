@@ -1,0 +1,14 @@
+.venv
+.cache
+.reference
+.git
+.env
+docs
+tests
+scripts
+data
+frontend/node_modules
+frontend/dist
+*.pdf
+*.log
+

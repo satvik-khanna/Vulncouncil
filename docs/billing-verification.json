@@ -1,0 +1,3000 @@
+{
+  "scope": "Local executable billing API; fictional tenants, invoices and demo credentials",
+  "direct_http": [
+    {
+      "route": "/demo/vulnerable/invoices/INV-2001",
+      "identity": "alice-northstar",
+      "status": 200
+    },
+    {
+      "route": "/demo/patched/invoices/INV-2001",
+      "identity": "alice-northstar",
+      "status": 403
+    },
+    {
+      "route": "/demo/patched/invoices/INV-2001",
+      "identity": "bob-harbor",
+      "status": 200
+    },
+    {
+      "route": "/demo/patched/invoices/INV-2001",
+      "identity": "beth-harbor",
+      "status": 200
+    }
+  ],
+  "assessments": [
+    {
+      "scenario": "tenant_invoice",
+      "initially_patched": false,
+      "expected": "CONFIRMED",
+      "run": {
+        "run_id": "run-5f500140c452",
+        "scenario": "tenant_invoice",
+        "patched": false,
+        "target_id": "lab-target",
+        "transport": "slim",
+        "reasoning": "llm",
+        "reasoning_model": "qwen3:4b",
+        "state": "completed",
+        "created_at": "2026-10-11T10:25:13.784973+00:00",
+        "completed_at": "2026-10-11T10:27:04.387462+00:00",
+        "selected_agents": [
+          "access_control_agent",
+          "evidence_skeptic",
+          "risk_remediation_agent"
+        ],
+        "findings": [
+          {
+            "finding_id": "finding-38a91283b4b1",
+            "run_id": "run-5f500140c452",
+            "title": "Cross-tenant invoice disclosure",
+            "category": "broken_access_control",
+            "asset": "Fictional SaaS billing portal",
+            "route": "/demo/{deployment}/invoices/{invoice_id}",
+            "status": "CONFIRMED",
+            "confidence": 0.95,
+            "initial_confidence": 0.95,
+            "impact_band": "high",
+            "reproducible": true,
+            "evidence_ids": [
+              "ev-4075dd0aed09",
+              "ev-5b168fa42e94",
+              "ev-8679c802046d",
+              "ev-dcc3a41486d3",
+              "ev-ea03f1312038"
+            ],
+            "supporting_agents": [
+              "evidence_skeptic",
+              "access_control_agent"
+            ],
+            "challenging_agents": [],
+            "limitations": [
+              "Executable local billing API with fictional data and static demo credentials; not a production penetration test",
+              "Two invoices tested; no claim about the number of customers affected or historical exfiltration"
+            ],
+            "remediation": "Enforce server-derived tenant membership on every invoice read. Keep same-tenant colleague access working; retest both controls and cross-tenant reads. Review historical access separately from patch verification.",
+            "created_at": "2026-10-11T10:25:45.544028+00:00",
+            "rule": "INDEPENDENT_REPRODUCTION: two supporting agents and independent direct observations; no decisive counterexample",
+            "votes": [
+              {
+                "agent_id": "evidence_skeptic",
+                "finding_id": "finding-38a91283b4b1",
+                "vote": "CONFIRM",
+                "confidence": 0.95,
+                "evidence_ids": [
+                  "ev-4075dd0aed09",
+                  "ev-5b168fa42e94",
+                  "ev-8679c802046d",
+                  "ev-dcc3a41486d3",
+                  "ev-ea03f1312038"
+                ],
+                "reason": "All evidence shows Alice from Northstar can read Harbor's invoices (INV-2001 and INV-2002) with guard disabled and owner status 200, violating cross-tenant access policy. Current environment version 0 confirms unauthorized disclosure.",
+                "round": 2
+              },
+              {
+                "agent_id": "risk_remediation_agent",
+                "finding_id": "finding-38a91283b4b1",
+                "vote": "ABSTAIN",
+                "confidence": 0.0,
+                "evidence_ids": [
+                  "ev-4075dd0aed09",
+                  "ev-5b168fa42e94",
+                  "ev-8679c802046d",
+                  "ev-dcc3a41486d3",
+                  "ev-ea03f1312038"
+                ],
+                "reason": "All evidence confirms Alice can read Harbor's invoices (INV-2001 and INV-2002) without permission, but the required policy mandates cross-tenant reads must be denied. The evidence shows the guard is disabled and unauthorized reads occur, which contradicts the policy. However, the claim requires testing HTTP visibility for the current environment version (0), and while the evidence shows unauthorized access, the policy violation is not confirmed as a current issue due to missing HTTP visibility. ",
+                "round": 2
+              },
+              {
+                "agent_id": "access_control_agent",
+                "finding_id": "finding-38a91283b4b1",
+                "vote": "CONFIRM",
+                "confidence": 0.95,
+                "evidence_ids": [
+                  "ev-4075dd0aed09",
+                  "ev-5b168fa42e94",
+                  "ev-8679c802046d",
+                  "ev-dcc3a41486d3",
+                  "ev-ea03f1312038"
+                ],
+                "reason": "All evidence confirms Alice from Northstar can read Harbor's invoices (INV-2001 and INV-2002) without permission. The guard is disabled, violating the policy that cross-tenant reads must be denied. Current environment version 0 shows unauthorized access for both invoices.",
+                "round": 2
+              }
+            ],
+            "baseline": {
+              "single_agent": "CONFIRMED",
+              "simple_majority": "CONFIRMED"
+            }
+          }
+        ],
+        "evidence": [
+          {
+            "evidence_id": "ev-4075dd0aed09",
+            "run_id": "run-5f500140c452",
+            "agent_id": "evidence_skeptic",
+            "finding_id": "finding-38a91283b4b1",
+            "tool_name": "access_reproduce",
+            "target_id": "lab-target",
+            "test_description": "Authenticated billing API check: access_reproduce",
+            "method": "GET",
+            "route": "/demo/vulnerable/invoices/INV-2002",
+            "result": "positive",
+            "status_code": 200,
+            "snippet": "{\"actor\": \"alice\", \"actor_tenant\": \"northstar\", \"controls_passed\": true, \"environment_version\": 0, \"guard_enabled\": false, \"http_requests\": 3, \"invoice_id\": \"INV-2002\", \"outsider_response_hash\": \"4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10\", \"owner_response_hash\": \"4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10\", \"owner_status\": 200, \"policy\": \"Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.\", \"record_owner\": \"bob\", \"record_visible\": true, \"resource_tenant\": \"harbor\", \"response_matches_owner\":",
+            "response_hash": "b3e5b8784a0c20564522876b761fdb256d44be1e09f3311e78faa9e006e5e680",
+            "timestamp": "2026-10-11T10:25:26.254798+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": false,
+            "facts": {
+              "record_visible": true,
+              "guard_enabled": false,
+              "actor": "alice",
+              "record_owner": "bob",
+              "actor_tenant": "northstar",
+              "resource_tenant": "harbor",
+              "invoice_id": "INV-2002",
+              "owner_status": 200,
+              "same_tenant_status": 200,
+              "controls_passed": true,
+              "response_matches_owner": true,
+              "owner_response_hash": "4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10",
+              "outsider_response_hash": "4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10",
+              "http_requests": 3,
+              "sensitive_fields": [
+                "customer",
+                "billing_email",
+                "amount_usd",
+                "payment_reference"
+              ],
+              "policy": "Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.",
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-5b168fa42e94",
+            "run_id": "run-5f500140c452",
+            "agent_id": "access_control_agent",
+            "finding_id": "finding-38a91283b4b1",
+            "tool_name": "cross_user_access",
+            "target_id": "lab-target",
+            "test_description": "Authenticated billing API check: cross_user_access",
+            "method": "GET",
+            "route": "/demo/vulnerable/invoices/INV-2001",
+            "result": "positive",
+            "status_code": 200,
+            "snippet": "{\"actor\": \"alice\", \"actor_tenant\": \"northstar\", \"controls_passed\": true, \"environment_version\": 0, \"guard_enabled\": false, \"http_requests\": 3, \"invoice_id\": \"INV-2001\", \"outsider_response_hash\": \"845e80fb84d17278855765811327535a6ca9b80a01422f521d5e5762a12196f0\", \"owner_response_hash\": \"845e80fb84d17278855765811327535a6ca9b80a01422f521d5e5762a12196f0\", \"owner_status\": 200, \"policy\": \"Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.\", \"record_owner\": \"bob\", \"record_visible\": true, \"resource_tenant\": \"harbor\", \"response_matches_owner\":",
+            "response_hash": "c89aa13aed0210ce84c61688b631b168e76ca0e08bfa200849c793cd63e592f6",
+            "timestamp": "2026-10-11T10:25:32.989274+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": false,
+            "facts": {
+              "record_visible": true,
+              "guard_enabled": false,
+              "actor": "alice",
+              "record_owner": "bob",
+              "actor_tenant": "northstar",
+              "resource_tenant": "harbor",
+              "invoice_id": "INV-2001",
+              "owner_status": 200,
+              "same_tenant_status": 200,
+              "controls_passed": true,
+              "response_matches_owner": true,
+              "owner_response_hash": "845e80fb84d17278855765811327535a6ca9b80a01422f521d5e5762a12196f0",
+              "outsider_response_hash": "845e80fb84d17278855765811327535a6ca9b80a01422f521d5e5762a12196f0",
+              "http_requests": 3,
+              "sensitive_fields": [
+                "customer",
+                "billing_email",
+                "amount_usd",
+                "payment_reference"
+              ],
+              "policy": "Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.",
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-8679c802046d",
+            "run_id": "run-5f500140c452",
+            "agent_id": "evidence_skeptic",
+            "finding_id": "finding-38a91283b4b1",
+            "tool_name": "access_reproduce",
+            "target_id": "lab-target",
+            "test_description": "Authenticated billing API check: access_reproduce",
+            "method": "GET",
+            "route": "/demo/vulnerable/invoices/INV-2002",
+            "result": "positive",
+            "status_code": 200,
+            "snippet": "{\"actor\": \"alice\", \"actor_tenant\": \"northstar\", \"controls_passed\": true, \"environment_version\": 0, \"guard_enabled\": false, \"http_requests\": 3, \"invoice_id\": \"INV-2002\", \"outsider_response_hash\": \"4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10\", \"owner_response_hash\": \"4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10\", \"owner_status\": 200, \"policy\": \"Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.\", \"record_owner\": \"bob\", \"record_visible\": true, \"resource_tenant\": \"harbor\", \"response_matches_owner\":",
+            "response_hash": "b3e5b8784a0c20564522876b761fdb256d44be1e09f3311e78faa9e006e5e680",
+            "timestamp": "2026-10-11T10:26:05.638687+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": false,
+            "facts": {
+              "record_visible": true,
+              "guard_enabled": false,
+              "actor": "alice",
+              "record_owner": "bob",
+              "actor_tenant": "northstar",
+              "resource_tenant": "harbor",
+              "invoice_id": "INV-2002",
+              "owner_status": 200,
+              "same_tenant_status": 200,
+              "controls_passed": true,
+              "response_matches_owner": true,
+              "owner_response_hash": "4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10",
+              "outsider_response_hash": "4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10",
+              "http_requests": 3,
+              "sensitive_fields": [
+                "customer",
+                "billing_email",
+                "amount_usd",
+                "payment_reference"
+              ],
+              "policy": "Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.",
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-dcc3a41486d3",
+            "run_id": "run-5f500140c452",
+            "agent_id": "access_control_agent",
+            "finding_id": "finding-38a91283b4b1",
+            "tool_name": "cross_user_access",
+            "target_id": "lab-target",
+            "test_description": "Authenticated billing API check: cross_user_access",
+            "method": "GET",
+            "route": "/demo/vulnerable/invoices/INV-2001",
+            "result": "positive",
+            "status_code": 200,
+            "snippet": "{\"actor\": \"alice\", \"actor_tenant\": \"northstar\", \"controls_passed\": true, \"environment_version\": 0, \"guard_enabled\": false, \"http_requests\": 3, \"invoice_id\": \"INV-2001\", \"outsider_response_hash\": \"845e80fb84d17278855765811327535a6ca9b80a01422f521d5e5762a12196f0\", \"owner_response_hash\": \"845e80fb84d17278855765811327535a6ca9b80a01422f521d5e5762a12196f0\", \"owner_status\": 200, \"policy\": \"Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.\", \"record_owner\": \"bob\", \"record_visible\": true, \"resource_tenant\": \"harbor\", \"response_matches_owner\":",
+            "response_hash": "c89aa13aed0210ce84c61688b631b168e76ca0e08bfa200849c793cd63e592f6",
+            "timestamp": "2026-10-11T10:26:14.441027+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": false,
+            "facts": {
+              "record_visible": true,
+              "guard_enabled": false,
+              "actor": "alice",
+              "record_owner": "bob",
+              "actor_tenant": "northstar",
+              "resource_tenant": "harbor",
+              "invoice_id": "INV-2001",
+              "owner_status": 200,
+              "same_tenant_status": 200,
+              "controls_passed": true,
+              "response_matches_owner": true,
+              "owner_response_hash": "845e80fb84d17278855765811327535a6ca9b80a01422f521d5e5762a12196f0",
+              "outsider_response_hash": "845e80fb84d17278855765811327535a6ca9b80a01422f521d5e5762a12196f0",
+              "http_requests": 3,
+              "sensitive_fields": [
+                "customer",
+                "billing_email",
+                "amount_usd",
+                "payment_reference"
+              ],
+              "policy": "Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.",
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-ea03f1312038",
+            "run_id": "run-5f500140c452",
+            "agent_id": "access_control_agent",
+            "finding_id": "finding-38a91283b4b1",
+            "tool_name": "access_reproduce",
+            "target_id": "lab-target",
+            "test_description": "Authenticated billing API check: access_reproduce",
+            "method": "GET",
+            "route": "/demo/vulnerable/invoices/INV-2002",
+            "result": "positive",
+            "status_code": 200,
+            "snippet": "{\"actor\": \"alice\", \"actor_tenant\": \"northstar\", \"controls_passed\": true, \"environment_version\": 0, \"guard_enabled\": false, \"http_requests\": 3, \"invoice_id\": \"INV-2002\", \"outsider_response_hash\": \"4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10\", \"owner_response_hash\": \"4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10\", \"owner_status\": 200, \"policy\": \"Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.\", \"record_owner\": \"bob\", \"record_visible\": true, \"resource_tenant\": \"harbor\", \"response_matches_owner\":",
+            "response_hash": "b3e5b8784a0c20564522876b761fdb256d44be1e09f3311e78faa9e006e5e680",
+            "timestamp": "2026-10-11T10:26:14.479448+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": false,
+            "facts": {
+              "record_visible": true,
+              "guard_enabled": false,
+              "actor": "alice",
+              "record_owner": "bob",
+              "actor_tenant": "northstar",
+              "resource_tenant": "harbor",
+              "invoice_id": "INV-2002",
+              "owner_status": 200,
+              "same_tenant_status": 200,
+              "controls_passed": true,
+              "response_matches_owner": true,
+              "owner_response_hash": "4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10",
+              "outsider_response_hash": "4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10",
+              "http_requests": 3,
+              "sensitive_fields": [
+                "customer",
+                "billing_email",
+                "amount_usd",
+                "payment_reference"
+              ],
+              "policy": "Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.",
+              "environment_version": 0
+            }
+          }
+        ],
+        "metrics": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 0,
+          "blocked_requests": 0,
+          "tool_requests": 15,
+          "duration_seconds": 110.438,
+          "group_messages": 28,
+          "peer_receipts": 36,
+          "model_calls": 11,
+          "model_tokens": 12665
+        },
+        "error": null,
+        "environment_version": 0,
+        "fixture_variant": "standard",
+        "decision_mode": "council"
+      },
+      "events": [
+        {
+          "event_id": "evt-4c369c146a76",
+          "run_id": "run-5f500140c452",
+          "finding_id": null,
+          "agent_id": "facilitator",
+          "event_type": "ASSESSMENT_OPENED",
+          "round": 0,
+          "claim": "Local billing API assessment opened with fictional tenants and invoices. Owner, colleague and cross-tenant HTTP reads test customer isolation.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:25:13.948399+00:00",
+          "data": {
+            "target": "lab-target",
+            "scenario": "tenant_invoice",
+            "transport": "slim",
+            "limits": {
+              "allowed_origins": [
+                "http://127.0.0.1:8001",
+                "http://localhost:8001",
+                "http://lab-target:8001"
+              ],
+              "allowed_routes": [
+                "/checks",
+                "/demo/vulnerable/invoices/INV-2001",
+                "/demo/vulnerable/invoices/INV-2002",
+                "/demo/patched/invoices/INV-2001",
+                "/demo/patched/invoices/INV-2002"
+              ],
+              "allowed_methods": [
+                "POST",
+                "GET"
+              ],
+              "max_requests": 48,
+              "per_agent_requests": 12,
+              "deadline_seconds": 120,
+              "request_timeout_seconds": 4,
+              "max_rounds": 2
+            }
+          },
+          "seq": 615
+        },
+        {
+          "event_id": "evt-c48c7d7ccdf7",
+          "run_id": "run-5f500140c452",
+          "finding_id": null,
+          "agent_id": "access_control_agent",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities access_control. Objective: Detect demonstrated cross-user access.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:25:14.036956+00:00",
+          "data": {},
+          "seq": 616
+        },
+        {
+          "event_id": "evt-00141f72011a",
+          "run_id": "run-5f500140c452",
+          "finding_id": null,
+          "agent_id": "evidence_skeptic",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities verification. Objective: Minimize false positives.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:25:14.121387+00:00",
+          "data": {},
+          "seq": 617
+        },
+        {
+          "event_id": "evt-e0449ef403a7",
+          "run_id": "run-5f500140c452",
+          "finding_id": null,
+          "agent_id": "risk_remediation_agent",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities risk. Objective: Minimize unsupported risk and expensive false alarms.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:25:14.205037+00:00",
+          "data": {},
+          "seq": 618
+        },
+        {
+          "event_id": "evt-8af44ebd5eab",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "FINDING_PROPOSED",
+          "round": 0,
+          "claim": "No evidence exists to confirm or deny the hypothesis. The claim requires testing HTTP visibility, but no evidence has been collected for the current environment version (0). Historical observations are irrelevant to the present state of the system as per the constraints.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "ABSTAIN",
+          "timestamp": "2026-10-11T10:25:21.347234+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [],
+            "environment_version": 0
+          },
+          "seq": 619
+        },
+        {
+          "event_id": "evt-bfbd929eac14",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "evidence_skeptic",
+          "event_type": "PLAN_UPDATED",
+          "round": 0,
+          "claim": "To confirm if Alice from Northstar can read Harbor's invoice without permission, execute HTTP reads for owner, same-tenant colleague, and cross-tenant outsider to test authorization controls as per required policy.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:25:26.182731+00:00",
+          "data": {
+            "checks": [
+              "access_reproduce"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 620
+        },
+        {
+          "event_id": "evt-076fe48a8024",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "evidence_skeptic",
+          "event_type": "TOOL_RESULT",
+          "round": 0,
+          "claim": "Approved access_reproduce returned positive.",
+          "evidence_ids": [
+            "ev-4075dd0aed09"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:25:26.256893+00:00",
+          "data": {},
+          "seq": 621
+        },
+        {
+          "event_id": "evt-c784e9d2dad7",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "evidence_skeptic",
+          "event_type": "FINDING_PROPOSED",
+          "round": 0,
+          "claim": "Alice from Northstar can read Harbor's invoice (INV-2002) as the guard is disabled and owner status is 200, violating cross-tenant access control policy.",
+          "evidence_ids": [
+            "ev-4075dd0aed09"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.95,
+          "vote": "CONFIRM",
+          "timestamp": "2026-10-11T10:25:39.027110+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-4075dd0aed09"
+            ],
+            "environment_version": 0
+          },
+          "seq": 622
+        },
+        {
+          "event_id": "evt-bbb90339bce4",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "access_control_agent",
+          "event_type": "PLAN_UPDATED",
+          "round": 0,
+          "claim": "Detect cross-user access to Harbor's invoice by executing authenticated HTTP reads for owner, same-tenant colleague, and cross-tenant outsider to verify unauthorized disclosure.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:25:32.815318+00:00",
+          "data": {
+            "checks": [
+              "cross_user_access"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 623
+        },
+        {
+          "event_id": "evt-44af3d68a0e8",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "access_control_agent",
+          "event_type": "TOOL_RESULT",
+          "round": 0,
+          "claim": "Approved cross_user_access returned positive.",
+          "evidence_ids": [
+            "ev-5b168fa42e94"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:25:32.998461+00:00",
+          "data": {},
+          "seq": 624
+        },
+        {
+          "event_id": "evt-a3610ac1d001",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "access_control_agent",
+          "event_type": "FINDING_PROPOSED",
+          "round": 0,
+          "claim": "Alice from Northstar can read Harbor's invoice INV-2001 without permission as confirmed by the cross-user access check. The guard is disabled, violating the policy that cross-tenant reads must be denied.",
+          "evidence_ids": [
+            "ev-5b168fa42e94"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.95,
+          "vote": "CONFIRM",
+          "timestamp": "2026-10-11T10:25:45.543240+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-5b168fa42e94"
+            ],
+            "environment_version": 0
+          },
+          "seq": 625
+        },
+        {
+          "event_id": "evt-00420b84d614",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "CHALLENGE",
+          "round": 1,
+          "claim": "No evidence exists for the current environment version (0) to confirm or deny the hypothesis. The claim requires testing HTTP visibility, but no evidence has been collected for the current environment version. Historical observations are irrelevant to the present state of the system as per the constraints. The required policy describes intended behavior, not actual system behavior, and the evidence provided does not match the current environment version (0).",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "ABSTAIN",
+          "timestamp": "2026-10-11T10:25:56.797901+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-4075dd0aed09",
+              "ev-5b168fa42e94"
+            ],
+            "environment_version": 0
+          },
+          "seq": 626
+        },
+        {
+          "event_id": "evt-b6e33e3cba70",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "evidence_skeptic",
+          "event_type": "PLAN_UPDATED",
+          "round": 1,
+          "claim": "The hypothesis requires testing HTTP visibility for cross-tenant access; current evidence only confirms two invoices (INV-2001 and INV-2002) but the policy mandates testing actual HTTP visibility for unauthorized disclosure.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:26:05.562107+00:00",
+          "data": {
+            "checks": [
+              "access_reproduce"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 627
+        },
+        {
+          "event_id": "evt-8144df57ed9a",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "evidence_skeptic",
+          "event_type": "TOOL_RESULT",
+          "round": 1,
+          "claim": "Approved access_reproduce returned positive.",
+          "evidence_ids": [
+            "ev-8679c802046d"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:26:05.640415+00:00",
+          "data": {},
+          "seq": 628
+        },
+        {
+          "event_id": "evt-88236dd08d05",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "evidence_skeptic",
+          "event_type": "CHALLENGE",
+          "round": 1,
+          "claim": "The hypothesis requires testing HTTP visibility for cross-tenant access; current evidence only confirms two invoices (INV-2001 and INV-2002) but the policy mandates testing actual HTTP visibility for unauthorized disclosure.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:26:05.640688+00:00",
+          "data": {
+            "reasoning": "configured model"
+          },
+          "seq": 629
+        },
+        {
+          "event_id": "evt-fbce89179106",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "evidence_skeptic",
+          "event_type": "COUNTEREVIDENCE",
+          "round": 1,
+          "claim": "Approved challenge checks returned: access_reproduce=positive",
+          "evidence_ids": [
+            "ev-8679c802046d"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:26:05.640720+00:00",
+          "data": {},
+          "seq": 630
+        },
+        {
+          "event_id": "evt-021e7ea3dbf3",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "access_control_agent",
+          "event_type": "PLAN_UPDATED",
+          "round": 1,
+          "claim": "To confirm cross-tenant access for both invoices (INV-2001 and INV-2002) as per the vulnerability hypothesis, ensuring the guard is disabled and unauthorized reads occur.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:26:14.383164+00:00",
+          "data": {
+            "checks": [
+              "cross_user_access",
+              "access_reproduce"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 631
+        },
+        {
+          "event_id": "evt-a6f3cb5c97a1",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "access_control_agent",
+          "event_type": "TOOL_RESULT",
+          "round": 1,
+          "claim": "Approved cross_user_access returned positive.",
+          "evidence_ids": [
+            "ev-dcc3a41486d3"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:26:14.443159+00:00",
+          "data": {},
+          "seq": 632
+        },
+        {
+          "event_id": "evt-46a6e1a256a0",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "access_control_agent",
+          "event_type": "TOOL_RESULT",
+          "round": 1,
+          "claim": "Approved access_reproduce returned positive.",
+          "evidence_ids": [
+            "ev-ea03f1312038"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:26:14.482265+00:00",
+          "data": {},
+          "seq": 633
+        },
+        {
+          "event_id": "evt-cabf89f4ca2f",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "access_control_agent",
+          "event_type": "CHALLENGE",
+          "round": 1,
+          "claim": "To confirm cross-tenant access for both invoices (INV-2001 and INV-2002) as per the vulnerability hypothesis, ensuring the guard is disabled and unauthorized reads occur.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:26:14.482653+00:00",
+          "data": {
+            "reasoning": "configured model"
+          },
+          "seq": 634
+        },
+        {
+          "event_id": "evt-c407e060a1d7",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "access_control_agent",
+          "event_type": "COUNTEREVIDENCE",
+          "round": 1,
+          "claim": "Approved challenge checks returned: cross_user_access=positive, access_reproduce=positive",
+          "evidence_ids": [
+            "ev-dcc3a41486d3",
+            "ev-ea03f1312038"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:26:14.482703+00:00",
+          "data": {},
+          "seq": 635
+        },
+        {
+          "event_id": "evt-4697b848a342",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "access_control_agent",
+          "event_type": "BELIEF_UPDATED",
+          "round": 1,
+          "claim": "All evidence confirms Alice from Northstar can read Harbor's invoices (INV-2001 and INV-2002) without permission. The guard is disabled, violating the policy that cross-tenant reads must be denied. Current environment version 0 shows unauthorized access for both invoices.",
+          "evidence_ids": [
+            "ev-4075dd0aed09",
+            "ev-5b168fa42e94",
+            "ev-8679c802046d",
+            "ev-dcc3a41486d3",
+            "ev-ea03f1312038"
+          ],
+          "confidence_before": 0.95,
+          "confidence_after": 0.95,
+          "vote": "CONFIRM",
+          "timestamp": "2026-10-11T10:26:30.697532+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-4075dd0aed09",
+              "ev-5b168fa42e94",
+              "ev-8679c802046d",
+              "ev-dcc3a41486d3",
+              "ev-ea03f1312038"
+            ],
+            "environment_version": 0
+          },
+          "seq": 636
+        },
+        {
+          "event_id": "evt-08694f071640",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "BELIEF_UPDATED",
+          "round": 1,
+          "claim": "All evidence confirms Alice can read Harbor's invoices (INV-2001 and INV-2002) without permission, but the required policy mandates cross-tenant reads must be denied. The evidence shows the guard is disabled and unauthorized reads occur, which contradicts the policy. However, the claim requires testing HTTP visibility for the current environment version (0), and while the evidence shows unauthorized access, the policy violation is not confirmed as a current issue due to missing HTTP visibility. ",
+          "evidence_ids": [
+            "ev-4075dd0aed09",
+            "ev-5b168fa42e94",
+            "ev-8679c802046d",
+            "ev-dcc3a41486d3",
+            "ev-ea03f1312038"
+          ],
+          "confidence_before": 0.0,
+          "confidence_after": 0.0,
+          "vote": "ABSTAIN",
+          "timestamp": "2026-10-11T10:26:47.198394+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-4075dd0aed09",
+              "ev-5b168fa42e94",
+              "ev-8679c802046d",
+              "ev-dcc3a41486d3",
+              "ev-ea03f1312038"
+            ],
+            "environment_version": 0
+          },
+          "seq": 637
+        },
+        {
+          "event_id": "evt-73b4a6c62a76",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "evidence_skeptic",
+          "event_type": "BELIEF_UPDATED",
+          "round": 1,
+          "claim": "All evidence shows Alice from Northstar can read Harbor's invoices (INV-2001 and INV-2002) with guard disabled and owner status 200, violating cross-tenant access policy. Current environment version 0 confirms unauthorized disclosure.",
+          "evidence_ids": [
+            "ev-4075dd0aed09",
+            "ev-5b168fa42e94",
+            "ev-8679c802046d",
+            "ev-dcc3a41486d3",
+            "ev-ea03f1312038"
+          ],
+          "confidence_before": 0.95,
+          "confidence_after": 0.95,
+          "vote": "CONFIRM",
+          "timestamp": "2026-10-11T10:27:01.019020+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-4075dd0aed09",
+              "ev-5b168fa42e94",
+              "ev-8679c802046d",
+              "ev-dcc3a41486d3",
+              "ev-ea03f1312038"
+            ],
+            "environment_version": 0
+          },
+          "seq": 638
+        },
+        {
+          "event_id": "evt-eb80ffffe49f",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "evidence_skeptic",
+          "event_type": "VOTE_CAST",
+          "round": 2,
+          "claim": "All evidence shows Alice from Northstar can read Harbor's invoices (INV-2001 and INV-2002) with guard disabled and owner status 200, violating cross-tenant access policy. Current environment version 0 confirms unauthorized disclosure.",
+          "evidence_ids": [
+            "ev-4075dd0aed09",
+            "ev-5b168fa42e94",
+            "ev-8679c802046d",
+            "ev-dcc3a41486d3",
+            "ev-ea03f1312038"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.95,
+          "vote": "CONFIRM",
+          "timestamp": "2026-10-11T10:27:02.131465+00:00",
+          "data": {
+            "reasoning": "configured model position retained; observed record unchanged"
+          },
+          "seq": 639
+        },
+        {
+          "event_id": "evt-94d08fc6edec",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "VOTE_CAST",
+          "round": 2,
+          "claim": "All evidence confirms Alice can read Harbor's invoices (INV-2001 and INV-2002) without permission, but the required policy mandates cross-tenant reads must be denied. The evidence shows the guard is disabled and unauthorized reads occur, which contradicts the policy. However, the claim requires testing HTTP visibility for the current environment version (0), and while the evidence shows unauthorized access, the policy violation is not confirmed as a current issue due to missing HTTP visibility. ",
+          "evidence_ids": [
+            "ev-4075dd0aed09",
+            "ev-5b168fa42e94",
+            "ev-8679c802046d",
+            "ev-dcc3a41486d3",
+            "ev-ea03f1312038"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "ABSTAIN",
+          "timestamp": "2026-10-11T10:27:02.141882+00:00",
+          "data": {
+            "reasoning": "configured model position retained; observed record unchanged"
+          },
+          "seq": 640
+        },
+        {
+          "event_id": "evt-51537dda5754",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "access_control_agent",
+          "event_type": "VOTE_CAST",
+          "round": 2,
+          "claim": "All evidence confirms Alice from Northstar can read Harbor's invoices (INV-2001 and INV-2002) without permission. The guard is disabled, violating the policy that cross-tenant reads must be denied. Current environment version 0 shows unauthorized access for both invoices.",
+          "evidence_ids": [
+            "ev-4075dd0aed09",
+            "ev-5b168fa42e94",
+            "ev-8679c802046d",
+            "ev-dcc3a41486d3",
+            "ev-ea03f1312038"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.95,
+          "vote": "CONFIRM",
+          "timestamp": "2026-10-11T10:27:02.142521+00:00",
+          "data": {
+            "reasoning": "configured model position retained; observed record unchanged"
+          },
+          "seq": 641
+        },
+        {
+          "event_id": "evt-16f80b0fb703",
+          "run_id": "run-5f500140c452",
+          "finding_id": "finding-38a91283b4b1",
+          "agent_id": "evidence_protocol",
+          "event_type": "FINDING_RESOLVED",
+          "round": 2,
+          "claim": "CONFIRMED: INDEPENDENT_REPRODUCTION: two supporting agents and independent direct observations; no decisive counterexample",
+          "evidence_ids": [
+            "ev-4075dd0aed09",
+            "ev-5b168fa42e94",
+            "ev-8679c802046d",
+            "ev-dcc3a41486d3",
+            "ev-ea03f1312038"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:27:02.521395+00:00",
+          "data": {
+            "status": "CONFIRMED",
+            "rule": "INDEPENDENT_REPRODUCTION: two supporting agents and independent direct observations; no decisive counterexample",
+            "tally": {
+              "CONFIRM": 2,
+              "ABSTAIN": 1
+            }
+          },
+          "seq": 642
+        },
+        {
+          "event_id": "evt-965f65b5a46c",
+          "run_id": "run-5f500140c452",
+          "finding_id": null,
+          "agent_id": "facilitator",
+          "event_type": "ASSESSMENT_COMPLETED",
+          "round": 0,
+          "claim": "Run completed. Evidence and dissent retained. Synthetic fixture results do not establish real-world exploitability.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:27:03.450737+00:00",
+          "data": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 0,
+            "blocked_requests": 0,
+            "tool_requests": 15,
+            "duration_seconds": 109.501,
+            "group_messages": 24,
+            "peer_receipts": 30,
+            "model_calls": 11,
+            "model_tokens": 12665
+          },
+          "seq": 643
+        }
+      ]
+    },
+    {
+      "scenario": "tenant_invoice",
+      "initially_patched": true,
+      "expected": "NOT_REPRODUCED",
+      "run": {
+        "run_id": "run-05de0e075a02",
+        "scenario": "tenant_invoice",
+        "patched": true,
+        "target_id": "lab-target",
+        "transport": "slim",
+        "reasoning": "llm",
+        "reasoning_model": "qwen3:4b",
+        "state": "completed",
+        "created_at": "2026-10-11T10:27:04.836632+00:00",
+        "completed_at": "2026-10-11T10:28:55.170739+00:00",
+        "selected_agents": [
+          "access_control_agent",
+          "evidence_skeptic",
+          "risk_remediation_agent"
+        ],
+        "findings": [
+          {
+            "finding_id": "finding-5bf9691fde49",
+            "run_id": "run-05de0e075a02",
+            "title": "Cross-tenant invoice disclosure",
+            "category": "broken_access_control",
+            "asset": "Fictional SaaS billing portal",
+            "route": "/demo/{deployment}/invoices/{invoice_id}",
+            "status": "NOT_REPRODUCED",
+            "confidence": 0.0,
+            "initial_confidence": 0.0,
+            "impact_band": "high",
+            "reproducible": false,
+            "evidence_ids": [
+              "ev-377358336a15",
+              "ev-6b85b73eee05",
+              "ev-e6622272cfb5",
+              "ev-353fbc306cc0",
+              "ev-6f20f95f872f"
+            ],
+            "supporting_agents": [],
+            "challenging_agents": [
+              "access_control_agent",
+              "evidence_skeptic"
+            ],
+            "limitations": [
+              "Executable local billing API with fictional data and static demo credentials; not a production penetration test",
+              "Two invoices tested; no claim about the number of customers affected or historical exfiltration"
+            ],
+            "remediation": "Enforce server-derived tenant membership on every invoice read. Keep same-tenant colleague access working; retest both controls and cross-tenant reads. Review historical access separately from patch verification.",
+            "created_at": "2026-10-11T10:27:32.045769+00:00",
+            "rule": "FAILED_REPRODUCTION: approved check failed; original signal is insufficient",
+            "votes": [
+              {
+                "agent_id": "access_control_agent",
+                "finding_id": "finding-5bf9691fde49",
+                "vote": "REJECT",
+                "confidence": 0.0,
+                "evidence_ids": [
+                  "ev-377358336a15",
+                  "ev-6b85b73eee05",
+                  "ev-e6622272cfb5",
+                  "ev-353fbc306cc0",
+                  "ev-6f20f95f872f"
+                ],
+                "reason": "All evidence shows 403 responses for Alice (Northstar) attempting to read Harbor's invoices (INV-2001, INV-2002), confirming the guard correctly blocks cross-tenant access as per policy. No unauthorized disclosure occurs in current environment version 0.",
+                "round": 2
+              },
+              {
+                "agent_id": "risk_remediation_agent",
+                "finding_id": "finding-5bf9691fde49",
+                "vote": "ABSTAIN",
+                "confidence": 0.0,
+                "evidence_ids": [
+                  "ev-377358336a15",
+                  "ev-6b85b73eee05",
+                  "ev-e6622272cfb5",
+                  "ev-353fbc306cc0",
+                  "ev-6f20f95f872f"
+                ],
+                "reason": "All evidence shows 403 responses for cross-tenant invoice access, but the claim requires testing HTTP visibility for the current environment version (0). The evidence only covers two invoice IDs (INV-2001 and INV-2002), not all invoices. The required policy describes intended behavior, not actual implementation. Historical observations are irrelevant to the present state of the system as per the constraints. The access_reproduce and cross_user_access tools both returned 403 responses, but these ",
+                "round": 2
+              },
+              {
+                "agent_id": "evidence_skeptic",
+                "finding_id": "finding-5bf9691fde49",
+                "vote": "REJECT",
+                "confidence": 0.0,
+                "evidence_ids": [
+                  "ev-377358336a15",
+                  "ev-6b85b73eee05",
+                  "ev-e6622272cfb5",
+                  "ev-353fbc306cc0",
+                  "ev-6f20f95f872f"
+                ],
+                "reason": "All evidence shows 403 responses when Alice (Northstar) attempts to read Harbor's invoices (INV-2001 and INV-2002), confirming the access control policy correctly denies cross-tenant reads. The guard is enabled and the actor lacks visibility to the record, satisfying the required policy.",
+                "round": 2
+              }
+            ],
+            "baseline": {
+              "single_agent": "DISPUTED",
+              "simple_majority": "NOT_REPRODUCED"
+            }
+          }
+        ],
+        "evidence": [
+          {
+            "evidence_id": "ev-377358336a15",
+            "run_id": "run-05de0e075a02",
+            "agent_id": "evidence_skeptic",
+            "finding_id": "finding-5bf9691fde49",
+            "tool_name": "access_reproduce",
+            "target_id": "lab-target",
+            "test_description": "Authenticated billing API check: access_reproduce",
+            "method": "GET",
+            "route": "/demo/patched/invoices/INV-2002",
+            "result": "negative",
+            "status_code": 403,
+            "snippet": "{\"actor\": \"alice\", \"actor_tenant\": \"northstar\", \"controls_passed\": true, \"environment_version\": 0, \"guard_enabled\": true, \"http_requests\": 3, \"invoice_id\": \"INV-2002\", \"outsider_response_hash\": \"674302b327c7cae040a7efbf85f60a158298275555f1daf7bf980f6e26699ac4\", \"owner_response_hash\": \"4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10\", \"owner_status\": 200, \"policy\": \"Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.\", \"record_owner\": \"bob\", \"record_visible\": false, \"resource_tenant\": \"harbor\", \"response_matches_owner\":",
+            "response_hash": "3b7df3e1e5a356ce546732b53d88e8b809b48bc583d83d86764746e5344492ad",
+            "timestamp": "2026-10-11T10:27:09.864232+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": true,
+            "facts": {
+              "record_visible": false,
+              "guard_enabled": true,
+              "actor": "alice",
+              "record_owner": "bob",
+              "actor_tenant": "northstar",
+              "resource_tenant": "harbor",
+              "invoice_id": "INV-2002",
+              "owner_status": 200,
+              "same_tenant_status": 200,
+              "controls_passed": true,
+              "response_matches_owner": false,
+              "owner_response_hash": "4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10",
+              "outsider_response_hash": "674302b327c7cae040a7efbf85f60a158298275555f1daf7bf980f6e26699ac4",
+              "http_requests": 3,
+              "sensitive_fields": [],
+              "policy": "Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.",
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-6b85b73eee05",
+            "run_id": "run-05de0e075a02",
+            "agent_id": "access_control_agent",
+            "finding_id": "finding-5bf9691fde49",
+            "tool_name": "cross_user_access",
+            "target_id": "lab-target",
+            "test_description": "Authenticated billing API check: cross_user_access",
+            "method": "GET",
+            "route": "/demo/patched/invoices/INV-2001",
+            "result": "negative",
+            "status_code": 403,
+            "snippet": "{\"actor\": \"alice\", \"actor_tenant\": \"northstar\", \"controls_passed\": true, \"environment_version\": 0, \"guard_enabled\": true, \"http_requests\": 3, \"invoice_id\": \"INV-2001\", \"outsider_response_hash\": \"674302b327c7cae040a7efbf85f60a158298275555f1daf7bf980f6e26699ac4\", \"owner_response_hash\": \"845e80fb84d17278855765811327535a6ca9b80a01422f521d5e5762a12196f0\", \"owner_status\": 200, \"policy\": \"Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.\", \"record_owner\": \"bob\", \"record_visible\": false, \"resource_tenant\": \"harbor\", \"response_matches_owner\":",
+            "response_hash": "b963d4cbdb81752c79b08901ba2fbe0883b36acd29d0abee58c65c596b69ef4d",
+            "timestamp": "2026-10-11T10:27:17.222454+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": true,
+            "facts": {
+              "record_visible": false,
+              "guard_enabled": true,
+              "actor": "alice",
+              "record_owner": "bob",
+              "actor_tenant": "northstar",
+              "resource_tenant": "harbor",
+              "invoice_id": "INV-2001",
+              "owner_status": 200,
+              "same_tenant_status": 200,
+              "controls_passed": true,
+              "response_matches_owner": false,
+              "owner_response_hash": "845e80fb84d17278855765811327535a6ca9b80a01422f521d5e5762a12196f0",
+              "outsider_response_hash": "674302b327c7cae040a7efbf85f60a158298275555f1daf7bf980f6e26699ac4",
+              "http_requests": 3,
+              "sensitive_fields": [],
+              "policy": "Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.",
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-e6622272cfb5",
+            "run_id": "run-05de0e075a02",
+            "agent_id": "access_control_agent",
+            "finding_id": "finding-5bf9691fde49",
+            "tool_name": "cross_user_access",
+            "target_id": "lab-target",
+            "test_description": "Authenticated billing API check: cross_user_access",
+            "method": "GET",
+            "route": "/demo/patched/invoices/INV-2001",
+            "result": "negative",
+            "status_code": 403,
+            "snippet": "{\"actor\": \"alice\", \"actor_tenant\": \"northstar\", \"controls_passed\": true, \"environment_version\": 0, \"guard_enabled\": true, \"http_requests\": 3, \"invoice_id\": \"INV-2001\", \"outsider_response_hash\": \"674302b327c7cae040a7efbf85f60a158298275555f1daf7bf980f6e26699ac4\", \"owner_response_hash\": \"845e80fb84d17278855765811327535a6ca9b80a01422f521d5e5762a12196f0\", \"owner_status\": 200, \"policy\": \"Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.\", \"record_owner\": \"bob\", \"record_visible\": false, \"resource_tenant\": \"harbor\", \"response_matches_owner\":",
+            "response_hash": "b963d4cbdb81752c79b08901ba2fbe0883b36acd29d0abee58c65c596b69ef4d",
+            "timestamp": "2026-10-11T10:27:54.216687+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": true,
+            "facts": {
+              "record_visible": false,
+              "guard_enabled": true,
+              "actor": "alice",
+              "record_owner": "bob",
+              "actor_tenant": "northstar",
+              "resource_tenant": "harbor",
+              "invoice_id": "INV-2001",
+              "owner_status": 200,
+              "same_tenant_status": 200,
+              "controls_passed": true,
+              "response_matches_owner": false,
+              "owner_response_hash": "845e80fb84d17278855765811327535a6ca9b80a01422f521d5e5762a12196f0",
+              "outsider_response_hash": "674302b327c7cae040a7efbf85f60a158298275555f1daf7bf980f6e26699ac4",
+              "http_requests": 3,
+              "sensitive_fields": [],
+              "policy": "Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.",
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-353fbc306cc0",
+            "run_id": "run-05de0e075a02",
+            "agent_id": "access_control_agent",
+            "finding_id": "finding-5bf9691fde49",
+            "tool_name": "access_reproduce",
+            "target_id": "lab-target",
+            "test_description": "Authenticated billing API check: access_reproduce",
+            "method": "GET",
+            "route": "/demo/patched/invoices/INV-2002",
+            "result": "negative",
+            "status_code": 403,
+            "snippet": "{\"actor\": \"alice\", \"actor_tenant\": \"northstar\", \"controls_passed\": true, \"environment_version\": 0, \"guard_enabled\": true, \"http_requests\": 3, \"invoice_id\": \"INV-2002\", \"outsider_response_hash\": \"674302b327c7cae040a7efbf85f60a158298275555f1daf7bf980f6e26699ac4\", \"owner_response_hash\": \"4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10\", \"owner_status\": 200, \"policy\": \"Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.\", \"record_owner\": \"bob\", \"record_visible\": false, \"resource_tenant\": \"harbor\", \"response_matches_owner\":",
+            "response_hash": "3b7df3e1e5a356ce546732b53d88e8b809b48bc583d83d86764746e5344492ad",
+            "timestamp": "2026-10-11T10:27:54.246876+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": true,
+            "facts": {
+              "record_visible": false,
+              "guard_enabled": true,
+              "actor": "alice",
+              "record_owner": "bob",
+              "actor_tenant": "northstar",
+              "resource_tenant": "harbor",
+              "invoice_id": "INV-2002",
+              "owner_status": 200,
+              "same_tenant_status": 200,
+              "controls_passed": true,
+              "response_matches_owner": false,
+              "owner_response_hash": "4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10",
+              "outsider_response_hash": "674302b327c7cae040a7efbf85f60a158298275555f1daf7bf980f6e26699ac4",
+              "http_requests": 3,
+              "sensitive_fields": [],
+              "policy": "Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.",
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-6f20f95f872f",
+            "run_id": "run-05de0e075a02",
+            "agent_id": "evidence_skeptic",
+            "finding_id": "finding-5bf9691fde49",
+            "tool_name": "access_reproduce",
+            "target_id": "lab-target",
+            "test_description": "Authenticated billing API check: access_reproduce",
+            "method": "GET",
+            "route": "/demo/patched/invoices/INV-2002",
+            "result": "negative",
+            "status_code": 403,
+            "snippet": "{\"actor\": \"alice\", \"actor_tenant\": \"northstar\", \"controls_passed\": true, \"environment_version\": 0, \"guard_enabled\": true, \"http_requests\": 3, \"invoice_id\": \"INV-2002\", \"outsider_response_hash\": \"674302b327c7cae040a7efbf85f60a158298275555f1daf7bf980f6e26699ac4\", \"owner_response_hash\": \"4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10\", \"owner_status\": 200, \"policy\": \"Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.\", \"record_owner\": \"bob\", \"record_visible\": false, \"resource_tenant\": \"harbor\", \"response_matches_owner\":",
+            "response_hash": "3b7df3e1e5a356ce546732b53d88e8b809b48bc583d83d86764746e5344492ad",
+            "timestamp": "2026-10-11T10:28:03.788479+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": true,
+            "facts": {
+              "record_visible": false,
+              "guard_enabled": true,
+              "actor": "alice",
+              "record_owner": "bob",
+              "actor_tenant": "northstar",
+              "resource_tenant": "harbor",
+              "invoice_id": "INV-2002",
+              "owner_status": 200,
+              "same_tenant_status": 200,
+              "controls_passed": true,
+              "response_matches_owner": false,
+              "owner_response_hash": "4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10",
+              "outsider_response_hash": "674302b327c7cae040a7efbf85f60a158298275555f1daf7bf980f6e26699ac4",
+              "http_requests": 3,
+              "sensitive_fields": [],
+              "policy": "Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.",
+              "environment_version": 0
+            }
+          }
+        ],
+        "metrics": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 0,
+          "blocked_requests": 0,
+          "tool_requests": 15,
+          "duration_seconds": 110.328,
+          "group_messages": 28,
+          "peer_receipts": 36,
+          "model_calls": 11,
+          "model_tokens": 12962
+        },
+        "error": null,
+        "environment_version": 0,
+        "fixture_variant": "standard",
+        "decision_mode": "council"
+      },
+      "events": [
+        {
+          "event_id": "evt-17d13fd0e981",
+          "run_id": "run-05de0e075a02",
+          "finding_id": null,
+          "agent_id": "facilitator",
+          "event_type": "ASSESSMENT_OPENED",
+          "round": 0,
+          "claim": "Local billing API assessment opened with fictional tenants and invoices. Owner, colleague and cross-tenant HTTP reads test customer isolation.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:27:04.842304+00:00",
+          "data": {
+            "target": "lab-target",
+            "scenario": "tenant_invoice",
+            "transport": "slim",
+            "limits": {
+              "allowed_origins": [
+                "http://127.0.0.1:8001",
+                "http://localhost:8001",
+                "http://lab-target:8001"
+              ],
+              "allowed_routes": [
+                "/checks",
+                "/demo/vulnerable/invoices/INV-2001",
+                "/demo/vulnerable/invoices/INV-2002",
+                "/demo/patched/invoices/INV-2001",
+                "/demo/patched/invoices/INV-2002"
+              ],
+              "allowed_methods": [
+                "POST",
+                "GET"
+              ],
+              "max_requests": 48,
+              "per_agent_requests": 12,
+              "deadline_seconds": 120,
+              "request_timeout_seconds": 4,
+              "max_rounds": 2
+            }
+          },
+          "seq": 644
+        },
+        {
+          "event_id": "evt-f83eed3c88ef",
+          "run_id": "run-05de0e075a02",
+          "finding_id": null,
+          "agent_id": "access_control_agent",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities access_control. Objective: Detect demonstrated cross-user access.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:27:04.926555+00:00",
+          "data": {},
+          "seq": 645
+        },
+        {
+          "event_id": "evt-7bd9d3606b89",
+          "run_id": "run-05de0e075a02",
+          "finding_id": null,
+          "agent_id": "evidence_skeptic",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities verification. Objective: Minimize false positives.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:27:05.012894+00:00",
+          "data": {},
+          "seq": 646
+        },
+        {
+          "event_id": "evt-2aef16364ca0",
+          "run_id": "run-05de0e075a02",
+          "finding_id": null,
+          "agent_id": "risk_remediation_agent",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities risk. Objective: Minimize unsupported risk and expensive false alarms.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:27:05.100038+00:00",
+          "data": {},
+          "seq": 647
+        },
+        {
+          "event_id": "evt-1e9feb7c7e19",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "FINDING_PROPOSED",
+          "round": 0,
+          "claim": "No evidence exists to confirm or deny the hypothesis. The claim requires testing HTTP visibility, but no evidence has been collected for the current environment version (0). Historical observations are irrelevant to the present state of the system as per the constraints.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "ABSTAIN",
+          "timestamp": "2026-10-11T10:27:13.657543+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [],
+            "environment_version": 0
+          },
+          "seq": 648
+        },
+        {
+          "event_id": "evt-20f26e2e9f83",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "evidence_skeptic",
+          "event_type": "PLAN_UPDATED",
+          "round": 0,
+          "claim": "To confirm if Alice from Northstar can read Harbor's invoice without permission, execute HTTP reads for owner, same-tenant colleague, and cross-tenant outsider to test authorization controls as per required policy.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:27:09.801125+00:00",
+          "data": {
+            "checks": [
+              "access_reproduce"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 649
+        },
+        {
+          "event_id": "evt-92c2b96a9e06",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "evidence_skeptic",
+          "event_type": "TOOL_RESULT",
+          "round": 0,
+          "claim": "Approved access_reproduce returned negative.",
+          "evidence_ids": [
+            "ev-377358336a15"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:27:09.867843+00:00",
+          "data": {},
+          "seq": 650
+        },
+        {
+          "event_id": "evt-4d2d72bd4641",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "evidence_skeptic",
+          "event_type": "FINDING_PROPOSED",
+          "round": 0,
+          "claim": "The access_reproduce tool confirmed a 403 response when Alice (Northstar) attempted to read Harbor's invoice (INV-2002), indicating the access control policy is correctly enforced. The evidence shows the guard is enabled and the actor does not have visibility to the record, satisfying the required policy that cross-tenant reads must be denied.",
+          "evidence_ids": [
+            "ev-377358336a15"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "REJECT",
+          "timestamp": "2026-10-11T10:27:24.495095+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-377358336a15"
+            ],
+            "environment_version": 0
+          },
+          "seq": 651
+        },
+        {
+          "event_id": "evt-3ebb446ff148",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "access_control_agent",
+          "event_type": "PLAN_UPDATED",
+          "round": 0,
+          "claim": "Detect cross-user access to Harbor's invoice by executing authenticated HTTP reads for owner, same-tenant colleague, and cross-tenant outsider to verify unauthorized disclosure.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:27:17.022330+00:00",
+          "data": {
+            "checks": [
+              "cross_user_access"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 652
+        },
+        {
+          "event_id": "evt-5a64a4999819",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "access_control_agent",
+          "event_type": "TOOL_RESULT",
+          "round": 0,
+          "claim": "Approved cross_user_access returned negative.",
+          "evidence_ids": [
+            "ev-6b85b73eee05"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:27:17.226865+00:00",
+          "data": {},
+          "seq": 653
+        },
+        {
+          "event_id": "evt-be3abb6752f6",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "access_control_agent",
+          "event_type": "FINDING_PROPOSED",
+          "round": 0,
+          "claim": "The cross-user access check explicitly denied access (403) for Alice (Northstar) to Harbor's invoice (INV-2001), confirming the guard correctly blocks cross-tenant reads as per policy. No evidence of unauthorized disclosure exists in current environment.",
+          "evidence_ids": [
+            "ev-6b85b73eee05"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "REJECT",
+          "timestamp": "2026-10-11T10:27:32.045276+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-6b85b73eee05"
+            ],
+            "environment_version": 0
+          },
+          "seq": 654
+        },
+        {
+          "event_id": "evt-303f43775f5b",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "CHALLENGE",
+          "round": 1,
+          "claim": "The claim requires testing HTTP visibility for the current environment version (0), but no evidence has been collected for this specific version. Historical observations are irrelevant to the present state of the system as per the constraints. The access_reproduce and cross_user_access tools both returned 403 responses, but these are not sufficient to confirm the hypothesis as they do not test HTTP visibility directly. The required policy describes intended behavior, not actual implementation,so",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "ABSTAIN",
+          "timestamp": "2026-10-11T10:27:43.819272+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-377358336a15",
+              "ev-6b85b73eee05"
+            ],
+            "environment_version": 0
+          },
+          "seq": 655
+        },
+        {
+          "event_id": "evt-89939955f2fb",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "access_control_agent",
+          "event_type": "PLAN_UPDATED",
+          "round": 1,
+          "claim": "The hypothesis requires testing HTTP visibility for cross-tenant access; current evidence shows 403 responses but only for two invoices (INV-2001 and INV-2002). To confirm the guard blocks all cross-tenant reads, we need to test a third invoice to ensure consistent behavior across the environment.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:27:54.065372+00:00",
+          "data": {
+            "checks": [
+              "cross_user_access",
+              "access_reproduce"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 656
+        },
+        {
+          "event_id": "evt-a8999c366bca",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "access_control_agent",
+          "event_type": "TOOL_RESULT",
+          "round": 1,
+          "claim": "Approved cross_user_access returned negative.",
+          "evidence_ids": [
+            "ev-e6622272cfb5"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:27:54.218534+00:00",
+          "data": {},
+          "seq": 657
+        },
+        {
+          "event_id": "evt-e2033811bade",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "access_control_agent",
+          "event_type": "TOOL_RESULT",
+          "round": 1,
+          "claim": "Approved access_reproduce returned negative.",
+          "evidence_ids": [
+            "ev-353fbc306cc0"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:27:54.250631+00:00",
+          "data": {},
+          "seq": 658
+        },
+        {
+          "event_id": "evt-a4f6d0e70517",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "access_control_agent",
+          "event_type": "CHALLENGE",
+          "round": 1,
+          "claim": "The hypothesis requires testing HTTP visibility for cross-tenant access; current evidence shows 403 responses but only for two invoices (INV-2001 and INV-2002). To confirm the guard blocks all cross-tenant reads, we need to test a third invoice to ensure consistent behavior across the environment.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:27:54.251614+00:00",
+          "data": {
+            "reasoning": "configured model"
+          },
+          "seq": 659
+        },
+        {
+          "event_id": "evt-8f5708f5de12",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "access_control_agent",
+          "event_type": "COUNTEREVIDENCE",
+          "round": 1,
+          "claim": "Approved challenge checks returned: cross_user_access=negative, access_reproduce=negative",
+          "evidence_ids": [
+            "ev-e6622272cfb5",
+            "ev-353fbc306cc0"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:27:54.251901+00:00",
+          "data": {},
+          "seq": 660
+        },
+        {
+          "event_id": "evt-0b150482c2b9",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "evidence_skeptic",
+          "event_type": "PLAN_UPDATED",
+          "round": 1,
+          "claim": "The hypothesis requires testing HTTP visibility for cross-tenant reads; the initial evidence shows 403 responses but only for two invoices (INV-2001 and INV-2002). To confirm the policy holds universally, additional invoices must be tested to ensure consistent 403 responses for cross-tenant access.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:28:03.741203+00:00",
+          "data": {
+            "checks": [
+              "access_reproduce"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 661
+        },
+        {
+          "event_id": "evt-072973e12077",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "evidence_skeptic",
+          "event_type": "TOOL_RESULT",
+          "round": 1,
+          "claim": "Approved access_reproduce returned negative.",
+          "evidence_ids": [
+            "ev-6f20f95f872f"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:28:03.790540+00:00",
+          "data": {},
+          "seq": 662
+        },
+        {
+          "event_id": "evt-c8390ad35d41",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "evidence_skeptic",
+          "event_type": "CHALLENGE",
+          "round": 1,
+          "claim": "The hypothesis requires testing HTTP visibility for cross-tenant reads; the initial evidence shows 403 responses but only for two invoices (INV-2001 and INV-2002). To confirm the policy holds universally, additional invoices must be tested to ensure consistent 403 responses for cross-tenant access.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:28:03.790808+00:00",
+          "data": {
+            "reasoning": "configured model"
+          },
+          "seq": 663
+        },
+        {
+          "event_id": "evt-628c4940304f",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "evidence_skeptic",
+          "event_type": "COUNTEREVIDENCE",
+          "round": 1,
+          "claim": "Approved challenge checks returned: access_reproduce=negative",
+          "evidence_ids": [
+            "ev-6f20f95f872f"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:28:03.790851+00:00",
+          "data": {},
+          "seq": 664
+        },
+        {
+          "event_id": "evt-f3d71457e69f",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "evidence_skeptic",
+          "event_type": "BELIEF_UPDATED",
+          "round": 1,
+          "claim": "All evidence shows 403 responses when Alice (Northstar) attempts to read Harbor's invoices (INV-2001 and INV-2002), confirming the access control policy correctly denies cross-tenant reads. The guard is enabled and the actor lacks visibility to the record, satisfying the required policy.",
+          "evidence_ids": [
+            "ev-377358336a15",
+            "ev-6b85b73eee05",
+            "ev-e6622272cfb5",
+            "ev-353fbc306cc0",
+            "ev-6f20f95f872f"
+          ],
+          "confidence_before": 0.0,
+          "confidence_after": 0.0,
+          "vote": "REJECT",
+          "timestamp": "2026-10-11T10:28:20.191016+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-377358336a15",
+              "ev-6b85b73eee05",
+              "ev-e6622272cfb5",
+              "ev-353fbc306cc0",
+              "ev-6f20f95f872f"
+            ],
+            "environment_version": 0
+          },
+          "seq": 665
+        },
+        {
+          "event_id": "evt-1c38eb9254f9",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "BELIEF_UPDATED",
+          "round": 1,
+          "claim": "All evidence shows 403 responses for cross-tenant invoice access, but the claim requires testing HTTP visibility for the current environment version (0). The evidence only covers two invoice IDs (INV-2001 and INV-2002), not all invoices. The required policy describes intended behavior, not actual implementation. Historical observations are irrelevant to the present state of the system as per the constraints. The access_reproduce and cross_user_access tools both returned 403 responses, but these ",
+          "evidence_ids": [
+            "ev-377358336a15",
+            "ev-6b85b73eee05",
+            "ev-e6622272cfb5",
+            "ev-353fbc306cc0",
+            "ev-6f20f95f872f"
+          ],
+          "confidence_before": 0.0,
+          "confidence_after": 0.0,
+          "vote": "ABSTAIN",
+          "timestamp": "2026-10-11T10:28:37.485559+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-377358336a15",
+              "ev-6b85b73eee05",
+              "ev-e6622272cfb5",
+              "ev-353fbc306cc0",
+              "ev-6f20f95f872f"
+            ],
+            "environment_version": 0
+          },
+          "seq": 666
+        },
+        {
+          "event_id": "evt-93d00ef01b13",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "access_control_agent",
+          "event_type": "BELIEF_UPDATED",
+          "round": 1,
+          "claim": "All evidence shows 403 responses for Alice (Northstar) attempting to read Harbor's invoices (INV-2001, INV-2002), confirming the guard correctly blocks cross-tenant access as per policy. No unauthorized disclosure occurs in current environment version 0.",
+          "evidence_ids": [
+            "ev-377358336a15",
+            "ev-6b85b73eee05",
+            "ev-e6622272cfb5",
+            "ev-353fbc306cc0",
+            "ev-6f20f95f872f"
+          ],
+          "confidence_before": 0.0,
+          "confidence_after": 0.0,
+          "vote": "REJECT",
+          "timestamp": "2026-10-11T10:28:51.890042+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-377358336a15",
+              "ev-6b85b73eee05",
+              "ev-e6622272cfb5",
+              "ev-353fbc306cc0",
+              "ev-6f20f95f872f"
+            ],
+            "environment_version": 0
+          },
+          "seq": 667
+        },
+        {
+          "event_id": "evt-9dda2a699c1d",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "access_control_agent",
+          "event_type": "VOTE_CAST",
+          "round": 2,
+          "claim": "All evidence shows 403 responses for Alice (Northstar) attempting to read Harbor's invoices (INV-2001, INV-2002), confirming the guard correctly blocks cross-tenant access as per policy. No unauthorized disclosure occurs in current environment version 0.",
+          "evidence_ids": [
+            "ev-377358336a15",
+            "ev-6b85b73eee05",
+            "ev-e6622272cfb5",
+            "ev-353fbc306cc0",
+            "ev-6f20f95f872f"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "REJECT",
+          "timestamp": "2026-10-11T10:28:52.991418+00:00",
+          "data": {
+            "reasoning": "configured model position retained; observed record unchanged"
+          },
+          "seq": 668
+        },
+        {
+          "event_id": "evt-48f6935e7728",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "VOTE_CAST",
+          "round": 2,
+          "claim": "All evidence shows 403 responses for cross-tenant invoice access, but the claim requires testing HTTP visibility for the current environment version (0). The evidence only covers two invoice IDs (INV-2001 and INV-2002), not all invoices. The required policy describes intended behavior, not actual implementation. Historical observations are irrelevant to the present state of the system as per the constraints. The access_reproduce and cross_user_access tools both returned 403 responses, but these ",
+          "evidence_ids": [
+            "ev-377358336a15",
+            "ev-6b85b73eee05",
+            "ev-e6622272cfb5",
+            "ev-353fbc306cc0",
+            "ev-6f20f95f872f"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "ABSTAIN",
+          "timestamp": "2026-10-11T10:28:52.999770+00:00",
+          "data": {
+            "reasoning": "configured model position retained; observed record unchanged"
+          },
+          "seq": 669
+        },
+        {
+          "event_id": "evt-85055c7dd3b7",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "evidence_skeptic",
+          "event_type": "VOTE_CAST",
+          "round": 2,
+          "claim": "All evidence shows 403 responses when Alice (Northstar) attempts to read Harbor's invoices (INV-2001 and INV-2002), confirming the access control policy correctly denies cross-tenant reads. The guard is enabled and the actor lacks visibility to the record, satisfying the required policy.",
+          "evidence_ids": [
+            "ev-377358336a15",
+            "ev-6b85b73eee05",
+            "ev-e6622272cfb5",
+            "ev-353fbc306cc0",
+            "ev-6f20f95f872f"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "REJECT",
+          "timestamp": "2026-10-11T10:28:52.999909+00:00",
+          "data": {
+            "reasoning": "configured model position retained; observed record unchanged"
+          },
+          "seq": 670
+        },
+        {
+          "event_id": "evt-a4dbc948ab78",
+          "run_id": "run-05de0e075a02",
+          "finding_id": "finding-5bf9691fde49",
+          "agent_id": "evidence_protocol",
+          "event_type": "FINDING_RESOLVED",
+          "round": 2,
+          "claim": "NOT_REPRODUCED: FAILED_REPRODUCTION: approved check failed; original signal is insufficient",
+          "evidence_ids": [
+            "ev-377358336a15",
+            "ev-6b85b73eee05",
+            "ev-e6622272cfb5",
+            "ev-353fbc306cc0",
+            "ev-6f20f95f872f"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:28:53.367306+00:00",
+          "data": {
+            "status": "NOT_REPRODUCED",
+            "rule": "FAILED_REPRODUCTION: approved check failed; original signal is insufficient",
+            "tally": {
+              "REJECT": 2,
+              "ABSTAIN": 1
+            }
+          },
+          "seq": 671
+        },
+        {
+          "event_id": "evt-9b7f0a11ac7b",
+          "run_id": "run-05de0e075a02",
+          "finding_id": null,
+          "agent_id": "facilitator",
+          "event_type": "ASSESSMENT_COMPLETED",
+          "round": 0,
+          "claim": "Run completed. Evidence and dissent retained. Synthetic fixture results do not establish real-world exploitability.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:28:54.278346+00:00",
+          "data": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 0,
+            "blocked_requests": 0,
+            "tool_requests": 15,
+            "duration_seconds": 109.436,
+            "group_messages": 24,
+            "peer_receipts": 30,
+            "model_calls": 11,
+            "model_tokens": 12962
+          },
+          "seq": 672
+        }
+      ]
+    },
+    {
+      "scenario": "tenant_invoice_change",
+      "initially_patched": false,
+      "expected": "DISPUTED",
+      "run": {
+        "run_id": "run-8a8dad918fa1",
+        "scenario": "tenant_invoice_change",
+        "patched": true,
+        "target_id": "lab-target",
+        "transport": "slim",
+        "reasoning": "llm",
+        "reasoning_model": "qwen3:4b",
+        "state": "completed",
+        "created_at": "2026-10-11T10:28:55.203277+00:00",
+        "completed_at": "2026-10-11T10:30:41.247956+00:00",
+        "selected_agents": [
+          "access_control_agent",
+          "evidence_skeptic",
+          "risk_remediation_agent"
+        ],
+        "findings": [
+          {
+            "finding_id": "finding-4d887a2936af",
+            "run_id": "run-8a8dad918fa1",
+            "title": "Cross-tenant invoice disclosure",
+            "category": "broken_access_control",
+            "asset": "Fictional SaaS billing portal",
+            "route": "/demo/{deployment}/invoices/{invoice_id}",
+            "status": "DISPUTED",
+            "confidence": 0.0,
+            "initial_confidence": 0.95,
+            "impact_band": "high",
+            "reproducible": true,
+            "evidence_ids": [
+              "ev-e9e6791f6e3f",
+              "ev-32703713714a",
+              "ev-a9096f37b49a",
+              "ev-66ed458cbcfe",
+              "ev-70a9d43f090c"
+            ],
+            "supporting_agents": [],
+            "challenging_agents": [],
+            "limitations": [
+              "Executable local billing API with fictional data and static demo credentials; not a production penetration test",
+              "Two invoices tested; no claim about the number of customers affected or historical exfiltration"
+            ],
+            "remediation": "Enforce server-derived tenant membership on every invoice read. Keep same-tenant colleague access working; retest both controls and cross-tenant reads. Review historical access separately from patch verification.",
+            "created_at": "2026-10-11T10:29:19.546436+00:00",
+            "rule": "CONFLICTING_DIRECT_EVIDENCE: support and counterevidence remain unresolved",
+            "votes": [
+              {
+                "agent_id": "risk_remediation_agent",
+                "finding_id": "finding-4d887a2936af",
+                "vote": "ABSTAIN",
+                "confidence": 0.0,
+                "evidence_ids": [
+                  "ev-a9096f37b49a",
+                  "ev-66ed458cbcfe",
+                  "ev-70a9d43f090c"
+                ],
+                "reason": "Current evidence for environment version 1 shows HTTP access is denied for both INV-2001 and INV-2002, but the claim requires testing all invoices. The policy mandates testing all invoices to confirm cross-tenant access, and current evidence only covers two invoices. Historical evidence (environment version 0) shows access was permitted but is irrelevant to the current environment version. The hypothesis cannot be confirmed or denied without evidence for all invoices in the current environment.",
+                "round": 2
+              },
+              {
+                "agent_id": "access_control_agent",
+                "finding_id": "finding-4d887a2936af",
+                "vote": "ABSTAIN",
+                "confidence": 0.0,
+                "evidence_ids": [
+                  "ev-a9096f37b49a",
+                  "ev-66ed458cbcfe",
+                  "ev-70a9d43f090c"
+                ],
+                "reason": "Current environment version 1 shows 403 responses for both invoices, confirming the guard is enabled and unauthorized access is denied. Historical evidence (env 0) shows unauthorized access but this does not apply to current environment version 1. The claim requires testing current environment version 1, which has been confirmed as secure by the current checks.",
+                "round": 2
+              },
+              {
+                "agent_id": "evidence_skeptic",
+                "finding_id": "finding-4d887a2936af",
+                "vote": "ABSTAIN",
+                "confidence": 0.0,
+                "evidence_ids": [
+                  "ev-a9096f37b49a",
+                  "ev-66ed458cbcfe",
+                  "ev-70a9d43f090c"
+                ],
+                "reason": "Current evidence shows 403 responses for both invoice IDs (INV-2001 and INV-2002) with guard enabled, confirming cross-tenant access is denied. Historical evidence (env 0) shows 200 responses with guard disabled, but current environment version 1 has guard enabled, so historical observations do not apply to the present. The claim requires testing HTTP visibility for current environment version 1, which has been done and shows no unauthorized access. However, the peer claims indicate additional\u53d1\u7968",
+                "round": 2
+              }
+            ],
+            "baseline": {
+              "single_agent": "CONFIRMED",
+              "simple_majority": "CONFIRMED"
+            }
+          }
+        ],
+        "evidence": [
+          {
+            "evidence_id": "ev-e9e6791f6e3f",
+            "run_id": "run-8a8dad918fa1",
+            "agent_id": "evidence_skeptic",
+            "finding_id": "finding-4d887a2936af",
+            "tool_name": "access_reproduce",
+            "target_id": "lab-target",
+            "test_description": "Authenticated billing API check: access_reproduce",
+            "method": "GET",
+            "route": "/demo/vulnerable/invoices/INV-2002",
+            "result": "positive",
+            "status_code": 200,
+            "snippet": "{\"actor\": \"alice\", \"actor_tenant\": \"northstar\", \"controls_passed\": true, \"environment_version\": 0, \"guard_enabled\": false, \"http_requests\": 3, \"invoice_id\": \"INV-2002\", \"outsider_response_hash\": \"4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10\", \"owner_response_hash\": \"4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10\", \"owner_status\": 200, \"policy\": \"Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.\", \"record_owner\": \"bob\", \"record_visible\": true, \"resource_tenant\": \"harbor\", \"response_matches_owner\":",
+            "response_hash": "b3e5b8784a0c20564522876b761fdb256d44be1e09f3311e78faa9e006e5e680",
+            "timestamp": "2026-10-11T10:29:00.309256+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": false,
+            "facts": {
+              "record_visible": true,
+              "guard_enabled": false,
+              "actor": "alice",
+              "record_owner": "bob",
+              "actor_tenant": "northstar",
+              "resource_tenant": "harbor",
+              "invoice_id": "INV-2002",
+              "owner_status": 200,
+              "same_tenant_status": 200,
+              "controls_passed": true,
+              "response_matches_owner": true,
+              "owner_response_hash": "4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10",
+              "outsider_response_hash": "4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10",
+              "http_requests": 3,
+              "sensitive_fields": [
+                "customer",
+                "billing_email",
+                "amount_usd",
+                "payment_reference"
+              ],
+              "policy": "Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.",
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-32703713714a",
+            "run_id": "run-8a8dad918fa1",
+            "agent_id": "access_control_agent",
+            "finding_id": "finding-4d887a2936af",
+            "tool_name": "cross_user_access",
+            "target_id": "lab-target",
+            "test_description": "Authenticated billing API check: cross_user_access",
+            "method": "GET",
+            "route": "/demo/vulnerable/invoices/INV-2001",
+            "result": "positive",
+            "status_code": 200,
+            "snippet": "{\"actor\": \"alice\", \"actor_tenant\": \"northstar\", \"controls_passed\": true, \"environment_version\": 0, \"guard_enabled\": false, \"http_requests\": 3, \"invoice_id\": \"INV-2001\", \"outsider_response_hash\": \"845e80fb84d17278855765811327535a6ca9b80a01422f521d5e5762a12196f0\", \"owner_response_hash\": \"845e80fb84d17278855765811327535a6ca9b80a01422f521d5e5762a12196f0\", \"owner_status\": 200, \"policy\": \"Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.\", \"record_owner\": \"bob\", \"record_visible\": true, \"resource_tenant\": \"harbor\", \"response_matches_owner\":",
+            "response_hash": "c89aa13aed0210ce84c61688b631b168e76ca0e08bfa200849c793cd63e592f6",
+            "timestamp": "2026-10-11T10:29:06.940869+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": false,
+            "facts": {
+              "record_visible": true,
+              "guard_enabled": false,
+              "actor": "alice",
+              "record_owner": "bob",
+              "actor_tenant": "northstar",
+              "resource_tenant": "harbor",
+              "invoice_id": "INV-2001",
+              "owner_status": 200,
+              "same_tenant_status": 200,
+              "controls_passed": true,
+              "response_matches_owner": true,
+              "owner_response_hash": "845e80fb84d17278855765811327535a6ca9b80a01422f521d5e5762a12196f0",
+              "outsider_response_hash": "845e80fb84d17278855765811327535a6ca9b80a01422f521d5e5762a12196f0",
+              "http_requests": 3,
+              "sensitive_fields": [
+                "customer",
+                "billing_email",
+                "amount_usd",
+                "payment_reference"
+              ],
+              "policy": "Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.",
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-a9096f37b49a",
+            "run_id": "run-8a8dad918fa1",
+            "agent_id": "access_control_agent",
+            "finding_id": "finding-4d887a2936af",
+            "tool_name": "cross_user_access",
+            "target_id": "lab-target",
+            "test_description": "Authenticated billing API check: cross_user_access",
+            "method": "GET",
+            "route": "/demo/patched/invoices/INV-2001",
+            "result": "negative",
+            "status_code": 403,
+            "snippet": "{\"actor\": \"alice\", \"actor_tenant\": \"northstar\", \"controls_passed\": true, \"environment_version\": 1, \"guard_enabled\": true, \"http_requests\": 3, \"invoice_id\": \"INV-2001\", \"outsider_response_hash\": \"674302b327c7cae040a7efbf85f60a158298275555f1daf7bf980f6e26699ac4\", \"owner_response_hash\": \"845e80fb84d17278855765811327535a6ca9b80a01422f521d5e5762a12196f0\", \"owner_status\": 200, \"policy\": \"Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.\", \"record_owner\": \"bob\", \"record_visible\": false, \"resource_tenant\": \"harbor\", \"response_matches_owner\":",
+            "response_hash": "47fab772314b2929491c040edac9213750988cf25a7592c0e568ed8732349daf",
+            "timestamp": "2026-10-11T10:29:41.495820+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": true,
+            "facts": {
+              "record_visible": false,
+              "guard_enabled": true,
+              "actor": "alice",
+              "record_owner": "bob",
+              "actor_tenant": "northstar",
+              "resource_tenant": "harbor",
+              "invoice_id": "INV-2001",
+              "owner_status": 200,
+              "same_tenant_status": 200,
+              "controls_passed": true,
+              "response_matches_owner": false,
+              "owner_response_hash": "845e80fb84d17278855765811327535a6ca9b80a01422f521d5e5762a12196f0",
+              "outsider_response_hash": "674302b327c7cae040a7efbf85f60a158298275555f1daf7bf980f6e26699ac4",
+              "http_requests": 3,
+              "sensitive_fields": [],
+              "policy": "Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.",
+              "environment_version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-66ed458cbcfe",
+            "run_id": "run-8a8dad918fa1",
+            "agent_id": "access_control_agent",
+            "finding_id": "finding-4d887a2936af",
+            "tool_name": "access_reproduce",
+            "target_id": "lab-target",
+            "test_description": "Authenticated billing API check: access_reproduce",
+            "method": "GET",
+            "route": "/demo/patched/invoices/INV-2002",
+            "result": "negative",
+            "status_code": 403,
+            "snippet": "{\"actor\": \"alice\", \"actor_tenant\": \"northstar\", \"controls_passed\": true, \"environment_version\": 1, \"guard_enabled\": true, \"http_requests\": 3, \"invoice_id\": \"INV-2002\", \"outsider_response_hash\": \"674302b327c7cae040a7efbf85f60a158298275555f1daf7bf980f6e26699ac4\", \"owner_response_hash\": \"4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10\", \"owner_status\": 200, \"policy\": \"Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.\", \"record_owner\": \"bob\", \"record_visible\": false, \"resource_tenant\": \"harbor\", \"response_matches_owner\":",
+            "response_hash": "d9f350c0754d61ad6247ae5e59ed1d2b670e01492424322fb0495aac80c0760f",
+            "timestamp": "2026-10-11T10:29:41.527067+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": true,
+            "facts": {
+              "record_visible": false,
+              "guard_enabled": true,
+              "actor": "alice",
+              "record_owner": "bob",
+              "actor_tenant": "northstar",
+              "resource_tenant": "harbor",
+              "invoice_id": "INV-2002",
+              "owner_status": 200,
+              "same_tenant_status": 200,
+              "controls_passed": true,
+              "response_matches_owner": false,
+              "owner_response_hash": "4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10",
+              "outsider_response_hash": "674302b327c7cae040a7efbf85f60a158298275555f1daf7bf980f6e26699ac4",
+              "http_requests": 3,
+              "sensitive_fields": [],
+              "policy": "Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.",
+              "environment_version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-70a9d43f090c",
+            "run_id": "run-8a8dad918fa1",
+            "agent_id": "evidence_skeptic",
+            "finding_id": "finding-4d887a2936af",
+            "tool_name": "access_reproduce",
+            "target_id": "lab-target",
+            "test_description": "Authenticated billing API check: access_reproduce",
+            "method": "GET",
+            "route": "/demo/patched/invoices/INV-2002",
+            "result": "negative",
+            "status_code": 403,
+            "snippet": "{\"actor\": \"alice\", \"actor_tenant\": \"northstar\", \"controls_passed\": true, \"environment_version\": 1, \"guard_enabled\": true, \"http_requests\": 3, \"invoice_id\": \"INV-2002\", \"outsider_response_hash\": \"674302b327c7cae040a7efbf85f60a158298275555f1daf7bf980f6e26699ac4\", \"owner_response_hash\": \"4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10\", \"owner_status\": 200, \"policy\": \"Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.\", \"record_owner\": \"bob\", \"record_visible\": false, \"resource_tenant\": \"harbor\", \"response_matches_owner\":",
+            "response_hash": "d9f350c0754d61ad6247ae5e59ed1d2b670e01492424322fb0495aac80c0760f",
+            "timestamp": "2026-10-11T10:29:50.210586+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": true,
+            "facts": {
+              "record_visible": false,
+              "guard_enabled": true,
+              "actor": "alice",
+              "record_owner": "bob",
+              "actor_tenant": "northstar",
+              "resource_tenant": "harbor",
+              "invoice_id": "INV-2002",
+              "owner_status": 200,
+              "same_tenant_status": 200,
+              "controls_passed": true,
+              "response_matches_owner": false,
+              "owner_response_hash": "4aa71a37fa5d6689c79b77448a0957d6ad34eaf569301da9d87fc482f2fd6b10",
+              "outsider_response_hash": "674302b327c7cae040a7efbf85f60a158298275555f1daf7bf980f6e26699ac4",
+              "http_requests": 3,
+              "sensitive_fields": [],
+              "policy": "Authenticated users may read invoices belonging to their server-assigned tenant; other tenants must be denied.",
+              "environment_version": 1
+            }
+          }
+        ],
+        "metrics": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 2,
+          "blocked_requests": 0,
+          "tool_requests": 15,
+          "duration_seconds": 106.039,
+          "group_messages": 28,
+          "peer_receipts": 36,
+          "model_calls": 11,
+          "model_tokens": 12673
+        },
+        "error": null,
+        "environment_version": 1,
+        "fixture_variant": "standard",
+        "decision_mode": "council"
+      },
+      "events": [
+        {
+          "event_id": "evt-044583672c31",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": null,
+          "agent_id": "facilitator",
+          "event_type": "ASSESSMENT_OPENED",
+          "round": 0,
+          "claim": "Local billing API assessment opened with fictional tenants and invoices. Owner, colleague and cross-tenant HTTP reads test customer isolation.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:28:55.210300+00:00",
+          "data": {
+            "target": "lab-target",
+            "scenario": "tenant_invoice_change",
+            "transport": "slim",
+            "limits": {
+              "allowed_origins": [
+                "http://127.0.0.1:8001",
+                "http://localhost:8001",
+                "http://lab-target:8001"
+              ],
+              "allowed_routes": [
+                "/checks",
+                "/demo/vulnerable/invoices/INV-2001",
+                "/demo/vulnerable/invoices/INV-2002",
+                "/demo/patched/invoices/INV-2001",
+                "/demo/patched/invoices/INV-2002"
+              ],
+              "allowed_methods": [
+                "POST",
+                "GET"
+              ],
+              "max_requests": 48,
+              "per_agent_requests": 12,
+              "deadline_seconds": 120,
+              "request_timeout_seconds": 4,
+              "max_rounds": 2
+            }
+          },
+          "seq": 673
+        },
+        {
+          "event_id": "evt-c2624cdc73fb",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": null,
+          "agent_id": "access_control_agent",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities access_control. Objective: Detect demonstrated cross-user access.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:28:55.296055+00:00",
+          "data": {},
+          "seq": 674
+        },
+        {
+          "event_id": "evt-c21459e7486d",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": null,
+          "agent_id": "evidence_skeptic",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities verification. Objective: Minimize false positives.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:28:55.389894+00:00",
+          "data": {},
+          "seq": 675
+        },
+        {
+          "event_id": "evt-829d6fd61e5e",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": null,
+          "agent_id": "risk_remediation_agent",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities risk. Objective: Minimize unsupported risk and expensive false alarms.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:28:55.475702+00:00",
+          "data": {},
+          "seq": 676
+        },
+        {
+          "event_id": "evt-7d49f69f75ad",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "FINDING_PROPOSED",
+          "round": 0,
+          "claim": "No evidence exists to confirm or deny the hypothesis. The claim requires testing HTTP visibility, but no evidence has been collected for the current environment version (0). Historical observations are irrelevant to the present state of the system as per the constraints.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "ABSTAIN",
+          "timestamp": "2026-10-11T10:29:03.875320+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [],
+            "environment_version": 0
+          },
+          "seq": 677
+        },
+        {
+          "event_id": "evt-4f05336fc0c5",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "evidence_skeptic",
+          "event_type": "PLAN_UPDATED",
+          "round": 0,
+          "claim": "To confirm if Alice from Northstar can read Harbor's invoice without permission, execute HTTP reads for owner, same-tenant colleague, and cross-tenant outsider to test authorization controls as per required policy.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:29:00.263296+00:00",
+          "data": {
+            "checks": [
+              "access_reproduce"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 678
+        },
+        {
+          "event_id": "evt-acf7f56c3c8b",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "evidence_skeptic",
+          "event_type": "TOOL_RESULT",
+          "round": 0,
+          "claim": "Approved access_reproduce returned positive.",
+          "evidence_ids": [
+            "ev-e9e6791f6e3f"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:29:00.312038+00:00",
+          "data": {},
+          "seq": 679
+        },
+        {
+          "event_id": "evt-fe34036d0ff8",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "evidence_skeptic",
+          "event_type": "FINDING_PROPOSED",
+          "round": 0,
+          "claim": "Alice from Northstar can read Harbor's invoice (INV-2002) as confirmed by direct access reproduction with no guard enabled, violating the policy that cross-tenant reads must be denied.",
+          "evidence_ids": [
+            "ev-e9e6791f6e3f"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.95,
+          "vote": "CONFIRM",
+          "timestamp": "2026-10-11T10:29:13.252802+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-e9e6791f6e3f"
+            ],
+            "environment_version": 0
+          },
+          "seq": 680
+        },
+        {
+          "event_id": "evt-32db5261376a",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "access_control_agent",
+          "event_type": "PLAN_UPDATED",
+          "round": 0,
+          "claim": "Detect cross-user access to Harbor's invoice by executing authenticated HTTP reads for owner, same-tenant colleague, and cross-tenant outsider to verify unauthorized disclosure.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:29:06.875650+00:00",
+          "data": {
+            "checks": [
+              "cross_user_access"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 681
+        },
+        {
+          "event_id": "evt-f034fd82325c",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "access_control_agent",
+          "event_type": "TOOL_RESULT",
+          "round": 0,
+          "claim": "Approved cross_user_access returned positive.",
+          "evidence_ids": [
+            "ev-32703713714a"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:29:06.942608+00:00",
+          "data": {},
+          "seq": 682
+        },
+        {
+          "event_id": "evt-220e0e376e9d",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "access_control_agent",
+          "event_type": "FINDING_PROPOSED",
+          "round": 0,
+          "claim": "Alice from Northstar can read Harbor's invoice INV-2001 without permission as confirmed by the cross-user access check. The guard is disabled, so the unauthorized access occurs.",
+          "evidence_ids": [
+            "ev-32703713714a"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.95,
+          "vote": "CONFIRM",
+          "timestamp": "2026-10-11T10:29:19.545943+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-32703713714a"
+            ],
+            "environment_version": 0
+          },
+          "seq": 683
+        },
+        {
+          "event_id": "evt-1231d4ba81d1",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": null,
+          "agent_id": "fixture_operator",
+          "event_type": "ENVIRONMENT_CHANGED",
+          "round": 0,
+          "claim": "Billing probes now target the patched demo deployment. Earlier observations are retained; repeat checks against version 1.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:29:20.301582+00:00",
+          "data": {
+            "environment_version": 1,
+            "action": "enable_guard"
+          },
+          "seq": 684
+        },
+        {
+          "event_id": "evt-61de0ea42a8f",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "CHALLENGE",
+          "round": 1,
+          "claim": "The claim requires testing HTTP visibility for environment version 1, but no evidence has been collected for the current environment version. Historical observations (environment version 0) are irrelevant to the present state of the system as per constraints. The hypothesis cannot be confirmed or denied without current evidence for environment version 1.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "ABSTAIN",
+          "timestamp": "2026-10-11T10:29:31.397067+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-e9e6791f6e3f",
+              "ev-32703713714a"
+            ],
+            "environment_version": 1
+          },
+          "seq": 685
+        },
+        {
+          "event_id": "evt-cd182c6e93ca",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "access_control_agent",
+          "event_type": "PLAN_UPDATED",
+          "round": 1,
+          "claim": "The hypothesis requires testing both invoice IDs (INV-2001 and INV-2002) for cross-tenant access. Current evidence covers INV-2001 but not INV-2002; additional checks are needed to confirm the vulnerability hypothesis across both invoices.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:29:41.348766+00:00",
+          "data": {
+            "checks": [
+              "cross_user_access",
+              "access_reproduce"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 686
+        },
+        {
+          "event_id": "evt-b7be4a4a54a7",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "access_control_agent",
+          "event_type": "TOOL_RESULT",
+          "round": 1,
+          "claim": "Approved cross_user_access returned negative.",
+          "evidence_ids": [
+            "ev-a9096f37b49a"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:29:41.498020+00:00",
+          "data": {},
+          "seq": 687
+        },
+        {
+          "event_id": "evt-6ada2c0b1367",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "access_control_agent",
+          "event_type": "TOOL_RESULT",
+          "round": 1,
+          "claim": "Approved access_reproduce returned negative.",
+          "evidence_ids": [
+            "ev-66ed458cbcfe"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:29:41.528879+00:00",
+          "data": {},
+          "seq": 688
+        },
+        {
+          "event_id": "evt-9abf1745e297",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "access_control_agent",
+          "event_type": "CHALLENGE",
+          "round": 1,
+          "claim": "The hypothesis requires testing both invoice IDs (INV-2001 and INV-2002) for cross-tenant access. Current evidence covers INV-2001 but not INV-2002; additional checks are needed to confirm the vulnerability hypothesis across both invoices.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:29:41.529229+00:00",
+          "data": {
+            "reasoning": "configured model"
+          },
+          "seq": 689
+        },
+        {
+          "event_id": "evt-ac8143adccbc",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "access_control_agent",
+          "event_type": "COUNTEREVIDENCE",
+          "round": 1,
+          "claim": "Approved challenge checks returned: cross_user_access=negative, access_reproduce=negative",
+          "evidence_ids": [
+            "ev-a9096f37b49a",
+            "ev-66ed458cbcfe"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:29:41.529262+00:00",
+          "data": {},
+          "seq": 690
+        },
+        {
+          "event_id": "evt-35cb87507d2c",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "evidence_skeptic",
+          "event_type": "PLAN_UPDATED",
+          "round": 1,
+          "claim": "The hypothesis requires testing HTTP visibility for cross-tenant invoice access; current evidence only covers two invoices (INV-2001 and INV-2002) but the policy mandates testing all invoices to confirm unauthorized disclosure.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:29:50.161333+00:00",
+          "data": {
+            "checks": [
+              "access_reproduce"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 691
+        },
+        {
+          "event_id": "evt-9fb7d55964d3",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "evidence_skeptic",
+          "event_type": "TOOL_RESULT",
+          "round": 1,
+          "claim": "Approved access_reproduce returned negative.",
+          "evidence_ids": [
+            "ev-70a9d43f090c"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:29:50.213263+00:00",
+          "data": {},
+          "seq": 692
+        },
+        {
+          "event_id": "evt-6393147dc402",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "evidence_skeptic",
+          "event_type": "CHALLENGE",
+          "round": 1,
+          "claim": "The hypothesis requires testing HTTP visibility for cross-tenant invoice access; current evidence only covers two invoices (INV-2001 and INV-2002) but the policy mandates testing all invoices to confirm unauthorized disclosure.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:29:50.213548+00:00",
+          "data": {
+            "reasoning": "configured model"
+          },
+          "seq": 693
+        },
+        {
+          "event_id": "evt-285762df386a",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "evidence_skeptic",
+          "event_type": "COUNTEREVIDENCE",
+          "round": 1,
+          "claim": "Approved challenge checks returned: access_reproduce=negative",
+          "evidence_ids": [
+            "ev-70a9d43f090c"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:29:50.213581+00:00",
+          "data": {},
+          "seq": 694
+        },
+        {
+          "event_id": "evt-b11c70455a01",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "evidence_skeptic",
+          "event_type": "BELIEF_UPDATED",
+          "round": 1,
+          "claim": "Current evidence shows 403 responses for both invoice IDs (INV-2001 and INV-2002) with guard enabled, confirming cross-tenant access is denied. Historical evidence (env 0) shows 200 responses with guard disabled, but current environment version 1 has guard enabled, so historical observations do not apply to the present. The claim requires testing HTTP visibility for current environment version 1, which has been done and shows no unauthorized access. However, the peer claims indicate additional\u53d1\u7968",
+          "evidence_ids": [
+            "ev-a9096f37b49a",
+            "ev-66ed458cbcfe",
+            "ev-70a9d43f090c"
+          ],
+          "confidence_before": 0.95,
+          "confidence_after": 0.0,
+          "vote": "ABSTAIN",
+          "timestamp": "2026-10-11T10:30:08.000857+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-e9e6791f6e3f",
+              "ev-32703713714a",
+              "ev-a9096f37b49a",
+              "ev-66ed458cbcfe",
+              "ev-70a9d43f090c"
+            ],
+            "environment_version": 1
+          },
+          "seq": 695
+        },
+        {
+          "event_id": "evt-7e04a2a2b4e5",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "access_control_agent",
+          "event_type": "BELIEF_UPDATED",
+          "round": 1,
+          "claim": "Current environment version 1 shows 403 responses for both invoices, confirming the guard is enabled and unauthorized access is denied. Historical evidence (env 0) shows unauthorized access but this does not apply to current environment version 1. The claim requires testing current environment version 1, which has been confirmed as secure by the current checks.",
+          "evidence_ids": [
+            "ev-a9096f37b49a",
+            "ev-66ed458cbcfe",
+            "ev-70a9d43f090c"
+          ],
+          "confidence_before": 0.95,
+          "confidence_after": 0.0,
+          "vote": "ABSTAIN",
+          "timestamp": "2026-10-11T10:30:22.044724+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-e9e6791f6e3f",
+              "ev-32703713714a",
+              "ev-a9096f37b49a",
+              "ev-66ed458cbcfe",
+              "ev-70a9d43f090c"
+            ],
+            "environment_version": 1
+          },
+          "seq": 696
+        },
+        {
+          "event_id": "evt-b9a5e587d2f6",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "BELIEF_UPDATED",
+          "round": 1,
+          "claim": "Current evidence for environment version 1 shows HTTP access is denied for both INV-2001 and INV-2002, but the claim requires testing all invoices. The policy mandates testing all invoices to confirm cross-tenant access, and current evidence only covers two invoices. Historical evidence (environment version 0) shows access was permitted but is irrelevant to the current environment version. The hypothesis cannot be confirmed or denied without evidence for all invoices in the current environment.",
+          "evidence_ids": [
+            "ev-a9096f37b49a",
+            "ev-66ed458cbcfe",
+            "ev-70a9d43f090c"
+          ],
+          "confidence_before": 0.0,
+          "confidence_after": 0.0,
+          "vote": "ABSTAIN",
+          "timestamp": "2026-10-11T10:30:37.974146+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-e9e6791f6e3f",
+              "ev-32703713714a",
+              "ev-a9096f37b49a",
+              "ev-66ed458cbcfe",
+              "ev-70a9d43f090c"
+            ],
+            "environment_version": 1
+          },
+          "seq": 697
+        },
+        {
+          "event_id": "evt-c7abccce86aa",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "VOTE_CAST",
+          "round": 2,
+          "claim": "Current evidence for environment version 1 shows HTTP access is denied for both INV-2001 and INV-2002, but the claim requires testing all invoices. The policy mandates testing all invoices to confirm cross-tenant access, and current evidence only covers two invoices. Historical evidence (environment version 0) shows access was permitted but is irrelevant to the current environment version. The hypothesis cannot be confirmed or denied without evidence for all invoices in the current environment.",
+          "evidence_ids": [
+            "ev-a9096f37b49a",
+            "ev-66ed458cbcfe",
+            "ev-70a9d43f090c"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "ABSTAIN",
+          "timestamp": "2026-10-11T10:30:39.069178+00:00",
+          "data": {
+            "reasoning": "configured model position retained; observed record unchanged"
+          },
+          "seq": 698
+        },
+        {
+          "event_id": "evt-54dcd82f0c59",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "access_control_agent",
+          "event_type": "VOTE_CAST",
+          "round": 2,
+          "claim": "Current environment version 1 shows 403 responses for both invoices, confirming the guard is enabled and unauthorized access is denied. Historical evidence (env 0) shows unauthorized access but this does not apply to current environment version 1. The claim requires testing current environment version 1, which has been confirmed as secure by the current checks.",
+          "evidence_ids": [
+            "ev-a9096f37b49a",
+            "ev-66ed458cbcfe",
+            "ev-70a9d43f090c"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "ABSTAIN",
+          "timestamp": "2026-10-11T10:30:39.070566+00:00",
+          "data": {
+            "reasoning": "configured model position retained; observed record unchanged"
+          },
+          "seq": 699
+        },
+        {
+          "event_id": "evt-58d5577a860b",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "evidence_skeptic",
+          "event_type": "VOTE_CAST",
+          "round": 2,
+          "claim": "Current evidence shows 403 responses for both invoice IDs (INV-2001 and INV-2002) with guard enabled, confirming cross-tenant access is denied. Historical evidence (env 0) shows 200 responses with guard disabled, but current environment version 1 has guard enabled, so historical observations do not apply to the present. The claim requires testing HTTP visibility for current environment version 1, which has been done and shows no unauthorized access. However, the peer claims indicate additional\u53d1\u7968",
+          "evidence_ids": [
+            "ev-a9096f37b49a",
+            "ev-66ed458cbcfe",
+            "ev-70a9d43f090c"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "ABSTAIN",
+          "timestamp": "2026-10-11T10:30:39.072302+00:00",
+          "data": {
+            "reasoning": "configured model position retained; observed record unchanged"
+          },
+          "seq": 700
+        },
+        {
+          "event_id": "evt-0315fb4162c4",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": "finding-4d887a2936af",
+          "agent_id": "evidence_protocol",
+          "event_type": "FINDING_RESOLVED",
+          "round": 2,
+          "claim": "DISPUTED: CONFLICTING_DIRECT_EVIDENCE: support and counterevidence remain unresolved",
+          "evidence_ids": [
+            "ev-e9e6791f6e3f",
+            "ev-32703713714a",
+            "ev-a9096f37b49a",
+            "ev-66ed458cbcfe",
+            "ev-70a9d43f090c"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:30:39.440246+00:00",
+          "data": {
+            "status": "DISPUTED",
+            "rule": "CONFLICTING_DIRECT_EVIDENCE: support and counterevidence remain unresolved",
+            "tally": {
+              "ABSTAIN": 3
+            }
+          },
+          "seq": 701
+        },
+        {
+          "event_id": "evt-a72b3b974a20",
+          "run_id": "run-8a8dad918fa1",
+          "finding_id": null,
+          "agent_id": "facilitator",
+          "event_type": "ASSESSMENT_COMPLETED",
+          "round": 0,
+          "claim": "Run completed. Evidence and dissent retained. Synthetic fixture results do not establish real-world exploitability.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T10:30:40.346812+00:00",
+          "data": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 2,
+            "blocked_requests": 0,
+            "tool_requests": 15,
+            "duration_seconds": 105.137,
+            "group_messages": 24,
+            "peer_receipts": 30,
+            "model_calls": 11,
+            "model_tokens": 12673
+          },
+          "seq": 702
+        }
+      ]
+    }
+  ],
+  "health": {
+    "status": "ok",
+    "transport": "slim",
+    "reasoning": "llm",
+    "discovery": "local OASF-shaped registry"
+  },
+  "validated": true
+}

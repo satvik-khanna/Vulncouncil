@@ -1,0 +1,67 @@
+name: vulncouncil
+services:
+  slim:
+    image: ghcr.io/agntcy/slim:1.0.0
+    command: ["/slim", "--config", "/config.yaml"]
+    volumes:
+      - ./config/slim.yaml:/config.yaml:ro
+    ports:
+      - "127.0.0.1:46357:46357"
+    networks: [lab]
+  lab-target:
+    build:
+      context: .
+      dockerfile: lab_target/Dockerfile
+    ports:
+      - "127.0.0.1:8001:8001"
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/health')"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks: [lab]
+  api:
+    profiles: [full]
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      AGNTCY_TRANSPORT: slim
+      SLIM_ENDPOINT: http://slim:46357
+      LAB_BASE_URL: http://lab-target:8001
+      GATEWAY_BASE_URL: http://127.0.0.1:8000
+      DATABASE_PATH: /app/data/vulncouncil.sqlite3
+      SLIM_SHARED_SECRET: ${SLIM_SHARED_SECRET:-vulncouncil-local-demo-shared-secret-32-chars}
+      AGENT_REASONING: ${AGENT_REASONING:-rules}
+      LLM_PROVIDER: ${LLM_PROVIDER:-chat_completions}
+      LLM_BASE_URL: ${LLM_BASE_URL:-}
+      LLM_MODEL: ${LLM_MODEL:-}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-}
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes: [vulncouncil-data:/app/data]
+    depends_on:
+      lab-target:
+        condition: service_healthy
+      slim:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 40s
+    networks: [lab]
+networks:
+  lab:
+    # Dedicated bridge with loopback-only published ports. Docker Desktop drops
+    # host port forwarding on internal:true networks, breaking laptop demos.
+    driver: bridge
+volumes:
+  vulncouncil-data:
+

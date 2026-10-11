@@ -1,0 +1,17 @@
+allowed_origins:
+  - http://127.0.0.1:8001
+  - http://localhost:8001
+  - http://lab-target:8001
+allowed_routes:
+  - /checks
+  - /demo/vulnerable/invoices/INV-2001
+  - /demo/vulnerable/invoices/INV-2002
+  - /demo/patched/invoices/INV-2001
+  - /demo/patched/invoices/INV-2002
+allowed_methods: [POST, GET]
+max_requests: 48
+per_agent_requests: 12
+deadline_seconds: 120
+request_timeout_seconds: 4
+max_rounds: 2
+

@@ -1,0 +1,15 @@
+[
+  {"id":"ambiguous-parser", "split":"development", "scenario":"ambiguous_injection", "patched":false, "expected":"NOT_REPRODUCED", "label":"benign"},
+  {"id":"visible-cross-user-record", "split":"development", "scenario":"access_control", "patched":false, "expected":"CONFIRMED", "label":"positive"},
+  {"id":"guard-denies-access", "split":"development", "scenario":"patched_access", "patched":true, "expected":"NOT_REPRODUCED", "label":"benign"},
+  {"id":"absent-policy-header", "split":"development", "scenario":"hardening", "patched":false, "expected":"CONFIRMED", "label":"positive"},
+  {"id":"present-policy-header", "split":"development", "scenario":"hardening", "patched":true, "expected":"NOT_REPRODUCED", "label":"benign"},
+  {"id":"partial-record-response", "split":"development", "scenario":"incomplete_access", "patched":false, "expected":"NEEDS_HUMAN", "label":"abstain"},
+  {"id":"forbidden-check", "split":"development", "scenario":"scope_violation", "patched":false, "expected":"NEEDS_HUMAN", "label":"abstain"},
+  {"id":"causal-parser-change", "split":"holdout", "scenario":"ambiguous_injection", "variant":"causal_injection", "patched":false, "expected":"CONFIRMED", "label":"positive"},
+  {"id":"different-control-incomplete-cause", "split":"holdout", "scenario":"ambiguous_injection", "variant":"unmatched_control", "patched":false, "expected":"NEEDS_HUMAN", "label":"abstain"},
+  {"id":"replicas-disagree", "split":"holdout", "scenario":"access_control", "variant":"replica_conflict", "patched":false, "expected":"DISPUTED", "label":"abstain"},
+  {"id":"replica-cannot-observe", "split":"holdout", "scenario":"access_control", "variant":"replica_incomplete", "patched":false, "expected":"NEEDS_HUMAN", "label":"abstain"},
+  {"id":"headers-disagree", "split":"holdout", "scenario":"hardening", "variant":"unstable_headers", "patched":false, "expected":"DISPUTED", "label":"abstain"},
+  {"id":"guard-enabled-during-run", "split":"holdout", "scenario":"changing_access", "patched":false, "expected":"DISPUTED", "label":"abstain"}
+]

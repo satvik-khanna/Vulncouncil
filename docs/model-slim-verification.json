@@ -1,0 +1,4792 @@
+{
+  "health": {
+    "status": "ok",
+    "transport": "slim",
+    "reasoning": "llm",
+    "discovery": "local OASF-shaped registry"
+  },
+  "cases": [
+    {
+      "scenario": "ambiguous_injection",
+      "expected": "NOT_REPRODUCED",
+      "run": {
+        "run_id": "run-fd1385dea4a2",
+        "scenario": "ambiguous_injection",
+        "patched": false,
+        "target_id": "lab-target",
+        "transport": "slim",
+        "state": "completed",
+        "created_at": "2026-10-11T09:05:17.848761+00:00",
+        "completed_at": "2026-10-11T09:06:55.851058+00:00",
+        "selected_agents": [
+          "injection_agent",
+          "evidence_skeptic",
+          "risk_remediation_agent"
+        ],
+        "findings": [
+          {
+            "finding_id": "finding-1ce0853bca5b",
+            "run_id": "run-fd1385dea4a2",
+            "title": "Parser behavior hypothesis",
+            "category": "injection",
+            "asset": "lab-target",
+            "route": "/checks",
+            "status": "NOT_REPRODUCED",
+            "confidence": 0.65,
+            "initial_confidence": 0.65,
+            "impact_band": "medium",
+            "reproducible": false,
+            "evidence_ids": [
+              "ev-ced79a7a9671",
+              "ev-aa58e541d242",
+              "ev-96471b8d121d",
+              "ev-0669947020d7",
+              "ev-d8860b98a18f",
+              "ev-e3fd569bd2e9",
+              "ev-eb99a4f4e9f3",
+              "ev-064f48cd68ab"
+            ],
+            "supporting_agents": [],
+            "challenging_agents": [
+              "evidence_skeptic",
+              "injection_agent"
+            ],
+            "limitations": [
+              "Synthetic fixture only; no real-world exploitability claim"
+            ],
+            "remediation": "Review the relevant validation, object authorization, or header policy against the recorded synthetic evidence.",
+            "created_at": "2026-10-11T09:05:41.286055+00:00",
+            "rule": "FAILED_REPRODUCTION: approved check failed; original signal is insufficient",
+            "votes": [
+              {
+                "agent_id": "risk_remediation_agent",
+                "finding_id": "finding-1ce0853bca5b",
+                "vote": "ABSTAIN",
+                "confidence": 0.3,
+                "evidence_ids": [],
+                "reason": "No current evidence exists to confirm or reject the claim. The claim requires observable query behavior changes beyond benign controls, but no evidence is provided for the current environment version. Historical observations are irrelevant to the present state.",
+                "round": 2
+              },
+              {
+                "agent_id": "evidence_skeptic",
+                "finding_id": "finding-1ce0853bca5b",
+                "vote": "REJECT",
+                "confidence": 0.0,
+                "evidence_ids": [
+                  "ev-96471b8d121d",
+                  "ev-0669947020d7"
+                ],
+                "reason": "Reproduction failed for injection_reproduce, confirming no behavioral change beyond benign control. Synthetic parse errors are not causal proof of injection when both conditions produce identical signals.",
+                "round": 2
+              },
+              {
+                "agent_id": "injection_agent",
+                "finding_id": "finding-1ce0853bca5b",
+                "vote": "DISPUTED",
+                "confidence": 0.65,
+                "evidence_ids": [
+                  "ev-ced79a7a9671",
+                  "ev-aa58e541d242"
+                ],
+                "reason": "The candidate causes a query behavior change beyond a benign control; parser errors alone are not causal proof. Evidence shows both conditions produce SYNTHETIC_PARSE_ERROR, but the benign control is reproducible and decisive counterexample, indicating the signal is not uniquely caused by the candidate. Current environment version 0 shows consistent behavior, but historical context suggests past visibility may differ.",
+                "round": 2
+              }
+            ],
+            "baseline": {
+              "single_agent": "DISPUTED",
+              "simple_majority": "NOT_REPRODUCED"
+            }
+          }
+        ],
+        "evidence": [
+          {
+            "evidence_id": "ev-ced79a7a9671",
+            "run_id": "run-fd1385dea4a2",
+            "agent_id": "injection_agent",
+            "finding_id": "finding-1ce0853bca5b",
+            "tool_name": "injection_signal",
+            "target_id": "lab-target",
+            "test_description": "Named synthetic check: injection_signal",
+            "method": "POST",
+            "route": "/checks",
+            "result": "signal",
+            "status_code": 422,
+            "snippet": "{\"control\": false, \"environment_version\": 0, \"signal\": \"SYNTHETIC_PARSE_ERROR\"}",
+            "response_hash": "1ec2f415175a970c6babf781038264ccaf47f127f73706eda516ae4116b410cd",
+            "timestamp": "2026-10-11T09:05:28.145443+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": false,
+            "facts": {
+              "signal": "SYNTHETIC_PARSE_ERROR",
+              "control": false,
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-aa58e541d242",
+            "run_id": "run-fd1385dea4a2",
+            "agent_id": "injection_agent",
+            "finding_id": "finding-1ce0853bca5b",
+            "tool_name": "benign_control",
+            "target_id": "lab-target",
+            "test_description": "Named synthetic check: benign_control",
+            "method": "POST",
+            "route": "/checks",
+            "result": "signal",
+            "status_code": 422,
+            "snippet": "{\"control\": true, \"environment_version\": 0, \"signal\": \"SYNTHETIC_PARSE_ERROR\"}",
+            "response_hash": "91d7fb6c75baec6fbdba36ccd197b60cbefd1f3cccda584f4f3ed00429fd0357",
+            "timestamp": "2026-10-11T09:05:28.170062+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": true,
+            "reproduction_failed": false,
+            "facts": {
+              "signal": "SYNTHETIC_PARSE_ERROR",
+              "control": true,
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-96471b8d121d",
+            "run_id": "run-fd1385dea4a2",
+            "agent_id": "evidence_skeptic",
+            "finding_id": "finding-1ce0853bca5b",
+            "tool_name": "benign_control",
+            "target_id": "lab-target",
+            "test_description": "Named synthetic check: benign_control",
+            "method": "POST",
+            "route": "/checks",
+            "result": "signal",
+            "status_code": 422,
+            "snippet": "{\"control\": true, \"environment_version\": 0, \"signal\": \"SYNTHETIC_PARSE_ERROR\"}",
+            "response_hash": "91d7fb6c75baec6fbdba36ccd197b60cbefd1f3cccda584f4f3ed00429fd0357",
+            "timestamp": "2026-10-11T09:05:33.474168+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": false,
+            "facts": {
+              "signal": "SYNTHETIC_PARSE_ERROR",
+              "control": true,
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-0669947020d7",
+            "run_id": "run-fd1385dea4a2",
+            "agent_id": "evidence_skeptic",
+            "finding_id": "finding-1ce0853bca5b",
+            "tool_name": "injection_reproduce",
+            "target_id": "lab-target",
+            "test_description": "Named synthetic check: injection_reproduce",
+            "method": "POST",
+            "route": "/checks",
+            "result": "negative",
+            "status_code": 200,
+            "snippet": "{\"environment_version\": 0, \"query_changed\": false}",
+            "response_hash": "b18e17145df5a4a2bb5a1a3dcef8f0204d6600132578a48097747b46693fe925",
+            "timestamp": "2026-10-11T09:05:33.493870+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": true,
+            "facts": {
+              "query_changed": false,
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-d8860b98a18f",
+            "run_id": "run-fd1385dea4a2",
+            "agent_id": "injection_agent",
+            "finding_id": "finding-1ce0853bca5b",
+            "tool_name": "injection_signal",
+            "target_id": "lab-target",
+            "test_description": "Named synthetic check: injection_signal",
+            "method": "POST",
+            "route": "/checks",
+            "result": "signal",
+            "status_code": 422,
+            "snippet": "{\"control\": false, \"environment_version\": 0, \"signal\": \"SYNTHETIC_PARSE_ERROR\"}",
+            "response_hash": "1ec2f415175a970c6babf781038264ccaf47f127f73706eda516ae4116b410cd",
+            "timestamp": "2026-10-11T09:06:05.856412+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": false,
+            "facts": {
+              "signal": "SYNTHETIC_PARSE_ERROR",
+              "control": false,
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-e3fd569bd2e9",
+            "run_id": "run-fd1385dea4a2",
+            "agent_id": "injection_agent",
+            "finding_id": "finding-1ce0853bca5b",
+            "tool_name": "benign_control",
+            "target_id": "lab-target",
+            "test_description": "Named synthetic check: benign_control",
+            "method": "POST",
+            "route": "/checks",
+            "result": "signal",
+            "status_code": 422,
+            "snippet": "{\"control\": true, \"environment_version\": 0, \"signal\": \"SYNTHETIC_PARSE_ERROR\"}",
+            "response_hash": "91d7fb6c75baec6fbdba36ccd197b60cbefd1f3cccda584f4f3ed00429fd0357",
+            "timestamp": "2026-10-11T09:06:05.891761+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": true,
+            "reproduction_failed": false,
+            "facts": {
+              "signal": "SYNTHETIC_PARSE_ERROR",
+              "control": true,
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-eb99a4f4e9f3",
+            "run_id": "run-fd1385dea4a2",
+            "agent_id": "evidence_skeptic",
+            "finding_id": "finding-1ce0853bca5b",
+            "tool_name": "benign_control",
+            "target_id": "lab-target",
+            "test_description": "Named synthetic check: benign_control",
+            "method": "POST",
+            "route": "/checks",
+            "result": "signal",
+            "status_code": 422,
+            "snippet": "{\"control\": true, \"environment_version\": 0, \"signal\": \"SYNTHETIC_PARSE_ERROR\"}",
+            "response_hash": "91d7fb6c75baec6fbdba36ccd197b60cbefd1f3cccda584f4f3ed00429fd0357",
+            "timestamp": "2026-10-11T09:06:13.924040+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": true,
+            "reproduction_failed": false,
+            "facts": {
+              "signal": "SYNTHETIC_PARSE_ERROR",
+              "control": true,
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-064f48cd68ab",
+            "run_id": "run-fd1385dea4a2",
+            "agent_id": "evidence_skeptic",
+            "finding_id": "finding-1ce0853bca5b",
+            "tool_name": "injection_reproduce",
+            "target_id": "lab-target",
+            "test_description": "Named synthetic check: injection_reproduce",
+            "method": "POST",
+            "route": "/checks",
+            "result": "negative",
+            "status_code": 200,
+            "snippet": "{\"environment_version\": 0, \"query_changed\": false}",
+            "response_hash": "b18e17145df5a4a2bb5a1a3dcef8f0204d6600132578a48097747b46693fe925",
+            "timestamp": "2026-10-11T09:06:13.948743+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": true,
+            "facts": {
+              "query_changed": false,
+              "environment_version": 0
+            }
+          }
+        ],
+        "metrics": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 0,
+          "blocked_requests": 0,
+          "tool_requests": 8,
+          "duration_seconds": 97.996,
+          "group_messages": 28,
+          "peer_receipts": 36,
+          "model_calls": 11,
+          "model_tokens": 12146
+        },
+        "error": null,
+        "environment_version": 0,
+        "fixture_variant": "standard",
+        "decision_mode": "council"
+      },
+      "events": [
+        {
+          "event_id": "evt-d639473b622c",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": null,
+          "agent_id": "facilitator",
+          "event_type": "ASSESSMENT_OPENED",
+          "round": 0,
+          "claim": "Synthetic fixture assessment opened. Specialists decide their positions; deterministic evidence rules resolve the finding.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:05:17.856879+00:00",
+          "data": {
+            "target": "lab-target",
+            "scenario": "ambiguous_injection",
+            "transport": "slim",
+            "limits": {
+              "allowed_origins": [
+                "http://127.0.0.1:8001",
+                "http://localhost:8001",
+                "http://lab-target:8001"
+              ],
+              "allowed_routes": [
+                "/checks"
+              ],
+              "allowed_methods": [
+                "POST"
+              ],
+              "max_requests": 48,
+              "per_agent_requests": 12,
+              "deadline_seconds": 120,
+              "request_timeout_seconds": 4,
+              "max_rounds": 2
+            }
+          },
+          "seq": 433
+        },
+        {
+          "event_id": "evt-55d97f8a2166",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": null,
+          "agent_id": "injection_agent",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities injection. Objective: Avoid prematurely dismissing plausible issues.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:05:17.941439+00:00",
+          "data": {},
+          "seq": 434
+        },
+        {
+          "event_id": "evt-f2ed684cb1af",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": null,
+          "agent_id": "evidence_skeptic",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities verification. Objective: Minimize false positives.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:05:18.041098+00:00",
+          "data": {},
+          "seq": 435
+        },
+        {
+          "event_id": "evt-a740bea8d30b",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": null,
+          "agent_id": "risk_remediation_agent",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities risk. Objective: Minimize unsupported risk and expensive false alarms.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:05:18.128030+00:00",
+          "data": {},
+          "seq": 436
+        },
+        {
+          "event_id": "evt-90b2884e8a43",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "FINDING_PROPOSED",
+          "round": 0,
+          "claim": "No current evidence exists to confirm or reject the claim. The claim requires observable query behavior changes beyond benign controls, but no evidence is provided for the current environment version. Historical observations are irrelevant to the present state.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": 0.3,
+          "vote": "ABSTAIN",
+          "timestamp": "2026-10-11T09:05:24.069650+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [],
+            "environment_version": 0
+          },
+          "seq": 437
+        },
+        {
+          "event_id": "evt-c771a035dcc7",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "injection_agent",
+          "event_type": "PLAN_UPDATED",
+          "round": 0,
+          "claim": "To test if the candidate causes a query behavior change beyond benign controls by observing a synthetic parser error and comparing it with a harmless control signal.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:05:28.046934+00:00",
+          "data": {
+            "checks": [
+              "injection_signal",
+              "benign_control"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 438
+        },
+        {
+          "event_id": "evt-1f4267ba2c42",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "injection_agent",
+          "event_type": "TOOL_RESULT",
+          "round": 0,
+          "claim": "Approved injection_signal returned signal.",
+          "evidence_ids": [
+            "ev-ced79a7a9671"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:05:28.149326+00:00",
+          "data": {},
+          "seq": 439
+        },
+        {
+          "event_id": "evt-135f75175ddf",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "injection_agent",
+          "event_type": "TOOL_RESULT",
+          "round": 0,
+          "claim": "Approved benign_control returned signal.",
+          "evidence_ids": [
+            "ev-aa58e541d242"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:05:28.171696+00:00",
+          "data": {},
+          "seq": 440
+        },
+        {
+          "event_id": "evt-9d911413c5c3",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "injection_agent",
+          "event_type": "FINDING_PROPOSED",
+          "round": 0,
+          "claim": "The candidate causes a query behavior change beyond a benign control; parser errors alone are not causal proof. Evidence shows both conditions produce SYNTHETIC_PARSE_ERROR, but the benign control is reproducible and decisive counterexample, indicating the signal is not uniquely caused by the candidate. Current environment version 0 shows consistent behavior, but historical context suggests past visibility may differ.",
+          "evidence_ids": [
+            "ev-ced79a7a9671",
+            "ev-aa58e541d242"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.65,
+          "vote": "DISPUTED",
+          "timestamp": "2026-10-11T09:05:41.285361+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-ced79a7a9671",
+              "ev-aa58e541d242"
+            ],
+            "environment_version": 0
+          },
+          "seq": 441
+        },
+        {
+          "event_id": "evt-2fed3a79a70b",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "evidence_skeptic",
+          "event_type": "PLAN_UPDATED",
+          "round": 0,
+          "claim": "To verify if the candidate causes a query behavior change beyond benign control and rule out parser errors as causal proof, we need to observe a harmless control signal and test synthetic query behavior reproduction.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:05:33.421738+00:00",
+          "data": {
+            "checks": [
+              "benign_control",
+              "injection_reproduce"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 442
+        },
+        {
+          "event_id": "evt-b2010ff5f215",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "evidence_skeptic",
+          "event_type": "TOOL_RESULT",
+          "round": 0,
+          "claim": "Approved benign_control returned signal.",
+          "evidence_ids": [
+            "ev-96471b8d121d"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:05:33.476094+00:00",
+          "data": {},
+          "seq": 443
+        },
+        {
+          "event_id": "evt-a064ef1105e9",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "evidence_skeptic",
+          "event_type": "TOOL_RESULT",
+          "round": 0,
+          "claim": "Approved injection_reproduce returned negative.",
+          "evidence_ids": [
+            "ev-0669947020d7"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:05:33.495058+00:00",
+          "data": {},
+          "seq": 444
+        },
+        {
+          "event_id": "evt-4e3261ae619c",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "evidence_skeptic",
+          "event_type": "FINDING_PROPOSED",
+          "round": 0,
+          "claim": "The candidate does not cause a query behavior change beyond benign control; synthetic parse errors are not causal proof of injection. Reproduction failed for injection_reproduce, confirming no behavioral change.",
+          "evidence_ids": [
+            "ev-96471b8d121d",
+            "ev-0669947020d7"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "REJECT",
+          "timestamp": "2026-10-11T09:05:47.477338+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-96471b8d121d",
+              "ev-0669947020d7"
+            ],
+            "environment_version": 0
+          },
+          "seq": 445
+        },
+        {
+          "event_id": "evt-26aed4e6f416",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "CHALLENGE",
+          "round": 1,
+          "claim": "No current evidence exists to confirm or reject the claim. The claim requires observable query behavior changes beyond benign controls, but no evidence is provided for the current environment version. Historical observations are irrelevant to the present state.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": 0.3,
+          "vote": "ABSTAIN",
+          "timestamp": "2026-10-11T09:05:56.803318+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-ced79a7a9671",
+              "ev-aa58e541d242",
+              "ev-96471b8d121d",
+              "ev-0669947020d7"
+            ],
+            "environment_version": 0
+          },
+          "seq": 446
+        },
+        {
+          "event_id": "evt-7954f262550b",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "injection_agent",
+          "event_type": "PLAN_UPDATED",
+          "round": 1,
+          "claim": "The claim requires evidence of query behavior change beyond benign controls; current evidence shows both conditions produce SYNTHETIC_PARSE_ERROR, but the benign control is reproducible and decisive counterexample. Need to confirm if the candidate causes unique behavior changes.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:06:05.700023+00:00",
+          "data": {
+            "checks": [
+              "injection_signal",
+              "benign_control"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 447
+        },
+        {
+          "event_id": "evt-de233a39df85",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "injection_agent",
+          "event_type": "TOOL_RESULT",
+          "round": 1,
+          "claim": "Approved injection_signal returned signal.",
+          "evidence_ids": [
+            "ev-d8860b98a18f"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:06:05.858283+00:00",
+          "data": {},
+          "seq": 448
+        },
+        {
+          "event_id": "evt-993abcc9bc0c",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "injection_agent",
+          "event_type": "TOOL_RESULT",
+          "round": 1,
+          "claim": "Approved benign_control returned signal.",
+          "evidence_ids": [
+            "ev-e3fd569bd2e9"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:06:05.893400+00:00",
+          "data": {},
+          "seq": 449
+        },
+        {
+          "event_id": "evt-1ce6ffd0481e",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "injection_agent",
+          "event_type": "CHALLENGE",
+          "round": 1,
+          "claim": "The claim requires evidence of query behavior change beyond benign controls; current evidence shows both conditions produce SYNTHETIC_PARSE_ERROR, but the benign control is reproducible and decisive counterexample. Need to confirm if the candidate causes unique behavior changes.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:06:05.894087+00:00",
+          "data": {
+            "reasoning": "configured model"
+          },
+          "seq": 450
+        },
+        {
+          "event_id": "evt-a53df8f2b8ea",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "injection_agent",
+          "event_type": "COUNTEREVIDENCE",
+          "round": 1,
+          "claim": "Approved challenge checks returned: injection_signal=signal, benign_control=signal",
+          "evidence_ids": [
+            "ev-d8860b98a18f",
+            "ev-e3fd569bd2e9"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:06:05.894146+00:00",
+          "data": {},
+          "seq": 451
+        },
+        {
+          "event_id": "evt-80dd51b6a058",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "evidence_skeptic",
+          "event_type": "PLAN_UPDATED",
+          "round": 1,
+          "claim": "The claim requires evidence of query behavior change beyond benign control; current evidence shows both candidate and control produce SYNTHETIC_PARSE_ERROR, but injection_reproduce failed to confirm behavioral change.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:06:13.857967+00:00",
+          "data": {
+            "checks": [
+              "benign_control",
+              "injection_reproduce"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 452
+        },
+        {
+          "event_id": "evt-4d817ba142b1",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "evidence_skeptic",
+          "event_type": "TOOL_RESULT",
+          "round": 1,
+          "claim": "Approved benign_control returned signal.",
+          "evidence_ids": [
+            "ev-eb99a4f4e9f3"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:06:13.930383+00:00",
+          "data": {},
+          "seq": 453
+        },
+        {
+          "event_id": "evt-15836114b3c7",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "evidence_skeptic",
+          "event_type": "TOOL_RESULT",
+          "round": 1,
+          "claim": "Approved injection_reproduce returned negative.",
+          "evidence_ids": [
+            "ev-064f48cd68ab"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:06:13.949925+00:00",
+          "data": {},
+          "seq": 454
+        },
+        {
+          "event_id": "evt-78722d1bfe19",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "evidence_skeptic",
+          "event_type": "CHALLENGE",
+          "round": 1,
+          "claim": "The claim requires evidence of query behavior change beyond benign control; current evidence shows both candidate and control produce SYNTHETIC_PARSE_ERROR, but injection_reproduce failed to confirm behavioral change.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:06:13.950189+00:00",
+          "data": {
+            "reasoning": "configured model"
+          },
+          "seq": 455
+        },
+        {
+          "event_id": "evt-8fd5f974a65d",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "evidence_skeptic",
+          "event_type": "COUNTEREVIDENCE",
+          "round": 1,
+          "claim": "Approved challenge checks returned: benign_control=signal, injection_reproduce=negative",
+          "evidence_ids": [
+            "ev-eb99a4f4e9f3",
+            "ev-064f48cd68ab"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:06:13.950214+00:00",
+          "data": {},
+          "seq": 456
+        },
+        {
+          "event_id": "evt-49a613595499",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "evidence_skeptic",
+          "event_type": "BELIEF_UPDATED",
+          "round": 1,
+          "claim": "Reproduction failed for injection_reproduce, confirming no behavioral change beyond benign control. Synthetic parse errors are not causal proof of injection when both conditions produce identical signals.",
+          "evidence_ids": [
+            "ev-96471b8d121d",
+            "ev-0669947020d7"
+          ],
+          "confidence_before": 0.0,
+          "confidence_after": 0.0,
+          "vote": "REJECT",
+          "timestamp": "2026-10-11T09:06:27.907043+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-ced79a7a9671",
+              "ev-aa58e541d242",
+              "ev-96471b8d121d",
+              "ev-0669947020d7",
+              "ev-d8860b98a18f",
+              "ev-e3fd569bd2e9",
+              "ev-eb99a4f4e9f3",
+              "ev-064f48cd68ab"
+            ],
+            "environment_version": 0
+          },
+          "seq": 457
+        },
+        {
+          "event_id": "evt-11f48e0b0a3b",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "injection_agent",
+          "event_type": "BELIEF_UPDATED",
+          "round": 1,
+          "claim": "The candidate causes a query behavior change beyond a benign control; parser errors alone are not causal proof. Evidence shows both conditions produce SYNTHETIC_PARSE_ERROR, but the benign control is reproducible and decisive counterexample, indicating the signal is not uniquely caused by the candidate. Current environment version 0 shows consistent behavior, but historical context suggests past visibility may differ.",
+          "evidence_ids": [
+            "ev-ced79a7a9671",
+            "ev-aa58e541d242"
+          ],
+          "confidence_before": 0.65,
+          "confidence_after": 0.65,
+          "vote": "DISPUTED",
+          "timestamp": "2026-10-11T09:06:41.697589+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-ced79a7a9671",
+              "ev-aa58e541d242",
+              "ev-96471b8d121d",
+              "ev-0669947020d7",
+              "ev-d8860b98a18f",
+              "ev-e3fd569bd2e9",
+              "ev-eb99a4f4e9f3",
+              "ev-064f48cd68ab"
+            ],
+            "environment_version": 0
+          },
+          "seq": 458
+        },
+        {
+          "event_id": "evt-fbc801f0e7bc",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "BELIEF_UPDATED",
+          "round": 1,
+          "claim": "No current evidence exists to confirm or reject the claim. The claim requires observable query behavior changes beyond benign controls, but no evidence is provided for the current environment version. Historical observations are irrelevant to the present state.",
+          "evidence_ids": [],
+          "confidence_before": 0.3,
+          "confidence_after": 0.3,
+          "vote": "ABSTAIN",
+          "timestamp": "2026-10-11T09:06:52.576888+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-ced79a7a9671",
+              "ev-aa58e541d242",
+              "ev-96471b8d121d",
+              "ev-0669947020d7",
+              "ev-d8860b98a18f",
+              "ev-e3fd569bd2e9",
+              "ev-eb99a4f4e9f3",
+              "ev-064f48cd68ab"
+            ],
+            "environment_version": 0
+          },
+          "seq": 459
+        },
+        {
+          "event_id": "evt-447c747c5dc5",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "VOTE_CAST",
+          "round": 2,
+          "claim": "No current evidence exists to confirm or reject the claim. The claim requires observable query behavior changes beyond benign controls, but no evidence is provided for the current environment version. Historical observations are irrelevant to the present state.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": 0.3,
+          "vote": "ABSTAIN",
+          "timestamp": "2026-10-11T09:06:53.673320+00:00",
+          "data": {
+            "reasoning": "configured model position retained; observed record unchanged"
+          },
+          "seq": 460
+        },
+        {
+          "event_id": "evt-c59ae0e0865a",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "evidence_skeptic",
+          "event_type": "VOTE_CAST",
+          "round": 2,
+          "claim": "Reproduction failed for injection_reproduce, confirming no behavioral change beyond benign control. Synthetic parse errors are not causal proof of injection when both conditions produce identical signals.",
+          "evidence_ids": [
+            "ev-96471b8d121d",
+            "ev-0669947020d7"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "REJECT",
+          "timestamp": "2026-10-11T09:06:53.674892+00:00",
+          "data": {
+            "reasoning": "configured model position retained; observed record unchanged"
+          },
+          "seq": 461
+        },
+        {
+          "event_id": "evt-da92d6c223dd",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "injection_agent",
+          "event_type": "VOTE_CAST",
+          "round": 2,
+          "claim": "The candidate causes a query behavior change beyond a benign control; parser errors alone are not causal proof. Evidence shows both conditions produce SYNTHETIC_PARSE_ERROR, but the benign control is reproducible and decisive counterexample, indicating the signal is not uniquely caused by the candidate. Current environment version 0 shows consistent behavior, but historical context suggests past visibility may differ.",
+          "evidence_ids": [
+            "ev-ced79a7a9671",
+            "ev-aa58e541d242"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.65,
+          "vote": "DISPUTED",
+          "timestamp": "2026-10-11T09:06:53.675206+00:00",
+          "data": {
+            "reasoning": "configured model position retained; observed record unchanged"
+          },
+          "seq": 462
+        },
+        {
+          "event_id": "evt-0ec690e45dd8",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": "finding-1ce0853bca5b",
+          "agent_id": "evidence_protocol",
+          "event_type": "FINDING_RESOLVED",
+          "round": 2,
+          "claim": "NOT_REPRODUCED: FAILED_REPRODUCTION: approved check failed; original signal is insufficient",
+          "evidence_ids": [
+            "ev-ced79a7a9671",
+            "ev-aa58e541d242",
+            "ev-96471b8d121d",
+            "ev-0669947020d7",
+            "ev-d8860b98a18f",
+            "ev-e3fd569bd2e9",
+            "ev-eb99a4f4e9f3",
+            "ev-064f48cd68ab"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:06:54.056919+00:00",
+          "data": {
+            "status": "NOT_REPRODUCED",
+            "rule": "FAILED_REPRODUCTION: approved check failed; original signal is insufficient",
+            "tally": {
+              "ABSTAIN": 1,
+              "REJECT": 1,
+              "DISPUTED": 1
+            }
+          },
+          "seq": 463
+        },
+        {
+          "event_id": "evt-32ced1a4e2f6",
+          "run_id": "run-fd1385dea4a2",
+          "finding_id": null,
+          "agent_id": "facilitator",
+          "event_type": "ASSESSMENT_COMPLETED",
+          "round": 0,
+          "claim": "Run completed. Evidence and dissent retained. Synthetic fixture results do not establish real-world exploitability.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:06:54.963599+00:00",
+          "data": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 0,
+            "blocked_requests": 0,
+            "tool_requests": 8,
+            "duration_seconds": 97.108,
+            "group_messages": 24,
+            "peer_receipts": 30,
+            "model_calls": 11,
+            "model_tokens": 12146
+          },
+          "seq": 464
+        }
+      ]
+    },
+    {
+      "scenario": "access_control",
+      "expected": "CONFIRMED",
+      "run": {
+        "run_id": "run-459a4760e6fe",
+        "scenario": "access_control",
+        "patched": false,
+        "target_id": "lab-target",
+        "transport": "slim",
+        "state": "completed",
+        "created_at": "2026-10-11T09:06:55.958868+00:00",
+        "completed_at": "2026-10-11T09:08:28.226036+00:00",
+        "selected_agents": [
+          "access_control_agent",
+          "evidence_skeptic",
+          "risk_remediation_agent"
+        ],
+        "findings": [
+          {
+            "finding_id": "finding-9c2a8cb42efe",
+            "run_id": "run-459a4760e6fe",
+            "title": "Cross-user profile access",
+            "category": "broken_access_control",
+            "asset": "lab-target",
+            "route": "/checks",
+            "status": "CONFIRMED",
+            "confidence": 0.95,
+            "initial_confidence": 0.95,
+            "impact_band": "medium",
+            "reproducible": true,
+            "evidence_ids": [
+              "ev-8b41901e1597",
+              "ev-e423a01db903",
+              "ev-97aa68853756",
+              "ev-b1def6b0ffeb",
+              "ev-e39e7b8dbfe3"
+            ],
+            "supporting_agents": [
+              "evidence_skeptic",
+              "access_control_agent"
+            ],
+            "challenging_agents": [
+              "risk_remediation_agent"
+            ],
+            "limitations": [
+              "Synthetic fixture only; no real-world exploitability claim"
+            ],
+            "remediation": "Review the relevant validation, object authorization, or header policy against the recorded synthetic evidence.",
+            "created_at": "2026-10-11T09:07:19.737999+00:00",
+            "rule": "INDEPENDENT_REPRODUCTION: two supporting agents and independent direct observations; no decisive counterexample",
+            "votes": [
+              {
+                "agent_id": "evidence_skeptic",
+                "finding_id": "finding-9c2a8cb42efe",
+                "vote": "CONFIRM",
+                "confidence": 0.95,
+                "evidence_ids": [
+                  "ev-8b41901e1597",
+                  "ev-e423a01db903",
+                  "ev-97aa68853756",
+                  "ev-b1def6b0ffeb",
+                  "ev-e39e7b8dbfe3"
+                ],
+                "reason": "All evidence shows Alice can read Bob's record with guard disabled, violating owner-only policy. Historical context irrelevant as claim is about current environment version 0.",
+                "round": 2
+              },
+              {
+                "agent_id": "access_control_agent",
+                "finding_id": "finding-9c2a8cb42efe",
+                "vote": "CONFIRM",
+                "confidence": 0.95,
+                "evidence_ids": [
+                  "ev-8b41901e1597",
+                  "ev-e423a01db903",
+                  "ev-97aa68853756",
+                  "ev-b1def6b0ffeb",
+                  "ev-e39e7b8dbfe3"
+                ],
+                "reason": "Multiple independent tools confirm Alice can read Bob's record with disabled guard, violating owner-only policy. Disabled guard does not grant legitimate permission, confirming cross-user access in current environment version 0.",
+                "round": 2
+              },
+              {
+                "agent_id": "risk_remediation_agent",
+                "finding_id": "finding-9c2a8cb42efe",
+                "vote": "DISPUTED",
+                "confidence": 0.3,
+                "evidence_ids": [],
+                "reason": "The claim that Alice can read Bob's record is unconfirmed by current evidence. The required policy is owner-only, but the evidence shows a disabled guard does not grant permission. Historical context is irrelevant to current visibility. The hypothesis remains unconfirmed without observable evidence of actual record visibility in the current environment version 0. The disabled guard does not grant legitimate permission, but this is not directly observable here. The current evidence does not prove",
+                "round": 2
+              }
+            ],
+            "baseline": {
+              "single_agent": "CONFIRMED",
+              "simple_majority": "CONFIRMED"
+            }
+          }
+        ],
+        "evidence": [
+          {
+            "evidence_id": "ev-8b41901e1597",
+            "run_id": "run-459a4760e6fe",
+            "agent_id": "evidence_skeptic",
+            "finding_id": "finding-9c2a8cb42efe",
+            "tool_name": "access_reproduce",
+            "target_id": "lab-target",
+            "test_description": "Named synthetic check: access_reproduce",
+            "method": "POST",
+            "route": "/checks",
+            "result": "positive",
+            "status_code": 200,
+            "snippet": "{\"actor\": \"synthetic-alice\", \"environment_version\": 0, \"guard_enabled\": false, \"record_owner\": \"synthetic-bob\", \"record_visible\": true}",
+            "response_hash": "fa83551afc8ac77bd56c75e446179ec7d8cd4d68f7e20e8e95deda39eb959073",
+            "timestamp": "2026-10-11T09:07:06.534763+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": false,
+            "facts": {
+              "actor": "synthetic-alice",
+              "record_owner": "synthetic-bob",
+              "record_visible": true,
+              "guard_enabled": false,
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-e423a01db903",
+            "run_id": "run-459a4760e6fe",
+            "agent_id": "access_control_agent",
+            "finding_id": "finding-9c2a8cb42efe",
+            "tool_name": "cross_user_access",
+            "target_id": "lab-target",
+            "test_description": "Named synthetic check: cross_user_access",
+            "method": "POST",
+            "route": "/checks",
+            "result": "positive",
+            "status_code": 200,
+            "snippet": "{\"actor\": \"synthetic-alice\", \"environment_version\": 0, \"guard_enabled\": false, \"record_owner\": \"synthetic-bob\", \"record_visible\": true}",
+            "response_hash": "fa83551afc8ac77bd56c75e446179ec7d8cd4d68f7e20e8e95deda39eb959073",
+            "timestamp": "2026-10-11T09:07:08.688401+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": false,
+            "facts": {
+              "actor": "synthetic-alice",
+              "record_owner": "synthetic-bob",
+              "record_visible": true,
+              "guard_enabled": false,
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-97aa68853756",
+            "run_id": "run-459a4760e6fe",
+            "agent_id": "evidence_skeptic",
+            "finding_id": "finding-9c2a8cb42efe",
+            "tool_name": "access_reproduce",
+            "target_id": "lab-target",
+            "test_description": "Named synthetic check: access_reproduce",
+            "method": "POST",
+            "route": "/checks",
+            "result": "positive",
+            "status_code": 200,
+            "snippet": "{\"actor\": \"synthetic-alice\", \"environment_version\": 0, \"guard_enabled\": false, \"record_owner\": \"synthetic-bob\", \"record_visible\": true}",
+            "response_hash": "fa83551afc8ac77bd56c75e446179ec7d8cd4d68f7e20e8e95deda39eb959073",
+            "timestamp": "2026-10-11T09:07:38.620510+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": false,
+            "facts": {
+              "actor": "synthetic-alice",
+              "record_owner": "synthetic-bob",
+              "record_visible": true,
+              "guard_enabled": false,
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-b1def6b0ffeb",
+            "run_id": "run-459a4760e6fe",
+            "agent_id": "access_control_agent",
+            "finding_id": "finding-9c2a8cb42efe",
+            "tool_name": "cross_user_access",
+            "target_id": "lab-target",
+            "test_description": "Named synthetic check: cross_user_access",
+            "method": "POST",
+            "route": "/checks",
+            "result": "positive",
+            "status_code": 200,
+            "snippet": "{\"actor\": \"synthetic-alice\", \"environment_version\": 0, \"guard_enabled\": false, \"record_owner\": \"synthetic-bob\", \"record_visible\": true}",
+            "response_hash": "fa83551afc8ac77bd56c75e446179ec7d8cd4d68f7e20e8e95deda39eb959073",
+            "timestamp": "2026-10-11T09:07:45.323470+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": false,
+            "facts": {
+              "actor": "synthetic-alice",
+              "record_owner": "synthetic-bob",
+              "record_visible": true,
+              "guard_enabled": false,
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-e39e7b8dbfe3",
+            "run_id": "run-459a4760e6fe",
+            "agent_id": "access_control_agent",
+            "finding_id": "finding-9c2a8cb42efe",
+            "tool_name": "access_reproduce",
+            "target_id": "lab-target",
+            "test_description": "Named synthetic check: access_reproduce",
+            "method": "POST",
+            "route": "/checks",
+            "result": "positive",
+            "status_code": 200,
+            "snippet": "{\"actor\": \"synthetic-alice\", \"environment_version\": 0, \"guard_enabled\": false, \"record_owner\": \"synthetic-bob\", \"record_visible\": true}",
+            "response_hash": "fa83551afc8ac77bd56c75e446179ec7d8cd4d68f7e20e8e95deda39eb959073",
+            "timestamp": "2026-10-11T09:07:45.377961+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": false,
+            "facts": {
+              "actor": "synthetic-alice",
+              "record_owner": "synthetic-bob",
+              "record_visible": true,
+              "guard_enabled": false,
+              "environment_version": 0
+            }
+          }
+        ],
+        "metrics": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 0,
+          "blocked_requests": 0,
+          "tool_requests": 5,
+          "duration_seconds": 92.262,
+          "group_messages": 28,
+          "peer_receipts": 36,
+          "model_calls": 11,
+          "model_tokens": 10929
+        },
+        "error": null,
+        "environment_version": 0,
+        "fixture_variant": "standard",
+        "decision_mode": "council"
+      },
+      "events": [
+        {
+          "event_id": "evt-da5b9cfbeb3f",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": null,
+          "agent_id": "facilitator",
+          "event_type": "ASSESSMENT_OPENED",
+          "round": 0,
+          "claim": "Synthetic fixture assessment opened. Specialists decide their positions; deterministic evidence rules resolve the finding.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:06:55.964405+00:00",
+          "data": {
+            "target": "lab-target",
+            "scenario": "access_control",
+            "transport": "slim",
+            "limits": {
+              "allowed_origins": [
+                "http://127.0.0.1:8001",
+                "http://localhost:8001",
+                "http://lab-target:8001"
+              ],
+              "allowed_routes": [
+                "/checks"
+              ],
+              "allowed_methods": [
+                "POST"
+              ],
+              "max_requests": 48,
+              "per_agent_requests": 12,
+              "deadline_seconds": 120,
+              "request_timeout_seconds": 4,
+              "max_rounds": 2
+            }
+          },
+          "seq": 465
+        },
+        {
+          "event_id": "evt-96074c40522b",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": null,
+          "agent_id": "access_control_agent",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities access_control. Objective: Detect demonstrated cross-user access.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:06:56.052607+00:00",
+          "data": {},
+          "seq": 466
+        },
+        {
+          "event_id": "evt-fdb08dd0d7b7",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": null,
+          "agent_id": "evidence_skeptic",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities verification. Objective: Minimize false positives.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:06:56.139533+00:00",
+          "data": {},
+          "seq": 467
+        },
+        {
+          "event_id": "evt-6440e2764654",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": null,
+          "agent_id": "risk_remediation_agent",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities risk. Objective: Minimize unsupported risk and expensive false alarms.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:06:56.227103+00:00",
+          "data": {},
+          "seq": 468
+        },
+        {
+          "event_id": "evt-eaaf427eb5be",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "FINDING_PROPOSED",
+          "round": 0,
+          "claim": "No current evidence supports the claim that Alice can read Bob's record. The claim assumes a policy violation but lacks observable evidence of actual record visibility. Historical context may differ, but the current environment shows no active violations based on the provided evidence. The required policy is owner-only, but without evidence of implementation failure, the hypothesis remains unconfirmed. The disabled guard does not grant permission, but this is not directly observable here. The 'e",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": 0.3,
+          "vote": "DISPUTED",
+          "timestamp": "2026-10-11T09:07:04.051489+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [],
+            "environment_version": 0
+          },
+          "seq": 469
+        },
+        {
+          "event_id": "evt-41467cb95233",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "evidence_skeptic",
+          "event_type": "PLAN_UPDATED",
+          "round": 0,
+          "claim": "Test current record visibility to confirm unauthorized access under the current guard configuration, as the hypothesis requires evaluating present visibility against the policy.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:07:06.413837+00:00",
+          "data": {
+            "checks": [
+              "access_reproduce"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 470
+        },
+        {
+          "event_id": "evt-0d2c3e4c7c3a",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "evidence_skeptic",
+          "event_type": "TOOL_RESULT",
+          "round": 0,
+          "claim": "Approved access_reproduce returned positive.",
+          "evidence_ids": [
+            "ev-8b41901e1597"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:07:06.536993+00:00",
+          "data": {},
+          "seq": 471
+        },
+        {
+          "event_id": "evt-a27d52bed015",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "evidence_skeptic",
+          "event_type": "FINDING_PROPOSED",
+          "round": 0,
+          "claim": "Current evidence shows Alice can read Bob's record with guard disabled, violating owner-only policy. Historical context irrelevant as claim is about current environment.",
+          "evidence_ids": [
+            "ev-8b41901e1597"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.95,
+          "vote": "CONFIRM",
+          "timestamp": "2026-10-11T09:07:13.677140+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-8b41901e1597"
+            ],
+            "environment_version": 0
+          },
+          "seq": 472
+        },
+        {
+          "event_id": "evt-fb61e5734bbd",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "access_control_agent",
+          "event_type": "PLAN_UPDATED",
+          "round": 0,
+          "claim": "Directly test if Alice can read Bob's record to confirm cross-user access violation under current environment version.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:07:08.664872+00:00",
+          "data": {
+            "checks": [
+              "cross_user_access"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 473
+        },
+        {
+          "event_id": "evt-28780c675267",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "access_control_agent",
+          "event_type": "TOOL_RESULT",
+          "round": 0,
+          "claim": "Approved cross_user_access returned positive.",
+          "evidence_ids": [
+            "ev-e423a01db903"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:07:08.690681+00:00",
+          "data": {},
+          "seq": 474
+        },
+        {
+          "event_id": "evt-f3d57b8ee156",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "access_control_agent",
+          "event_type": "FINDING_PROPOSED",
+          "round": 0,
+          "claim": "Current evidence shows Alice can read Bob's record with a disabled guard, violating the owner-only policy. The disabled guard does not grant legitimate permission, confirming cross-user access.",
+          "evidence_ids": [
+            "ev-e423a01db903"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.95,
+          "vote": "CONFIRM",
+          "timestamp": "2026-10-11T09:07:19.736397+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-e423a01db903"
+            ],
+            "environment_version": 0
+          },
+          "seq": 475
+        },
+        {
+          "event_id": "evt-af4089016759",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "CHALLENGE",
+          "round": 1,
+          "claim": "The claim that Alice can read Bob's record is unconfirmed by current evidence. The required policy is owner-only, but the evidence shows a disabled guard does not grant permission. Historical context is irrelevant to current visibility. The hypothesis remains unconfirmed without observable evidence of actual record visibility in the current environment version 0. The disabled guard does not grant legitimate permission, but this is not directly observable here. The current evidence does not prove",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": 0.3,
+          "vote": "DISPUTED",
+          "timestamp": "2026-10-11T09:07:31.330368+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-8b41901e1597",
+              "ev-e423a01db903"
+            ],
+            "environment_version": 0
+          },
+          "seq": 476
+        },
+        {
+          "event_id": "evt-9e3c58214d6e",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "evidence_skeptic",
+          "event_type": "PLAN_UPDATED",
+          "round": 1,
+          "claim": "Current evidence shows Alice can read Bob's record with guard disabled, but policy requires owner-only access. Need to confirm if guard is enabled to test if unauthorized access persists when guard is active.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:07:38.526293+00:00",
+          "data": {
+            "checks": [
+              "access_reproduce"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 477
+        },
+        {
+          "event_id": "evt-da7fcb5e8d63",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "evidence_skeptic",
+          "event_type": "TOOL_RESULT",
+          "round": 1,
+          "claim": "Approved access_reproduce returned positive.",
+          "evidence_ids": [
+            "ev-97aa68853756"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:07:38.623487+00:00",
+          "data": {},
+          "seq": 478
+        },
+        {
+          "event_id": "evt-dbb64be024d5",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "evidence_skeptic",
+          "event_type": "CHALLENGE",
+          "round": 1,
+          "claim": "Current evidence shows Alice can read Bob's record with guard disabled, but policy requires owner-only access. Need to confirm if guard is enabled to test if unauthorized access persists when guard is active.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:07:38.624453+00:00",
+          "data": {
+            "reasoning": "configured model"
+          },
+          "seq": 479
+        },
+        {
+          "event_id": "evt-253e012e49e5",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "evidence_skeptic",
+          "event_type": "COUNTEREVIDENCE",
+          "round": 1,
+          "claim": "Approved challenge checks returned: access_reproduce=positive",
+          "evidence_ids": [
+            "ev-97aa68853756"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:07:38.624503+00:00",
+          "data": {},
+          "seq": 480
+        },
+        {
+          "event_id": "evt-beb00c4a9970",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "access_control_agent",
+          "event_type": "PLAN_UPDATED",
+          "round": 1,
+          "claim": "Confirm current record visibility with active guard to distinguish disabled guard effects from actual policy violation.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:07:45.280986+00:00",
+          "data": {
+            "checks": [
+              "cross_user_access",
+              "access_reproduce"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 481
+        },
+        {
+          "event_id": "evt-ae55e987c67a",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "access_control_agent",
+          "event_type": "TOOL_RESULT",
+          "round": 1,
+          "claim": "Approved cross_user_access returned positive.",
+          "evidence_ids": [
+            "ev-b1def6b0ffeb"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:07:45.325433+00:00",
+          "data": {},
+          "seq": 482
+        },
+        {
+          "event_id": "evt-d645fad201e3",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "access_control_agent",
+          "event_type": "TOOL_RESULT",
+          "round": 1,
+          "claim": "Approved access_reproduce returned positive.",
+          "evidence_ids": [
+            "ev-e39e7b8dbfe3"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:07:45.379275+00:00",
+          "data": {},
+          "seq": 483
+        },
+        {
+          "event_id": "evt-aa23cd3976f7",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "access_control_agent",
+          "event_type": "CHALLENGE",
+          "round": 1,
+          "claim": "Confirm current record visibility with active guard to distinguish disabled guard effects from actual policy violation.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:07:45.379500+00:00",
+          "data": {
+            "reasoning": "configured model"
+          },
+          "seq": 484
+        },
+        {
+          "event_id": "evt-869296543bd8",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "access_control_agent",
+          "event_type": "COUNTEREVIDENCE",
+          "round": 1,
+          "claim": "Approved challenge checks returned: cross_user_access=positive, access_reproduce=positive",
+          "evidence_ids": [
+            "ev-b1def6b0ffeb",
+            "ev-e39e7b8dbfe3"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:07:45.379829+00:00",
+          "data": {},
+          "seq": 485
+        },
+        {
+          "event_id": "evt-893d3665fe32",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "BELIEF_UPDATED",
+          "round": 1,
+          "claim": "The claim that Alice can read Bob's record is unconfirmed by current evidence. The required policy is owner-only, but the evidence shows a disabled guard does not grant permission. Historical context is irrelevant to current visibility. The hypothesis remains unconfirmed without observable evidence of actual record visibility in the current environment version 0. The disabled guard does not grant legitimate permission, but this is not directly observable here. The current evidence does not prove",
+          "evidence_ids": [],
+          "confidence_before": 0.3,
+          "confidence_after": 0.3,
+          "vote": "DISPUTED",
+          "timestamp": "2026-10-11T09:07:59.694998+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-8b41901e1597",
+              "ev-e423a01db903",
+              "ev-97aa68853756",
+              "ev-b1def6b0ffeb",
+              "ev-e39e7b8dbfe3"
+            ],
+            "environment_version": 0
+          },
+          "seq": 486
+        },
+        {
+          "event_id": "evt-36a2e6c6b9e5",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "access_control_agent",
+          "event_type": "BELIEF_UPDATED",
+          "round": 1,
+          "claim": "Multiple independent tools confirm Alice can read Bob's record with disabled guard, violating owner-only policy. Disabled guard does not grant legitimate permission, confirming cross-user access in current environment version 0.",
+          "evidence_ids": [
+            "ev-8b41901e1597",
+            "ev-e423a01db903",
+            "ev-97aa68853756",
+            "ev-b1def6b0ffeb",
+            "ev-e39e7b8dbfe3"
+          ],
+          "confidence_before": 0.95,
+          "confidence_after": 0.95,
+          "vote": "CONFIRM",
+          "timestamp": "2026-10-11T09:08:12.714761+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-8b41901e1597",
+              "ev-e423a01db903",
+              "ev-97aa68853756",
+              "ev-b1def6b0ffeb",
+              "ev-e39e7b8dbfe3"
+            ],
+            "environment_version": 0
+          },
+          "seq": 487
+        },
+        {
+          "event_id": "evt-ef11355a5202",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "evidence_skeptic",
+          "event_type": "BELIEF_UPDATED",
+          "round": 1,
+          "claim": "All evidence shows Alice can read Bob's record with guard disabled, violating owner-only policy. Historical context irrelevant as claim is about current environment version 0.",
+          "evidence_ids": [
+            "ev-8b41901e1597",
+            "ev-e423a01db903",
+            "ev-97aa68853756",
+            "ev-b1def6b0ffeb",
+            "ev-e39e7b8dbfe3"
+          ],
+          "confidence_before": 0.95,
+          "confidence_after": 0.95,
+          "vote": "CONFIRM",
+          "timestamp": "2026-10-11T09:08:24.968210+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-8b41901e1597",
+              "ev-e423a01db903",
+              "ev-97aa68853756",
+              "ev-b1def6b0ffeb",
+              "ev-e39e7b8dbfe3"
+            ],
+            "environment_version": 0
+          },
+          "seq": 488
+        },
+        {
+          "event_id": "evt-2a943c298b77",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "evidence_skeptic",
+          "event_type": "VOTE_CAST",
+          "round": 2,
+          "claim": "All evidence shows Alice can read Bob's record with guard disabled, violating owner-only policy. Historical context irrelevant as claim is about current environment version 0.",
+          "evidence_ids": [
+            "ev-8b41901e1597",
+            "ev-e423a01db903",
+            "ev-97aa68853756",
+            "ev-b1def6b0ffeb",
+            "ev-e39e7b8dbfe3"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.95,
+          "vote": "CONFIRM",
+          "timestamp": "2026-10-11T09:08:26.058341+00:00",
+          "data": {
+            "reasoning": "configured model position retained; observed record unchanged"
+          },
+          "seq": 489
+        },
+        {
+          "event_id": "evt-b344049bdf16",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "access_control_agent",
+          "event_type": "VOTE_CAST",
+          "round": 2,
+          "claim": "Multiple independent tools confirm Alice can read Bob's record with disabled guard, violating owner-only policy. Disabled guard does not grant legitimate permission, confirming cross-user access in current environment version 0.",
+          "evidence_ids": [
+            "ev-8b41901e1597",
+            "ev-e423a01db903",
+            "ev-97aa68853756",
+            "ev-b1def6b0ffeb",
+            "ev-e39e7b8dbfe3"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.95,
+          "vote": "CONFIRM",
+          "timestamp": "2026-10-11T09:08:26.059252+00:00",
+          "data": {
+            "reasoning": "configured model position retained; observed record unchanged"
+          },
+          "seq": 490
+        },
+        {
+          "event_id": "evt-33b802ed3c0a",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "VOTE_CAST",
+          "round": 2,
+          "claim": "The claim that Alice can read Bob's record is unconfirmed by current evidence. The required policy is owner-only, but the evidence shows a disabled guard does not grant permission. Historical context is irrelevant to current visibility. The hypothesis remains unconfirmed without observable evidence of actual record visibility in the current environment version 0. The disabled guard does not grant legitimate permission, but this is not directly observable here. The current evidence does not prove",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": 0.3,
+          "vote": "DISPUTED",
+          "timestamp": "2026-10-11T09:08:26.059643+00:00",
+          "data": {
+            "reasoning": "configured model position retained; observed record unchanged"
+          },
+          "seq": 491
+        },
+        {
+          "event_id": "evt-a713f6ade351",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": "finding-9c2a8cb42efe",
+          "agent_id": "evidence_protocol",
+          "event_type": "FINDING_RESOLVED",
+          "round": 2,
+          "claim": "CONFIRMED: INDEPENDENT_REPRODUCTION: two supporting agents and independent direct observations; no decisive counterexample",
+          "evidence_ids": [
+            "ev-8b41901e1597",
+            "ev-e423a01db903",
+            "ev-97aa68853756",
+            "ev-b1def6b0ffeb",
+            "ev-e39e7b8dbfe3"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:08:26.432621+00:00",
+          "data": {
+            "status": "CONFIRMED",
+            "rule": "INDEPENDENT_REPRODUCTION: two supporting agents and independent direct observations; no decisive counterexample",
+            "tally": {
+              "CONFIRM": 2,
+              "DISPUTED": 1
+            }
+          },
+          "seq": 492
+        },
+        {
+          "event_id": "evt-f4de279ca8cf",
+          "run_id": "run-459a4760e6fe",
+          "finding_id": null,
+          "agent_id": "facilitator",
+          "event_type": "ASSESSMENT_COMPLETED",
+          "round": 0,
+          "claim": "Run completed. Evidence and dissent retained. Synthetic fixture results do not establish real-world exploitability.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:08:27.330783+00:00",
+          "data": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 0,
+            "blocked_requests": 0,
+            "tool_requests": 5,
+            "duration_seconds": 91.367,
+            "group_messages": 24,
+            "peer_receipts": 30,
+            "model_calls": 11,
+            "model_tokens": 10929
+          },
+          "seq": 493
+        }
+      ]
+    },
+    {
+      "scenario": "patched_access",
+      "expected": "NOT_REPRODUCED",
+      "run": {
+        "run_id": "run-0ca94e19478d",
+        "scenario": "patched_access",
+        "patched": true,
+        "target_id": "lab-target",
+        "transport": "slim",
+        "state": "completed",
+        "created_at": "2026-10-11T09:08:28.525547+00:00",
+        "completed_at": "2026-10-11T09:09:55.334733+00:00",
+        "selected_agents": [
+          "access_control_agent",
+          "evidence_skeptic",
+          "risk_remediation_agent"
+        ],
+        "findings": [
+          {
+            "finding_id": "finding-3c31d9f42920",
+            "run_id": "run-0ca94e19478d",
+            "title": "Cross-user profile access",
+            "category": "broken_access_control",
+            "asset": "lab-target",
+            "route": "/checks",
+            "status": "NOT_REPRODUCED",
+            "confidence": 0.0,
+            "initial_confidence": 0.0,
+            "impact_band": "medium",
+            "reproducible": false,
+            "evidence_ids": [
+              "ev-4b3adb232bc6",
+              "ev-b28cbc57f0d6",
+              "ev-3aa5d940b95d",
+              "ev-d6ae9e688373"
+            ],
+            "supporting_agents": [],
+            "challenging_agents": [
+              "risk_remediation_agent",
+              "access_control_agent",
+              "evidence_skeptic"
+            ],
+            "limitations": [
+              "Synthetic fixture only; no real-world exploitability claim"
+            ],
+            "remediation": "Review the relevant validation, object authorization, or header policy against the recorded synthetic evidence.",
+            "created_at": "2026-10-11T09:08:51.403267+00:00",
+            "rule": "FAILED_REPRODUCTION: approved check failed; original signal is insufficient",
+            "votes": [
+              {
+                "agent_id": "risk_remediation_agent",
+                "finding_id": "finding-3c31d9f42920",
+                "vote": "DISPUTED",
+                "confidence": 0.3,
+                "evidence_ids": [
+                  "ev-4b3adb232bc6",
+                  "ev-b28cbc57f0d6",
+                  "ev-3aa5d940b95d",
+                  "ev-d6ae9e688373"
+                ],
+                "reason": "All four tests confirm Alice cannot read Bob's record (record_visible: false) despite guard being enabled. The required policy is owner-only, but implementation status isn't directly observable here. Historical context may differ, but current environment shows no active violations. The disabled guard does not grant permission, but this is not directly observable in the evidence. The hypothesis remains unconfirmed due to lack of evidence of implementation failure.",
+                "round": 2
+              },
+              {
+                "agent_id": "access_control_agent",
+                "finding_id": "finding-3c31d9f42920",
+                "vote": "REJECT",
+                "confidence": 0.0,
+                "evidence_ids": [
+                  "ev-b28cbc57f0d6"
+                ],
+                "reason": "Current evidence shows Alice cannot read Bob's record (record_visible: false) despite the guard being enabled. The claim that Alice can read Bob's record is contradicted by direct observation from cross_user_access test.",
+                "round": 2
+              },
+              {
+                "agent_id": "evidence_skeptic",
+                "finding_id": "finding-3c31d9f42920",
+                "vote": "REJECT",
+                "confidence": 0.0,
+                "evidence_ids": [
+                  "ev-4b3adb232bc6"
+                ],
+                "reason": "Current evidence shows Alice cannot read Bob's record (record_visible: false) despite the guard being enabled. The claim's hypothesis is falsified by direct observation.",
+                "round": 2
+              }
+            ],
+            "baseline": {
+              "single_agent": "DISPUTED",
+              "simple_majority": "NOT_REPRODUCED"
+            }
+          }
+        ],
+        "evidence": [
+          {
+            "evidence_id": "ev-4b3adb232bc6",
+            "run_id": "run-0ca94e19478d",
+            "agent_id": "evidence_skeptic",
+            "finding_id": "finding-3c31d9f42920",
+            "tool_name": "access_reproduce",
+            "target_id": "lab-target",
+            "test_description": "Named synthetic check: access_reproduce",
+            "method": "POST",
+            "route": "/checks",
+            "result": "negative",
+            "status_code": 403,
+            "snippet": "{\"actor\": \"synthetic-alice\", \"environment_version\": 0, \"guard_enabled\": true, \"record_owner\": \"synthetic-bob\", \"record_visible\": false}",
+            "response_hash": "6351338820e3b2f26e5bfd29d1513a4c9feb23b9de7b06f397f3622077982218",
+            "timestamp": "2026-10-11T09:08:33.095069+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": true,
+            "facts": {
+              "actor": "synthetic-alice",
+              "record_owner": "synthetic-bob",
+              "record_visible": false,
+              "guard_enabled": true,
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-b28cbc57f0d6",
+            "run_id": "run-0ca94e19478d",
+            "agent_id": "access_control_agent",
+            "finding_id": "finding-3c31d9f42920",
+            "tool_name": "cross_user_access",
+            "target_id": "lab-target",
+            "test_description": "Named synthetic check: cross_user_access",
+            "method": "POST",
+            "route": "/checks",
+            "result": "negative",
+            "status_code": 403,
+            "snippet": "{\"actor\": \"synthetic-alice\", \"environment_version\": 0, \"guard_enabled\": true, \"record_owner\": \"synthetic-bob\", \"record_visible\": false}",
+            "response_hash": "6351338820e3b2f26e5bfd29d1513a4c9feb23b9de7b06f397f3622077982218",
+            "timestamp": "2026-10-11T09:08:40.620513+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": true,
+            "facts": {
+              "actor": "synthetic-alice",
+              "record_owner": "synthetic-bob",
+              "record_visible": false,
+              "guard_enabled": true,
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-3aa5d940b95d",
+            "run_id": "run-0ca94e19478d",
+            "agent_id": "evidence_skeptic",
+            "finding_id": "finding-3c31d9f42920",
+            "tool_name": "access_reproduce",
+            "target_id": "lab-target",
+            "test_description": "Named synthetic check: access_reproduce",
+            "method": "POST",
+            "route": "/checks",
+            "result": "negative",
+            "status_code": 403,
+            "snippet": "{\"actor\": \"synthetic-alice\", \"environment_version\": 0, \"guard_enabled\": true, \"record_owner\": \"synthetic-bob\", \"record_visible\": false}",
+            "response_hash": "6351338820e3b2f26e5bfd29d1513a4c9feb23b9de7b06f397f3622077982218",
+            "timestamp": "2026-10-11T09:08:59.500151+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": true,
+            "facts": {
+              "actor": "synthetic-alice",
+              "record_owner": "synthetic-bob",
+              "record_visible": false,
+              "guard_enabled": true,
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-d6ae9e688373",
+            "run_id": "run-0ca94e19478d",
+            "agent_id": "access_control_agent",
+            "finding_id": "finding-3c31d9f42920",
+            "tool_name": "cross_user_access",
+            "target_id": "lab-target",
+            "test_description": "Named synthetic check: cross_user_access",
+            "method": "POST",
+            "route": "/checks",
+            "result": "negative",
+            "status_code": 403,
+            "snippet": "{\"actor\": \"synthetic-alice\", \"environment_version\": 0, \"guard_enabled\": true, \"record_owner\": \"synthetic-bob\", \"record_visible\": false}",
+            "response_hash": "6351338820e3b2f26e5bfd29d1513a4c9feb23b9de7b06f397f3622077982218",
+            "timestamp": "2026-10-11T09:09:06.659243+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": true,
+            "facts": {
+              "actor": "synthetic-alice",
+              "record_owner": "synthetic-bob",
+              "record_visible": false,
+              "guard_enabled": true,
+              "environment_version": 0
+            }
+          }
+        ],
+        "metrics": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 0,
+          "blocked_requests": 0,
+          "tool_requests": 4,
+          "duration_seconds": 86.8,
+          "group_messages": 28,
+          "peer_receipts": 36,
+          "model_calls": 11,
+          "model_tokens": 10629
+        },
+        "error": null,
+        "environment_version": 0,
+        "fixture_variant": "standard",
+        "decision_mode": "council"
+      },
+      "events": [
+        {
+          "event_id": "evt-1c3ecbc11a48",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": null,
+          "agent_id": "facilitator",
+          "event_type": "ASSESSMENT_OPENED",
+          "round": 0,
+          "claim": "Synthetic fixture assessment opened. Specialists decide their positions; deterministic evidence rules resolve the finding.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:08:28.535204+00:00",
+          "data": {
+            "target": "lab-target",
+            "scenario": "patched_access",
+            "transport": "slim",
+            "limits": {
+              "allowed_origins": [
+                "http://127.0.0.1:8001",
+                "http://localhost:8001",
+                "http://lab-target:8001"
+              ],
+              "allowed_routes": [
+                "/checks"
+              ],
+              "allowed_methods": [
+                "POST"
+              ],
+              "max_requests": 48,
+              "per_agent_requests": 12,
+              "deadline_seconds": 120,
+              "request_timeout_seconds": 4,
+              "max_rounds": 2
+            }
+          },
+          "seq": 494
+        },
+        {
+          "event_id": "evt-90b0a1af17c3",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": null,
+          "agent_id": "access_control_agent",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities access_control. Objective: Detect demonstrated cross-user access.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:08:28.618794+00:00",
+          "data": {},
+          "seq": 495
+        },
+        {
+          "event_id": "evt-e7cd935fb945",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": null,
+          "agent_id": "evidence_skeptic",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities verification. Objective: Minimize false positives.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:08:28.704073+00:00",
+          "data": {},
+          "seq": 496
+        },
+        {
+          "event_id": "evt-5653edf23554",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": null,
+          "agent_id": "risk_remediation_agent",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities risk. Objective: Minimize unsupported risk and expensive false alarms.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:08:28.788951+00:00",
+          "data": {},
+          "seq": 497
+        },
+        {
+          "event_id": "evt-d0a693f98fda",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "FINDING_PROPOSED",
+          "round": 0,
+          "claim": "No current evidence supports the claim that Alice can read Bob's record. The claim assumes a policy violation but lacks observable evidence of actual record visibility. Historical context may differ, but the current environment shows no active violations based on the provided evidence. The required policy is owner-only, but without evidence of implementation failure, the hypothesis remains unconfirmed. The disabled guard does not grant permission, but this is not directly observable here. The 'e",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": 0.3,
+          "vote": "DISPUTED",
+          "timestamp": "2026-10-11T09:08:38.568825+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [],
+            "environment_version": 0
+          },
+          "seq": 498
+        },
+        {
+          "event_id": "evt-d0bff842351b",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "evidence_skeptic",
+          "event_type": "PLAN_UPDATED",
+          "round": 0,
+          "claim": "Test current record visibility to confirm unauthorized access under the current guard configuration, as the hypothesis requires evaluating present visibility against the policy.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:08:32.994888+00:00",
+          "data": {
+            "checks": [
+              "access_reproduce"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 499
+        },
+        {
+          "event_id": "evt-574f3e480385",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "evidence_skeptic",
+          "event_type": "TOOL_RESULT",
+          "round": 0,
+          "claim": "Approved access_reproduce returned negative.",
+          "evidence_ids": [
+            "ev-4b3adb232bc6"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:08:33.097707+00:00",
+          "data": {},
+          "seq": 500
+        },
+        {
+          "event_id": "evt-a5a481c60f75",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "evidence_skeptic",
+          "event_type": "FINDING_PROPOSED",
+          "round": 0,
+          "claim": "The evidence shows Alice cannot read Bob's record (record_visible: false) despite the guard being enabled. The claim's hypothesis is falsified by current observation.",
+          "evidence_ids": [
+            "ev-4b3adb232bc6"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "REJECT",
+          "timestamp": "2026-10-11T09:08:45.848140+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-4b3adb232bc6"
+            ],
+            "environment_version": 0
+          },
+          "seq": 501
+        },
+        {
+          "event_id": "evt-bc321100c748",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "access_control_agent",
+          "event_type": "PLAN_UPDATED",
+          "round": 0,
+          "claim": "Directly test if Alice can read Bob's record to confirm cross-user access violation under current environment version.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:08:40.583509+00:00",
+          "data": {
+            "checks": [
+              "cross_user_access"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 502
+        },
+        {
+          "event_id": "evt-200a6a3566ad",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "access_control_agent",
+          "event_type": "TOOL_RESULT",
+          "round": 0,
+          "claim": "Approved cross_user_access returned negative.",
+          "evidence_ids": [
+            "ev-b28cbc57f0d6"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:08:40.622229+00:00",
+          "data": {},
+          "seq": 503
+        },
+        {
+          "event_id": "evt-08057753a938",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "access_control_agent",
+          "event_type": "FINDING_PROPOSED",
+          "round": 0,
+          "claim": "The evidence shows Alice cannot read Bob's record (record_visible: false) despite the guard being enabled. The claim that Alice can read Bob's record is contradicted by current evidence.",
+          "evidence_ids": [
+            "ev-b28cbc57f0d6"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "REJECT",
+          "timestamp": "2026-10-11T09:08:51.402446+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-b28cbc57f0d6"
+            ],
+            "environment_version": 0
+          },
+          "seq": 504
+        },
+        {
+          "event_id": "evt-c2ba9217edef",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "evidence_skeptic",
+          "event_type": "PLAN_UPDATED",
+          "round": 1,
+          "claim": "The claim requires verifying if Alice can read Bob's record under current guard configuration; current evidence shows negative results but needs confirmation with active guard.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:08:59.394051+00:00",
+          "data": {
+            "checks": [
+              "access_reproduce"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 505
+        },
+        {
+          "event_id": "evt-c691ebf5435e",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "evidence_skeptic",
+          "event_type": "TOOL_RESULT",
+          "round": 1,
+          "claim": "Approved access_reproduce returned negative.",
+          "evidence_ids": [
+            "ev-3aa5d940b95d"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:08:59.502114+00:00",
+          "data": {},
+          "seq": 506
+        },
+        {
+          "event_id": "evt-0765cdf706cc",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "evidence_skeptic",
+          "event_type": "CHALLENGE",
+          "round": 1,
+          "claim": "The claim requires verifying if Alice can read Bob's record under current guard configuration; current evidence shows negative results but needs confirmation with active guard.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:08:59.502348+00:00",
+          "data": {
+            "reasoning": "configured model"
+          },
+          "seq": 507
+        },
+        {
+          "event_id": "evt-d455055cd763",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "evidence_skeptic",
+          "event_type": "COUNTEREVIDENCE",
+          "round": 1,
+          "claim": "Approved challenge checks returned: access_reproduce=negative",
+          "evidence_ids": [
+            "ev-3aa5d940b95d"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:08:59.502398+00:00",
+          "data": {},
+          "seq": 508
+        },
+        {
+          "event_id": "evt-b9255df410d7",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "access_control_agent",
+          "event_type": "PLAN_UPDATED",
+          "round": 1,
+          "claim": "The claim requires verifying if Alice can read Bob's record; current evidence shows negative results but the hypothesis needs confirmation against the required policy. Cross_user_access is the only approved check to directly test record visibility under the current environment.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:09:06.591351+00:00",
+          "data": {
+            "checks": [
+              "cross_user_access"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 509
+        },
+        {
+          "event_id": "evt-09c7e0bb5c8b",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "access_control_agent",
+          "event_type": "TOOL_RESULT",
+          "round": 1,
+          "claim": "Approved cross_user_access returned negative.",
+          "evidence_ids": [
+            "ev-d6ae9e688373"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:09:06.661934+00:00",
+          "data": {},
+          "seq": 510
+        },
+        {
+          "event_id": "evt-e009279449dc",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "access_control_agent",
+          "event_type": "CHALLENGE",
+          "round": 1,
+          "claim": "The claim requires verifying if Alice can read Bob's record; current evidence shows negative results but the hypothesis needs confirmation against the required policy. Cross_user_access is the only approved check to directly test record visibility under the current environment.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:09:06.662128+00:00",
+          "data": {
+            "reasoning": "configured model"
+          },
+          "seq": 511
+        },
+        {
+          "event_id": "evt-7b00a0e4e284",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "access_control_agent",
+          "event_type": "COUNTEREVIDENCE",
+          "round": 1,
+          "claim": "Approved challenge checks returned: cross_user_access=negative",
+          "evidence_ids": [
+            "ev-d6ae9e688373"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:09:06.662174+00:00",
+          "data": {},
+          "seq": 512
+        },
+        {
+          "event_id": "evt-a7ebe54adf49",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "CHALLENGE",
+          "round": 1,
+          "claim": "The claim that Alice can read Bob's record is unconfirmed by current evidence. Both tests show record_visible: false, but the policy implementation status is not directly observable. The disabled guard does not grant permission, but this is not directly observable here. Historical context may differ, but the current environment shows no active violations based on the provided evidence. The required policy is owner-only, but without evidence of implementation failure, the hypothesis remains unpro",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": 0.3,
+          "vote": "DISPUTED",
+          "timestamp": "2026-10-11T09:09:16.351242+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-4b3adb232bc6",
+              "ev-b28cbc57f0d6"
+            ],
+            "environment_version": 0
+          },
+          "seq": 513
+        },
+        {
+          "event_id": "evt-cab0e88061db",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "evidence_skeptic",
+          "event_type": "BELIEF_UPDATED",
+          "round": 1,
+          "claim": "Current evidence shows Alice cannot read Bob's record (record_visible: false) despite the guard being enabled. The claim's hypothesis is falsified by direct observation.",
+          "evidence_ids": [
+            "ev-4b3adb232bc6"
+          ],
+          "confidence_before": 0.0,
+          "confidence_after": 0.0,
+          "vote": "REJECT",
+          "timestamp": "2026-10-11T09:09:27.085027+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-4b3adb232bc6",
+              "ev-b28cbc57f0d6",
+              "ev-3aa5d940b95d",
+              "ev-d6ae9e688373"
+            ],
+            "environment_version": 0
+          },
+          "seq": 514
+        },
+        {
+          "event_id": "evt-12dbbfdf523d",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "access_control_agent",
+          "event_type": "BELIEF_UPDATED",
+          "round": 1,
+          "claim": "Current evidence shows Alice cannot read Bob's record (record_visible: false) despite the guard being enabled. The claim that Alice can read Bob's record is contradicted by direct observation from cross_user_access test.",
+          "evidence_ids": [
+            "ev-b28cbc57f0d6"
+          ],
+          "confidence_before": 0.0,
+          "confidence_after": 0.0,
+          "vote": "REJECT",
+          "timestamp": "2026-10-11T09:09:37.936294+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-4b3adb232bc6",
+              "ev-b28cbc57f0d6",
+              "ev-3aa5d940b95d",
+              "ev-d6ae9e688373"
+            ],
+            "environment_version": 0
+          },
+          "seq": 515
+        },
+        {
+          "event_id": "evt-584997fbd603",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "BELIEF_UPDATED",
+          "round": 1,
+          "claim": "All four tests confirm Alice cannot read Bob's record (record_visible: false) despite guard being enabled. The required policy is owner-only, but implementation status isn't directly observable here. Historical context may differ, but current environment shows no active violations. The disabled guard does not grant permission, but this is not directly observable in the evidence. The hypothesis remains unconfirmed due to lack of evidence of implementation failure.",
+          "evidence_ids": [
+            "ev-4b3adb232bc6",
+            "ev-b28cbc57f0d6",
+            "ev-3aa5d940b95d",
+            "ev-d6ae9e688373"
+          ],
+          "confidence_before": 0.3,
+          "confidence_after": 0.3,
+          "vote": "DISPUTED",
+          "timestamp": "2026-10-11T09:09:52.051124+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-4b3adb232bc6",
+              "ev-b28cbc57f0d6",
+              "ev-3aa5d940b95d",
+              "ev-d6ae9e688373"
+            ],
+            "environment_version": 0
+          },
+          "seq": 516
+        },
+        {
+          "event_id": "evt-195c65d6c437",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "VOTE_CAST",
+          "round": 2,
+          "claim": "All four tests confirm Alice cannot read Bob's record (record_visible: false) despite guard being enabled. The required policy is owner-only, but implementation status isn't directly observable here. Historical context may differ, but current environment shows no active violations. The disabled guard does not grant permission, but this is not directly observable in the evidence. The hypothesis remains unconfirmed due to lack of evidence of implementation failure.",
+          "evidence_ids": [
+            "ev-4b3adb232bc6",
+            "ev-b28cbc57f0d6",
+            "ev-3aa5d940b95d",
+            "ev-d6ae9e688373"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.3,
+          "vote": "DISPUTED",
+          "timestamp": "2026-10-11T09:09:53.141973+00:00",
+          "data": {
+            "reasoning": "configured model position retained; observed record unchanged"
+          },
+          "seq": 517
+        },
+        {
+          "event_id": "evt-170be2ce8c17",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "access_control_agent",
+          "event_type": "VOTE_CAST",
+          "round": 2,
+          "claim": "Current evidence shows Alice cannot read Bob's record (record_visible: false) despite the guard being enabled. The claim that Alice can read Bob's record is contradicted by direct observation from cross_user_access test.",
+          "evidence_ids": [
+            "ev-b28cbc57f0d6"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "REJECT",
+          "timestamp": "2026-10-11T09:09:53.143382+00:00",
+          "data": {
+            "reasoning": "configured model position retained; observed record unchanged"
+          },
+          "seq": 518
+        },
+        {
+          "event_id": "evt-f22baf528962",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "evidence_skeptic",
+          "event_type": "VOTE_CAST",
+          "round": 2,
+          "claim": "Current evidence shows Alice cannot read Bob's record (record_visible: false) despite the guard being enabled. The claim's hypothesis is falsified by direct observation.",
+          "evidence_ids": [
+            "ev-4b3adb232bc6"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "REJECT",
+          "timestamp": "2026-10-11T09:09:53.143589+00:00",
+          "data": {
+            "reasoning": "configured model position retained; observed record unchanged"
+          },
+          "seq": 519
+        },
+        {
+          "event_id": "evt-5e422eaf7763",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": "finding-3c31d9f42920",
+          "agent_id": "evidence_protocol",
+          "event_type": "FINDING_RESOLVED",
+          "round": 2,
+          "claim": "NOT_REPRODUCED: FAILED_REPRODUCTION: approved check failed; original signal is insufficient",
+          "evidence_ids": [
+            "ev-4b3adb232bc6",
+            "ev-b28cbc57f0d6",
+            "ev-3aa5d940b95d",
+            "ev-d6ae9e688373"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:09:53.519944+00:00",
+          "data": {
+            "status": "NOT_REPRODUCED",
+            "rule": "FAILED_REPRODUCTION: approved check failed; original signal is insufficient",
+            "tally": {
+              "DISPUTED": 1,
+              "REJECT": 2
+            }
+          },
+          "seq": 520
+        },
+        {
+          "event_id": "evt-5fcbbd4e881d",
+          "run_id": "run-0ca94e19478d",
+          "finding_id": null,
+          "agent_id": "facilitator",
+          "event_type": "ASSESSMENT_COMPLETED",
+          "round": 0,
+          "claim": "Run completed. Evidence and dissent retained. Synthetic fixture results do not establish real-world exploitability.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:09:54.423177+00:00",
+          "data": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 0,
+            "blocked_requests": 0,
+            "tool_requests": 4,
+            "duration_seconds": 85.888,
+            "group_messages": 24,
+            "peer_receipts": 30,
+            "model_calls": 11,
+            "model_tokens": 10629
+          },
+          "seq": 521
+        }
+      ]
+    },
+    {
+      "scenario": "scope_violation",
+      "expected": "NEEDS_HUMAN",
+      "run": {
+        "run_id": "run-04146d59476b",
+        "scenario": "scope_violation",
+        "patched": false,
+        "target_id": "lab-target",
+        "transport": "slim",
+        "state": "stopped",
+        "created_at": "2026-10-11T09:09:55.456304+00:00",
+        "completed_at": "2026-10-11T09:09:56.778416+00:00",
+        "selected_agents": [
+          "access_control_agent",
+          "evidence_skeptic",
+          "risk_remediation_agent"
+        ],
+        "findings": [
+          {
+            "finding_id": "finding-870e1e2d2e19",
+            "run_id": "run-04146d59476b",
+            "title": "Assessment requires review",
+            "category": "safety",
+            "asset": "lab-target",
+            "route": "/checks",
+            "status": "NEEDS_HUMAN",
+            "confidence": 0.0,
+            "initial_confidence": 0.0,
+            "impact_band": "medium",
+            "reproducible": false,
+            "evidence_ids": [],
+            "supporting_agents": [],
+            "challenging_agents": [],
+            "limitations": [
+              "Synthetic fixture only; no real-world exploitability claim"
+            ],
+            "remediation": "Review the blocked action or missing evidence before starting another scoped assessment.",
+            "created_at": "2026-10-11T09:09:56.695488+00:00",
+            "rule": "SAFETY_STOP: Named check is unknown or outside this agent's permissions",
+            "votes": [],
+            "baseline": {
+              "single_agent": "NEEDS_HUMAN",
+              "simple_majority": "NEEDS_HUMAN"
+            }
+          }
+        ],
+        "evidence": [],
+        "metrics": {
+          "evidence_coverage": 0.0,
+          "belief_revisions": 0,
+          "blocked_requests": 1,
+          "tool_requests": 0,
+          "duration_seconds": 1.317,
+          "group_messages": 4,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "error": null,
+        "environment_version": 0,
+        "fixture_variant": "standard",
+        "decision_mode": "council"
+      },
+      "events": [
+        {
+          "event_id": "evt-c8ad9dd241be",
+          "run_id": "run-04146d59476b",
+          "finding_id": null,
+          "agent_id": "facilitator",
+          "event_type": "ASSESSMENT_OPENED",
+          "round": 0,
+          "claim": "Synthetic fixture assessment opened. Specialists decide their positions; deterministic evidence rules resolve the finding.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:09:55.461624+00:00",
+          "data": {
+            "target": "lab-target",
+            "scenario": "scope_violation",
+            "transport": "slim",
+            "limits": {
+              "allowed_origins": [
+                "http://127.0.0.1:8001",
+                "http://localhost:8001",
+                "http://lab-target:8001"
+              ],
+              "allowed_routes": [
+                "/checks"
+              ],
+              "allowed_methods": [
+                "POST"
+              ],
+              "max_requests": 48,
+              "per_agent_requests": 12,
+              "deadline_seconds": 120,
+              "request_timeout_seconds": 4,
+              "max_rounds": 2
+            }
+          },
+          "seq": 522
+        },
+        {
+          "event_id": "evt-e71cfdb887af",
+          "run_id": "run-04146d59476b",
+          "finding_id": null,
+          "agent_id": "access_control_agent",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities access_control. Objective: Detect demonstrated cross-user access.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:09:55.545822+00:00",
+          "data": {},
+          "seq": 523
+        },
+        {
+          "event_id": "evt-2783e40d8ea6",
+          "run_id": "run-04146d59476b",
+          "finding_id": null,
+          "agent_id": "evidence_skeptic",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities verification. Objective: Minimize false positives.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:09:55.630586+00:00",
+          "data": {},
+          "seq": 524
+        },
+        {
+          "event_id": "evt-68781cc25728",
+          "run_id": "run-04146d59476b",
+          "finding_id": null,
+          "agent_id": "risk_remediation_agent",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities risk. Objective: Minimize unsupported risk and expensive false alarms.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:09:55.721269+00:00",
+          "data": {},
+          "seq": 525
+        },
+        {
+          "event_id": "evt-56d2208e6ba7",
+          "run_id": "run-04146d59476b",
+          "finding_id": null,
+          "agent_id": "access_control_agent",
+          "event_type": "SAFETY_BLOCKED",
+          "round": 0,
+          "claim": "Named check is unknown or outside this agent's permissions",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:09:56.609764+00:00",
+          "data": {},
+          "seq": 526
+        },
+        {
+          "event_id": "evt-9995ec4ebed9",
+          "run_id": "run-04146d59476b",
+          "finding_id": null,
+          "agent_id": "facilitator",
+          "event_type": "ASSESSMENT_COMPLETED",
+          "round": 0,
+          "claim": "Run stopped. Evidence and dissent retained. Synthetic fixture results do not establish real-world exploitability.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:09:56.695671+00:00",
+          "data": {
+            "evidence_coverage": 0.0,
+            "belief_revisions": 0,
+            "blocked_requests": 1,
+            "tool_requests": 0,
+            "duration_seconds": 1.234,
+            "group_messages": 4,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "seq": 527
+        }
+      ]
+    },
+    {
+      "scenario": "changing_access",
+      "expected": "DISPUTED",
+      "run": {
+        "run_id": "run-3531184d926e",
+        "scenario": "changing_access",
+        "patched": true,
+        "target_id": "lab-target",
+        "transport": "slim",
+        "state": "completed",
+        "created_at": "2026-10-11T09:09:57.003913+00:00",
+        "completed_at": "2026-10-11T09:11:21.959986+00:00",
+        "selected_agents": [
+          "access_control_agent",
+          "evidence_skeptic",
+          "risk_remediation_agent"
+        ],
+        "findings": [
+          {
+            "finding_id": "finding-ffd35199c2cc",
+            "run_id": "run-3531184d926e",
+            "title": "Cross-user profile access",
+            "category": "broken_access_control",
+            "asset": "lab-target",
+            "route": "/checks",
+            "status": "DISPUTED",
+            "confidence": 0.0,
+            "initial_confidence": 0.95,
+            "impact_band": "medium",
+            "reproducible": true,
+            "evidence_ids": [
+              "ev-643fde35e219",
+              "ev-bab8d624ec96",
+              "ev-f81ce96e2a64",
+              "ev-acbe1667414d"
+            ],
+            "supporting_agents": [],
+            "challenging_agents": [
+              "risk_remediation_agent",
+              "access_control_agent",
+              "evidence_skeptic"
+            ],
+            "limitations": [
+              "Synthetic fixture only; no real-world exploitability claim"
+            ],
+            "remediation": "Review the relevant validation, object authorization, or header policy against the recorded synthetic evidence.",
+            "created_at": "2026-10-11T09:10:19.809612+00:00",
+            "rule": "CONFLICTING_DIRECT_EVIDENCE: support and counterevidence remain unresolved",
+            "votes": [
+              {
+                "agent_id": "risk_remediation_agent",
+                "finding_id": "finding-ffd35199c2cc",
+                "vote": "DISPUTED",
+                "confidence": 0.3,
+                "evidence_ids": [],
+                "reason": "Current evidence shows no record visibility for Alice on Bob's record with guard enabled (version 1). Historical evidence (version 0) shows visibility with disabled guard, but current environment has no active violations observed. The claim assumes a policy violation without current evidence of actual record visibility. The disabled guard does not grant permission, but this is not directly observable here. The hypothesis remains unconfirmed without current evidence of implementation failure.",
+                "round": 2
+              },
+              {
+                "agent_id": "access_control_agent",
+                "finding_id": "finding-ffd35199c2cc",
+                "vote": "REJECT",
+                "confidence": 0.0,
+                "evidence_ids": [
+                  "ev-f81ce96e2a64",
+                  "ev-acbe1667414d"
+                ],
+                "reason": "Current evidence shows Alice cannot read Bob's record with active guard (version 1). Historical visibility with disabled guard (version 0) does not apply to current environment. Policy violation claim lacks current evidence of actual record visibility.",
+                "round": 2
+              },
+              {
+                "agent_id": "evidence_skeptic",
+                "finding_id": "finding-ffd35199c2cc",
+                "vote": "REJECT",
+                "confidence": 0.0,
+                "evidence_ids": [
+                  "ev-f81ce96e2a64",
+                  "ev-acbe1667414d"
+                ],
+                "reason": "Current evidence shows Alice cannot read Bob's record with guard enabled (required state), so the violation hypothesis is false. Historical visibility with disabled guard does not apply to current environment version 1.",
+                "round": 2
+              }
+            ],
+            "baseline": {
+              "single_agent": "CONFIRMED",
+              "simple_majority": "CONFIRMED"
+            }
+          }
+        ],
+        "evidence": [
+          {
+            "evidence_id": "ev-643fde35e219",
+            "run_id": "run-3531184d926e",
+            "agent_id": "evidence_skeptic",
+            "finding_id": "finding-ffd35199c2cc",
+            "tool_name": "access_reproduce",
+            "target_id": "lab-target",
+            "test_description": "Named synthetic check: access_reproduce",
+            "method": "POST",
+            "route": "/checks",
+            "result": "positive",
+            "status_code": 200,
+            "snippet": "{\"actor\": \"synthetic-alice\", \"environment_version\": 0, \"guard_enabled\": false, \"record_owner\": \"synthetic-bob\", \"record_visible\": true}",
+            "response_hash": "fa83551afc8ac77bd56c75e446179ec7d8cd4d68f7e20e8e95deda39eb959073",
+            "timestamp": "2026-10-11T09:10:06.859518+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": false,
+            "facts": {
+              "actor": "synthetic-alice",
+              "record_owner": "synthetic-bob",
+              "record_visible": true,
+              "guard_enabled": false,
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-bab8d624ec96",
+            "run_id": "run-3531184d926e",
+            "agent_id": "access_control_agent",
+            "finding_id": "finding-ffd35199c2cc",
+            "tool_name": "cross_user_access",
+            "target_id": "lab-target",
+            "test_description": "Named synthetic check: cross_user_access",
+            "method": "POST",
+            "route": "/checks",
+            "result": "positive",
+            "status_code": 200,
+            "snippet": "{\"actor\": \"synthetic-alice\", \"environment_version\": 0, \"guard_enabled\": false, \"record_owner\": \"synthetic-bob\", \"record_visible\": true}",
+            "response_hash": "fa83551afc8ac77bd56c75e446179ec7d8cd4d68f7e20e8e95deda39eb959073",
+            "timestamp": "2026-10-11T09:10:08.831640+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": false,
+            "facts": {
+              "actor": "synthetic-alice",
+              "record_owner": "synthetic-bob",
+              "record_visible": true,
+              "guard_enabled": false,
+              "environment_version": 0
+            }
+          },
+          {
+            "evidence_id": "ev-f81ce96e2a64",
+            "run_id": "run-3531184d926e",
+            "agent_id": "access_control_agent",
+            "finding_id": "finding-ffd35199c2cc",
+            "tool_name": "cross_user_access",
+            "target_id": "lab-target",
+            "test_description": "Named synthetic check: cross_user_access",
+            "method": "POST",
+            "route": "/checks",
+            "result": "negative",
+            "status_code": 403,
+            "snippet": "{\"actor\": \"synthetic-alice\", \"environment_version\": 1, \"guard_enabled\": true, \"record_owner\": \"synthetic-bob\", \"record_visible\": false}",
+            "response_hash": "32e4b9d49edaed32889fb6d40dcffd44e81b7efadadee9735f978642a49621b7",
+            "timestamp": "2026-10-11T09:10:28.029091+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": true,
+            "facts": {
+              "actor": "synthetic-alice",
+              "record_owner": "synthetic-bob",
+              "record_visible": false,
+              "guard_enabled": true,
+              "environment_version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-acbe1667414d",
+            "run_id": "run-3531184d926e",
+            "agent_id": "evidence_skeptic",
+            "finding_id": "finding-ffd35199c2cc",
+            "tool_name": "access_reproduce",
+            "target_id": "lab-target",
+            "test_description": "Named synthetic check: access_reproduce",
+            "method": "POST",
+            "route": "/checks",
+            "result": "negative",
+            "status_code": 403,
+            "snippet": "{\"actor\": \"synthetic-alice\", \"environment_version\": 1, \"guard_enabled\": true, \"record_owner\": \"synthetic-bob\", \"record_visible\": false}",
+            "response_hash": "32e4b9d49edaed32889fb6d40dcffd44e81b7efadadee9735f978642a49621b7",
+            "timestamp": "2026-10-11T09:10:36.658353+00:00",
+            "reproducible": true,
+            "observable": true,
+            "decisive_counterexample": false,
+            "reproduction_failed": true,
+            "facts": {
+              "actor": "synthetic-alice",
+              "record_owner": "synthetic-bob",
+              "record_visible": false,
+              "guard_enabled": true,
+              "environment_version": 1
+            }
+          }
+        ],
+        "metrics": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 2,
+          "blocked_requests": 0,
+          "tool_requests": 4,
+          "duration_seconds": 84.967,
+          "group_messages": 28,
+          "peer_receipts": 36,
+          "model_calls": 11,
+          "model_tokens": 10135
+        },
+        "error": null,
+        "environment_version": 1,
+        "fixture_variant": "standard",
+        "decision_mode": "council"
+      },
+      "events": [
+        {
+          "event_id": "evt-bb9a0d4d59b6",
+          "run_id": "run-3531184d926e",
+          "finding_id": null,
+          "agent_id": "facilitator",
+          "event_type": "ASSESSMENT_OPENED",
+          "round": 0,
+          "claim": "Synthetic fixture assessment opened. Specialists decide their positions; deterministic evidence rules resolve the finding.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:09:57.006116+00:00",
+          "data": {
+            "target": "lab-target",
+            "scenario": "changing_access",
+            "transport": "slim",
+            "limits": {
+              "allowed_origins": [
+                "http://127.0.0.1:8001",
+                "http://localhost:8001",
+                "http://lab-target:8001"
+              ],
+              "allowed_routes": [
+                "/checks"
+              ],
+              "allowed_methods": [
+                "POST"
+              ],
+              "max_requests": 48,
+              "per_agent_requests": 12,
+              "deadline_seconds": 120,
+              "request_timeout_seconds": 4,
+              "max_rounds": 2
+            }
+          },
+          "seq": 528
+        },
+        {
+          "event_id": "evt-f73e2be3d693",
+          "run_id": "run-3531184d926e",
+          "finding_id": null,
+          "agent_id": "access_control_agent",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities access_control. Objective: Detect demonstrated cross-user access.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:09:57.092198+00:00",
+          "data": {},
+          "seq": 529
+        },
+        {
+          "event_id": "evt-3d2cb8c22fe8",
+          "run_id": "run-3531184d926e",
+          "finding_id": null,
+          "agent_id": "evidence_skeptic",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities verification. Objective: Minimize false positives.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:09:57.177936+00:00",
+          "data": {},
+          "seq": 530
+        },
+        {
+          "event_id": "evt-4857824026d1",
+          "run_id": "run-3531184d926e",
+          "finding_id": null,
+          "agent_id": "risk_remediation_agent",
+          "event_type": "CAPABILITY_SELECTED",
+          "round": 0,
+          "claim": "Selected by declared capabilities risk. Objective: Minimize unsupported risk and expensive false alarms.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:09:57.264184+00:00",
+          "data": {},
+          "seq": 531
+        },
+        {
+          "event_id": "evt-c6246d63944c",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "FINDING_PROPOSED",
+          "round": 0,
+          "claim": "No current evidence supports the claim that Alice can read Bob's record. The claim assumes a policy violation but lacks observable evidence of actual record visibility. Historical context may differ, but the current environment shows no active violations based on the provided evidence. The required policy is owner-only, but without evidence of implementation failure, the hypothesis remains unconfirmed. The disabled guard does not grant permission, but this is not directly observable here. The 'e",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": 0.3,
+          "vote": "DISPUTED",
+          "timestamp": "2026-10-11T09:10:04.823451+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [],
+            "environment_version": 0
+          },
+          "seq": 532
+        },
+        {
+          "event_id": "evt-5fe9a2b8f03c",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "evidence_skeptic",
+          "event_type": "PLAN_UPDATED",
+          "round": 0,
+          "claim": "Test current record visibility to confirm unauthorized access under the current guard configuration, as the hypothesis requires evaluating present visibility against the policy.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:10:06.808216+00:00",
+          "data": {
+            "checks": [
+              "access_reproduce"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 533
+        },
+        {
+          "event_id": "evt-b3755ad0dcc8",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "evidence_skeptic",
+          "event_type": "TOOL_RESULT",
+          "round": 0,
+          "claim": "Approved access_reproduce returned positive.",
+          "evidence_ids": [
+            "ev-643fde35e219"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:10:06.861688+00:00",
+          "data": {},
+          "seq": 534
+        },
+        {
+          "event_id": "evt-59c5cec7d45b",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "evidence_skeptic",
+          "event_type": "FINDING_PROPOSED",
+          "round": 0,
+          "claim": "Current evidence shows Alice can read Bob's record with guard disabled, violating owner-only policy. Historical context irrelevant as claim is about current environment.",
+          "evidence_ids": [
+            "ev-643fde35e219"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.95,
+          "vote": "CONFIRM",
+          "timestamp": "2026-10-11T09:10:14.534185+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-643fde35e219"
+            ],
+            "environment_version": 0
+          },
+          "seq": 535
+        },
+        {
+          "event_id": "evt-452ed106af08",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "access_control_agent",
+          "event_type": "PLAN_UPDATED",
+          "round": 0,
+          "claim": "Directly test if Alice can read Bob's record to confirm cross-user access violation under current environment version.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:10:08.796517+00:00",
+          "data": {
+            "checks": [
+              "cross_user_access"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 536
+        },
+        {
+          "event_id": "evt-636e9c6cb254",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "access_control_agent",
+          "event_type": "TOOL_RESULT",
+          "round": 0,
+          "claim": "Approved cross_user_access returned positive.",
+          "evidence_ids": [
+            "ev-bab8d624ec96"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:10:08.833544+00:00",
+          "data": {},
+          "seq": 537
+        },
+        {
+          "event_id": "evt-04ee3b27bcae",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "access_control_agent",
+          "event_type": "FINDING_PROPOSED",
+          "round": 0,
+          "claim": "Current evidence shows Alice can read Bob's record with disabled guard, violating owner-only policy. Historical visibility is irrelevant as the current environment has guard disabled.",
+          "evidence_ids": [
+            "ev-bab8d624ec96"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.95,
+          "vote": "CONFIRM",
+          "timestamp": "2026-10-11T09:10:19.809097+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-bab8d624ec96"
+            ],
+            "environment_version": 0
+          },
+          "seq": 538
+        },
+        {
+          "event_id": "evt-e1801a95855f",
+          "run_id": "run-3531184d926e",
+          "finding_id": null,
+          "agent_id": "fixture_operator",
+          "event_type": "ENVIRONMENT_CHANGED",
+          "round": 0,
+          "claim": "Authorization guard enabled during the assessment. Earlier observations are retained; repeat checks against version 1.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:10:20.553904+00:00",
+          "data": {
+            "environment_version": 1,
+            "action": "enable_guard"
+          },
+          "seq": 539
+        },
+        {
+          "event_id": "evt-f9127d231dad",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "access_control_agent",
+          "event_type": "PLAN_UPDATED",
+          "round": 1,
+          "claim": "Confirm current record visibility with active guard to distinguish between disabled guard effects and actual policy violation.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:10:27.893988+00:00",
+          "data": {
+            "checks": [
+              "cross_user_access"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 540
+        },
+        {
+          "event_id": "evt-b5e7ae3ef10d",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "access_control_agent",
+          "event_type": "TOOL_RESULT",
+          "round": 1,
+          "claim": "Approved cross_user_access returned negative.",
+          "evidence_ids": [
+            "ev-f81ce96e2a64"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:10:28.034376+00:00",
+          "data": {},
+          "seq": 541
+        },
+        {
+          "event_id": "evt-1e97ce409fe2",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "access_control_agent",
+          "event_type": "CHALLENGE",
+          "round": 1,
+          "claim": "Confirm current record visibility with active guard to distinguish between disabled guard effects and actual policy violation.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:10:28.036080+00:00",
+          "data": {
+            "reasoning": "configured model"
+          },
+          "seq": 542
+        },
+        {
+          "event_id": "evt-a4ae8670df8d",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "access_control_agent",
+          "event_type": "COUNTEREVIDENCE",
+          "round": 1,
+          "claim": "Approved challenge checks returned: cross_user_access=negative",
+          "evidence_ids": [
+            "ev-f81ce96e2a64"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:10:28.036147+00:00",
+          "data": {},
+          "seq": 543
+        },
+        {
+          "event_id": "evt-7cd01f630324",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "evidence_skeptic",
+          "event_type": "PLAN_UPDATED",
+          "round": 1,
+          "claim": "Current evidence shows Alice can read Bob's record with guard disabled, but we need to confirm if this holds under the current guard state (enabled/disabled) to verify the policy violation claim.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:10:36.538857+00:00",
+          "data": {
+            "checks": [
+              "access_reproduce"
+            ],
+            "requested_skills": [],
+            "reasoning": "configured model"
+          },
+          "seq": 544
+        },
+        {
+          "event_id": "evt-3264f1203985",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "evidence_skeptic",
+          "event_type": "TOOL_RESULT",
+          "round": 1,
+          "claim": "Approved access_reproduce returned negative.",
+          "evidence_ids": [
+            "ev-acbe1667414d"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:10:36.660455+00:00",
+          "data": {},
+          "seq": 545
+        },
+        {
+          "event_id": "evt-faf6f1a8544d",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "evidence_skeptic",
+          "event_type": "CHALLENGE",
+          "round": 1,
+          "claim": "Current evidence shows Alice can read Bob's record with guard disabled, but we need to confirm if this holds under the current guard state (enabled/disabled) to verify the policy violation claim.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:10:36.660750+00:00",
+          "data": {
+            "reasoning": "configured model"
+          },
+          "seq": 546
+        },
+        {
+          "event_id": "evt-70ca9d9a457d",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "evidence_skeptic",
+          "event_type": "COUNTEREVIDENCE",
+          "round": 1,
+          "claim": "Approved challenge checks returned: access_reproduce=negative",
+          "evidence_ids": [
+            "ev-acbe1667414d"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:10:36.660792+00:00",
+          "data": {},
+          "seq": 547
+        },
+        {
+          "event_id": "evt-e17bdfe36748",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "CHALLENGE",
+          "round": 1,
+          "claim": "No current evidence supports the claim that Alice can read Bob's record. The hypothesis assumes a policy violation but lacks observable evidence of actual record visibility in the current environment (version 1). Historical evidence from version 0 shows visibility with disabled guard, but current environment version 1 has no active violations observed. The disabled guard does not grant permission, but this is not directly observable here. The claim remains unconfirmed without current evidence of",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": 0.3,
+          "vote": "DISPUTED",
+          "timestamp": "2026-10-11T09:10:45.622661+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-643fde35e219",
+              "ev-bab8d624ec96"
+            ],
+            "environment_version": 1
+          },
+          "seq": 548
+        },
+        {
+          "event_id": "evt-735eb544eaf5",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "access_control_agent",
+          "event_type": "BELIEF_UPDATED",
+          "round": 1,
+          "claim": "Current evidence shows Alice cannot read Bob's record with active guard (version 1). Historical visibility with disabled guard (version 0) does not apply to current environment. Policy violation claim lacks current evidence of actual record visibility.",
+          "evidence_ids": [
+            "ev-f81ce96e2a64",
+            "ev-acbe1667414d"
+          ],
+          "confidence_before": 0.95,
+          "confidence_after": 0.0,
+          "vote": "REJECT",
+          "timestamp": "2026-10-11T09:10:57.342416+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-643fde35e219",
+              "ev-bab8d624ec96",
+              "ev-f81ce96e2a64",
+              "ev-acbe1667414d"
+            ],
+            "environment_version": 1
+          },
+          "seq": 549
+        },
+        {
+          "event_id": "evt-54de0b28317c",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "evidence_skeptic",
+          "event_type": "BELIEF_UPDATED",
+          "round": 1,
+          "claim": "Current evidence shows Alice cannot read Bob's record with guard enabled (required state), so the violation hypothesis is false. Historical visibility with disabled guard does not apply to current environment version 1.",
+          "evidence_ids": [
+            "ev-f81ce96e2a64",
+            "ev-acbe1667414d"
+          ],
+          "confidence_before": 0.95,
+          "confidence_after": 0.0,
+          "vote": "REJECT",
+          "timestamp": "2026-10-11T09:11:07.155385+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-643fde35e219",
+              "ev-bab8d624ec96",
+              "ev-f81ce96e2a64",
+              "ev-acbe1667414d"
+            ],
+            "environment_version": 1
+          },
+          "seq": 550
+        },
+        {
+          "event_id": "evt-1a8dca05b582",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "BELIEF_UPDATED",
+          "round": 1,
+          "claim": "Current evidence shows no record visibility for Alice on Bob's record with guard enabled (version 1). Historical evidence (version 0) shows visibility with disabled guard, but current environment has no active violations observed. The claim assumes a policy violation without current evidence of actual record visibility. The disabled guard does not grant permission, but this is not directly observable here. The hypothesis remains unconfirmed without current evidence of implementation failure.",
+          "evidence_ids": [],
+          "confidence_before": 0.3,
+          "confidence_after": 0.3,
+          "vote": "DISPUTED",
+          "timestamp": "2026-10-11T09:11:18.725820+00:00",
+          "data": {
+            "reasoning": "configured model",
+            "observed_evidence_ids": [
+              "ev-643fde35e219",
+              "ev-bab8d624ec96",
+              "ev-f81ce96e2a64",
+              "ev-acbe1667414d"
+            ],
+            "environment_version": 1
+          },
+          "seq": 551
+        },
+        {
+          "event_id": "evt-fa3c1f43ef7f",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "risk_remediation_agent",
+          "event_type": "VOTE_CAST",
+          "round": 2,
+          "claim": "Current evidence shows no record visibility for Alice on Bob's record with guard enabled (version 1). Historical evidence (version 0) shows visibility with disabled guard, but current environment has no active violations observed. The claim assumes a policy violation without current evidence of actual record visibility. The disabled guard does not grant permission, but this is not directly observable here. The hypothesis remains unconfirmed without current evidence of implementation failure.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": 0.3,
+          "vote": "DISPUTED",
+          "timestamp": "2026-10-11T09:11:19.783704+00:00",
+          "data": {
+            "reasoning": "configured model position retained; observed record unchanged"
+          },
+          "seq": 552
+        },
+        {
+          "event_id": "evt-7e5c4255252a",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "access_control_agent",
+          "event_type": "VOTE_CAST",
+          "round": 2,
+          "claim": "Current evidence shows Alice cannot read Bob's record with active guard (version 1). Historical visibility with disabled guard (version 0) does not apply to current environment. Policy violation claim lacks current evidence of actual record visibility.",
+          "evidence_ids": [
+            "ev-f81ce96e2a64",
+            "ev-acbe1667414d"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "REJECT",
+          "timestamp": "2026-10-11T09:11:19.792140+00:00",
+          "data": {
+            "reasoning": "configured model position retained; observed record unchanged"
+          },
+          "seq": 553
+        },
+        {
+          "event_id": "evt-ad53d870aa68",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "evidence_skeptic",
+          "event_type": "VOTE_CAST",
+          "round": 2,
+          "claim": "Current evidence shows Alice cannot read Bob's record with guard enabled (required state), so the violation hypothesis is false. Historical visibility with disabled guard does not apply to current environment version 1.",
+          "evidence_ids": [
+            "ev-f81ce96e2a64",
+            "ev-acbe1667414d"
+          ],
+          "confidence_before": null,
+          "confidence_after": 0.0,
+          "vote": "REJECT",
+          "timestamp": "2026-10-11T09:11:19.792263+00:00",
+          "data": {
+            "reasoning": "configured model position retained; observed record unchanged"
+          },
+          "seq": 554
+        },
+        {
+          "event_id": "evt-f118ef281139",
+          "run_id": "run-3531184d926e",
+          "finding_id": "finding-ffd35199c2cc",
+          "agent_id": "evidence_protocol",
+          "event_type": "FINDING_RESOLVED",
+          "round": 2,
+          "claim": "DISPUTED: CONFLICTING_DIRECT_EVIDENCE: support and counterevidence remain unresolved",
+          "evidence_ids": [
+            "ev-643fde35e219",
+            "ev-bab8d624ec96",
+            "ev-f81ce96e2a64",
+            "ev-acbe1667414d"
+          ],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:11:20.167147+00:00",
+          "data": {
+            "status": "DISPUTED",
+            "rule": "CONFLICTING_DIRECT_EVIDENCE: support and counterevidence remain unresolved",
+            "tally": {
+              "DISPUTED": 1,
+              "REJECT": 2
+            }
+          },
+          "seq": 555
+        },
+        {
+          "event_id": "evt-08db1bcf6e18",
+          "run_id": "run-3531184d926e",
+          "finding_id": null,
+          "agent_id": "facilitator",
+          "event_type": "ASSESSMENT_COMPLETED",
+          "round": 0,
+          "claim": "Run completed. Evidence and dissent retained. Synthetic fixture results do not establish real-world exploitability.",
+          "evidence_ids": [],
+          "confidence_before": null,
+          "confidence_after": null,
+          "vote": null,
+          "timestamp": "2026-10-11T09:11:21.065587+00:00",
+          "data": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 2,
+            "blocked_requests": 0,
+            "tool_requests": 4,
+            "duration_seconds": 84.072,
+            "group_messages": 24,
+            "peer_receipts": 30,
+            "model_calls": 11,
+            "model_tokens": 10135
+          },
+          "seq": 556
+        }
+      ]
+    }
+  ],
+  "evaluation": {
+    "transport": "memory",
+    "reasoning": "rules",
+    "dataset_sha256": "09a059111001bf093dc9c0cf8c2774f14d51e5d2abd03a549a235f501ce1e640",
+    "cases": [
+      {
+        "id": "ambiguous-parser",
+        "split": "development",
+        "scenario": "ambiguous_injection",
+        "patched": false,
+        "expected": "NOT_REPRODUCED",
+        "label": "benign",
+        "mode_metrics": {
+          "single_agent": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 1,
+            "blocked_requests": 0,
+            "tool_requests": 3,
+            "duration_seconds": 0.067,
+            "group_messages": 14,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "simple_majority": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 2,
+            "blocked_requests": 0,
+            "tool_requests": 5,
+            "duration_seconds": 0.046,
+            "group_messages": 28,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "council": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 3,
+            "blocked_requests": 0,
+            "tool_requests": 5,
+            "duration_seconds": 0.053,
+            "group_messages": 28,
+            "peer_receipts": 42,
+            "model_calls": 0,
+            "model_tokens": 0
+          }
+        },
+        "run_ids": {
+          "single_agent": "run-758082bdaf7b",
+          "simple_majority": "run-d59958316fdf",
+          "council": "run-3ff34da89f76"
+        },
+        "single_agent": "NOT_REPRODUCED",
+        "simple_majority": "NOT_REPRODUCED",
+        "council": "NOT_REPRODUCED",
+        "metrics": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 3,
+          "blocked_requests": 0,
+          "tool_requests": 5,
+          "duration_seconds": 0.053,
+          "group_messages": 28,
+          "peer_receipts": 42,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "run_id": "run-3ff34da89f76"
+      },
+      {
+        "id": "visible-cross-user-record",
+        "split": "development",
+        "scenario": "access_control",
+        "patched": false,
+        "expected": "CONFIRMED",
+        "label": "positive",
+        "mode_metrics": {
+          "simple_majority": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 2,
+            "blocked_requests": 0,
+            "tool_requests": 3,
+            "duration_seconds": 0.041,
+            "group_messages": 28,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "council": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 3,
+            "blocked_requests": 0,
+            "tool_requests": 3,
+            "duration_seconds": 0.049,
+            "group_messages": 28,
+            "peer_receipts": 42,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "single_agent": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 1,
+            "blocked_requests": 0,
+            "tool_requests": 2,
+            "duration_seconds": 0.021,
+            "group_messages": 14,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          }
+        },
+        "run_ids": {
+          "simple_majority": "run-be19a46b1569",
+          "council": "run-7a306e4d1cf0",
+          "single_agent": "run-96decfff56e5"
+        },
+        "simple_majority": "CONFIRMED",
+        "council": "CONFIRMED",
+        "single_agent": "CONFIRMED",
+        "metrics": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 3,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.049,
+          "group_messages": 28,
+          "peer_receipts": 42,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "run_id": "run-7a306e4d1cf0"
+      },
+      {
+        "id": "guard-denies-access",
+        "split": "development",
+        "scenario": "patched_access",
+        "patched": true,
+        "expected": "NOT_REPRODUCED",
+        "label": "benign",
+        "mode_metrics": {
+          "council": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 3,
+            "blocked_requests": 0,
+            "tool_requests": 3,
+            "duration_seconds": 0.032,
+            "group_messages": 28,
+            "peer_receipts": 42,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "single_agent": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 1,
+            "blocked_requests": 0,
+            "tool_requests": 2,
+            "duration_seconds": 0.017,
+            "group_messages": 14,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "simple_majority": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 2,
+            "blocked_requests": 0,
+            "tool_requests": 3,
+            "duration_seconds": 0.027,
+            "group_messages": 28,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          }
+        },
+        "run_ids": {
+          "council": "run-edfb1acb5a37",
+          "single_agent": "run-adb321c19380",
+          "simple_majority": "run-7ec261fd0430"
+        },
+        "council": "NOT_REPRODUCED",
+        "single_agent": "NOT_REPRODUCED",
+        "simple_majority": "NOT_REPRODUCED",
+        "metrics": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 3,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.032,
+          "group_messages": 28,
+          "peer_receipts": 42,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "run_id": "run-edfb1acb5a37"
+      },
+      {
+        "id": "absent-policy-header",
+        "split": "development",
+        "scenario": "hardening",
+        "patched": false,
+        "expected": "CONFIRMED",
+        "label": "positive",
+        "mode_metrics": {
+          "single_agent": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 1,
+            "blocked_requests": 0,
+            "tool_requests": 2,
+            "duration_seconds": 0.019,
+            "group_messages": 14,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "simple_majority": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 2,
+            "blocked_requests": 0,
+            "tool_requests": 3,
+            "duration_seconds": 0.034,
+            "group_messages": 28,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "council": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 3,
+            "blocked_requests": 0,
+            "tool_requests": 3,
+            "duration_seconds": 0.031,
+            "group_messages": 28,
+            "peer_receipts": 42,
+            "model_calls": 0,
+            "model_tokens": 0
+          }
+        },
+        "run_ids": {
+          "single_agent": "run-7f47edee8b66",
+          "simple_majority": "run-adfca26a04bb",
+          "council": "run-14ea89baa4a8"
+        },
+        "single_agent": "CONFIRMED",
+        "simple_majority": "CONFIRMED",
+        "council": "CONFIRMED",
+        "metrics": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 3,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.031,
+          "group_messages": 28,
+          "peer_receipts": 42,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "run_id": "run-14ea89baa4a8"
+      },
+      {
+        "id": "present-policy-header",
+        "split": "development",
+        "scenario": "hardening",
+        "patched": true,
+        "expected": "NOT_REPRODUCED",
+        "label": "benign",
+        "mode_metrics": {
+          "simple_majority": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 2,
+            "blocked_requests": 0,
+            "tool_requests": 3,
+            "duration_seconds": 0.026,
+            "group_messages": 28,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "council": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 3,
+            "blocked_requests": 0,
+            "tool_requests": 3,
+            "duration_seconds": 0.032,
+            "group_messages": 28,
+            "peer_receipts": 42,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "single_agent": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 1,
+            "blocked_requests": 0,
+            "tool_requests": 2,
+            "duration_seconds": 0.018,
+            "group_messages": 14,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          }
+        },
+        "run_ids": {
+          "simple_majority": "run-77da6437067c",
+          "council": "run-84bf333f207b",
+          "single_agent": "run-43ee1807046b"
+        },
+        "simple_majority": "NOT_REPRODUCED",
+        "council": "NOT_REPRODUCED",
+        "single_agent": "NOT_REPRODUCED",
+        "metrics": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 3,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.032,
+          "group_messages": 28,
+          "peer_receipts": 42,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "run_id": "run-84bf333f207b"
+      },
+      {
+        "id": "partial-record-response",
+        "split": "development",
+        "scenario": "incomplete_access",
+        "patched": false,
+        "expected": "NEEDS_HUMAN",
+        "label": "abstain",
+        "mode_metrics": {
+          "council": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 2,
+            "blocked_requests": 0,
+            "tool_requests": 3,
+            "duration_seconds": 0.034,
+            "group_messages": 28,
+            "peer_receipts": 42,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "single_agent": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 1,
+            "blocked_requests": 0,
+            "tool_requests": 2,
+            "duration_seconds": 0.017,
+            "group_messages": 14,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "simple_majority": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 2,
+            "blocked_requests": 0,
+            "tool_requests": 3,
+            "duration_seconds": 0.029,
+            "group_messages": 28,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          }
+        },
+        "run_ids": {
+          "council": "run-5b13359d9a87",
+          "single_agent": "run-d34abb43b44e",
+          "simple_majority": "run-cfe0b813cc0f"
+        },
+        "council": "NEEDS_HUMAN",
+        "single_agent": "DISPUTED",
+        "simple_majority": "DISPUTED",
+        "metrics": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 2,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.034,
+          "group_messages": 28,
+          "peer_receipts": 42,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "run_id": "run-5b13359d9a87"
+      },
+      {
+        "id": "forbidden-check",
+        "split": "development",
+        "scenario": "scope_violation",
+        "patched": false,
+        "expected": "NEEDS_HUMAN",
+        "label": "abstain",
+        "mode_metrics": {
+          "single_agent": {
+            "evidence_coverage": 0.0,
+            "belief_revisions": 0,
+            "blocked_requests": 1,
+            "tool_requests": 0,
+            "duration_seconds": 0.001,
+            "group_messages": 2,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "simple_majority": {
+            "evidence_coverage": 0.0,
+            "belief_revisions": 0,
+            "blocked_requests": 1,
+            "tool_requests": 0,
+            "duration_seconds": 0.001,
+            "group_messages": 4,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "council": {
+            "evidence_coverage": 0.0,
+            "belief_revisions": 0,
+            "blocked_requests": 1,
+            "tool_requests": 0,
+            "duration_seconds": 0.001,
+            "group_messages": 4,
+            "peer_receipts": 6,
+            "model_calls": 0,
+            "model_tokens": 0
+          }
+        },
+        "run_ids": {
+          "single_agent": "run-f9e0d745b365",
+          "simple_majority": "run-1758f5c3cdf9",
+          "council": "run-12a7439da52e"
+        },
+        "single_agent": "NEEDS_HUMAN",
+        "simple_majority": "NEEDS_HUMAN",
+        "council": "NEEDS_HUMAN",
+        "metrics": {
+          "evidence_coverage": 0.0,
+          "belief_revisions": 0,
+          "blocked_requests": 1,
+          "tool_requests": 0,
+          "duration_seconds": 0.001,
+          "group_messages": 4,
+          "peer_receipts": 6,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "run_id": "run-12a7439da52e"
+      },
+      {
+        "id": "causal-parser-change",
+        "split": "holdout",
+        "scenario": "ambiguous_injection",
+        "variant": "causal_injection",
+        "patched": false,
+        "expected": "CONFIRMED",
+        "label": "positive",
+        "mode_metrics": {
+          "simple_majority": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 2,
+            "blocked_requests": 0,
+            "tool_requests": 5,
+            "duration_seconds": 0.052,
+            "group_messages": 28,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "council": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 2,
+            "blocked_requests": 0,
+            "tool_requests": 5,
+            "duration_seconds": 0.044,
+            "group_messages": 28,
+            "peer_receipts": 42,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "single_agent": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 1,
+            "blocked_requests": 0,
+            "tool_requests": 3,
+            "duration_seconds": 0.025,
+            "group_messages": 14,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          }
+        },
+        "run_ids": {
+          "simple_majority": "run-71d5b059c8fe",
+          "council": "run-4aaf3caf5102",
+          "single_agent": "run-ed2b5fb6d907"
+        },
+        "simple_majority": "CONFIRMED",
+        "council": "CONFIRMED",
+        "single_agent": "CONFIRMED",
+        "metrics": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 2,
+          "blocked_requests": 0,
+          "tool_requests": 5,
+          "duration_seconds": 0.044,
+          "group_messages": 28,
+          "peer_receipts": 42,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "run_id": "run-4aaf3caf5102"
+      },
+      {
+        "id": "different-control-incomplete-cause",
+        "split": "holdout",
+        "scenario": "ambiguous_injection",
+        "variant": "unmatched_control",
+        "patched": false,
+        "expected": "NEEDS_HUMAN",
+        "label": "abstain",
+        "mode_metrics": {
+          "council": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 2,
+            "blocked_requests": 0,
+            "tool_requests": 5,
+            "duration_seconds": 0.044,
+            "group_messages": 28,
+            "peer_receipts": 42,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "single_agent": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 1,
+            "blocked_requests": 0,
+            "tool_requests": 3,
+            "duration_seconds": 0.024,
+            "group_messages": 14,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "simple_majority": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 2,
+            "blocked_requests": 0,
+            "tool_requests": 5,
+            "duration_seconds": 0.05,
+            "group_messages": 28,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          }
+        },
+        "run_ids": {
+          "council": "run-66229112be6a",
+          "single_agent": "run-aacd3c67a391",
+          "simple_majority": "run-e0bd6486411d"
+        },
+        "council": "NEEDS_HUMAN",
+        "single_agent": "DISPUTED",
+        "simple_majority": "DISPUTED",
+        "metrics": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 2,
+          "blocked_requests": 0,
+          "tool_requests": 5,
+          "duration_seconds": 0.044,
+          "group_messages": 28,
+          "peer_receipts": 42,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "run_id": "run-66229112be6a"
+      },
+      {
+        "id": "replicas-disagree",
+        "split": "holdout",
+        "scenario": "access_control",
+        "variant": "replica_conflict",
+        "patched": false,
+        "expected": "DISPUTED",
+        "label": "abstain",
+        "mode_metrics": {
+          "single_agent": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 1,
+            "blocked_requests": 0,
+            "tool_requests": 2,
+            "duration_seconds": 0.018,
+            "group_messages": 14,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "simple_majority": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 2,
+            "blocked_requests": 0,
+            "tool_requests": 3,
+            "duration_seconds": 0.031,
+            "group_messages": 28,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "council": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 3,
+            "blocked_requests": 0,
+            "tool_requests": 3,
+            "duration_seconds": 0.027,
+            "group_messages": 28,
+            "peer_receipts": 42,
+            "model_calls": 0,
+            "model_tokens": 0
+          }
+        },
+        "run_ids": {
+          "single_agent": "run-778d29367770",
+          "simple_majority": "run-2573e72d4f3d",
+          "council": "run-4d5cc5a42777"
+        },
+        "single_agent": "DISPUTED",
+        "simple_majority": "NOT_REPRODUCED",
+        "council": "DISPUTED",
+        "metrics": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 3,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.027,
+          "group_messages": 28,
+          "peer_receipts": 42,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "run_id": "run-4d5cc5a42777"
+      },
+      {
+        "id": "replica-cannot-observe",
+        "split": "holdout",
+        "scenario": "access_control",
+        "variant": "replica_incomplete",
+        "patched": false,
+        "expected": "NEEDS_HUMAN",
+        "label": "abstain",
+        "mode_metrics": {
+          "simple_majority": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 2,
+            "blocked_requests": 0,
+            "tool_requests": 3,
+            "duration_seconds": 0.03,
+            "group_messages": 28,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "council": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 2,
+            "blocked_requests": 0,
+            "tool_requests": 3,
+            "duration_seconds": 0.026,
+            "group_messages": 28,
+            "peer_receipts": 42,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "single_agent": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 1,
+            "blocked_requests": 0,
+            "tool_requests": 2,
+            "duration_seconds": 0.023,
+            "group_messages": 14,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          }
+        },
+        "run_ids": {
+          "simple_majority": "run-8bb9881b3d3a",
+          "council": "run-b79de1ac20d6",
+          "single_agent": "run-7b4862b2a35e"
+        },
+        "simple_majority": "CONFIRMED",
+        "council": "NEEDS_HUMAN",
+        "single_agent": "CONFIRMED",
+        "metrics": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 2,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.026,
+          "group_messages": 28,
+          "peer_receipts": 42,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "run_id": "run-b79de1ac20d6"
+      },
+      {
+        "id": "headers-disagree",
+        "split": "holdout",
+        "scenario": "hardening",
+        "variant": "unstable_headers",
+        "patched": false,
+        "expected": "DISPUTED",
+        "label": "abstain",
+        "mode_metrics": {
+          "council": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 3,
+            "blocked_requests": 0,
+            "tool_requests": 3,
+            "duration_seconds": 0.035,
+            "group_messages": 28,
+            "peer_receipts": 42,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "single_agent": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 1,
+            "blocked_requests": 0,
+            "tool_requests": 2,
+            "duration_seconds": 0.021,
+            "group_messages": 14,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "simple_majority": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 2,
+            "blocked_requests": 0,
+            "tool_requests": 3,
+            "duration_seconds": 0.026,
+            "group_messages": 28,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          }
+        },
+        "run_ids": {
+          "council": "run-a39cc2803bb5",
+          "single_agent": "run-9e6865469e8e",
+          "simple_majority": "run-fee4cac5c59e"
+        },
+        "council": "DISPUTED",
+        "single_agent": "DISPUTED",
+        "simple_majority": "NOT_REPRODUCED",
+        "metrics": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 3,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.035,
+          "group_messages": 28,
+          "peer_receipts": 42,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "run_id": "run-a39cc2803bb5"
+      },
+      {
+        "id": "guard-enabled-during-run",
+        "split": "holdout",
+        "scenario": "changing_access",
+        "patched": false,
+        "expected": "DISPUTED",
+        "label": "abstain",
+        "mode_metrics": {
+          "single_agent": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 1,
+            "blocked_requests": 0,
+            "tool_requests": 2,
+            "duration_seconds": 0.021,
+            "group_messages": 14,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "simple_majority": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 2,
+            "blocked_requests": 0,
+            "tool_requests": 3,
+            "duration_seconds": 0.027,
+            "group_messages": 28,
+            "peer_receipts": 0,
+            "model_calls": 0,
+            "model_tokens": 0
+          },
+          "council": {
+            "evidence_coverage": 1.0,
+            "belief_revisions": 3,
+            "blocked_requests": 0,
+            "tool_requests": 4,
+            "duration_seconds": 0.039,
+            "group_messages": 31,
+            "peer_receipts": 60,
+            "model_calls": 0,
+            "model_tokens": 0
+          }
+        },
+        "run_ids": {
+          "single_agent": "run-f570ca1c7533",
+          "simple_majority": "run-0d0daf90d77f",
+          "council": "run-cef78116945c"
+        },
+        "single_agent": "DISPUTED",
+        "simple_majority": "NOT_REPRODUCED",
+        "council": "DISPUTED",
+        "metrics": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 3,
+          "blocked_requests": 0,
+          "tool_requests": 4,
+          "duration_seconds": 0.039,
+          "group_messages": 31,
+          "peer_receipts": 60,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "run_id": "run-cef78116945c"
+      }
+    ],
+    "scores": {
+      "single_agent": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_positives": 0,
+        "unsupported_confirmations": 1,
+        "correct_abstentions": 6,
+        "abstention_cases": 7,
+        "exact_status_accuracy": 0.7692307692307693,
+        "accuracy_interval_95": [
+          0.49743126004873084,
+          0.918206209075343
+        ],
+        "cases": 13,
+        "tool_requests": 27,
+        "duration_seconds": 0.292,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "simple_majority": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_positives": 0,
+        "unsupported_confirmations": 1,
+        "correct_abstentions": 3,
+        "abstention_cases": 7,
+        "exact_status_accuracy": 0.5384615384615384,
+        "accuracy_interval_95": [
+          0.2914343243183205,
+          0.7679424569851186
+        ],
+        "cases": 13,
+        "tool_requests": 42,
+        "duration_seconds": 0.42,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "council": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_positives": 0,
+        "unsupported_confirmations": 0,
+        "correct_abstentions": 7,
+        "abstention_cases": 7,
+        "exact_status_accuracy": 1.0,
+        "accuracy_interval_95": [
+          0.7718981569447083,
+          1.0
+        ],
+        "cases": 13,
+        "tool_requests": 43,
+        "duration_seconds": 0.447,
+        "model_calls": 0,
+        "model_tokens": 0
+      }
+    },
+    "split_scores": {
+      "development": {
+        "single_agent": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "false_positives": 0,
+          "unsupported_confirmations": 0,
+          "correct_abstentions": 2,
+          "abstention_cases": 2,
+          "exact_status_accuracy": 0.8571428571428571,
+          "accuracy_interval_95": [
+            0.48686549668097007,
+            0.9743210440510253
+          ],
+          "cases": 7,
+          "tool_requests": 13,
+          "duration_seconds": 0.16,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "simple_majority": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "false_positives": 0,
+          "unsupported_confirmations": 0,
+          "correct_abstentions": 2,
+          "abstention_cases": 2,
+          "exact_status_accuracy": 0.8571428571428571,
+          "accuracy_interval_95": [
+            0.48686549668097007,
+            0.9743210440510253
+          ],
+          "cases": 7,
+          "tool_requests": 20,
+          "duration_seconds": 0.204,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "council": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "false_positives": 0,
+          "unsupported_confirmations": 0,
+          "correct_abstentions": 2,
+          "abstention_cases": 2,
+          "exact_status_accuracy": 1.0,
+          "accuracy_interval_95": [
+            0.6456611570247934,
+            1.0
+          ],
+          "cases": 7,
+          "tool_requests": 20,
+          "duration_seconds": 0.232,
+          "model_calls": 0,
+          "model_tokens": 0
+        }
+      },
+      "holdout": {
+        "single_agent": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "false_positives": 0,
+          "unsupported_confirmations": 1,
+          "correct_abstentions": 4,
+          "abstention_cases": 5,
+          "exact_status_accuracy": 0.6666666666666666,
+          "accuracy_interval_95": [
+            0.29998832134152864,
+            0.9032306674407831
+          ],
+          "cases": 6,
+          "tool_requests": 14,
+          "duration_seconds": 0.132,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "simple_majority": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "false_positives": 0,
+          "unsupported_confirmations": 1,
+          "correct_abstentions": 1,
+          "abstention_cases": 5,
+          "exact_status_accuracy": 0.16666666666666666,
+          "accuracy_interval_95": [
+            0.03005258587173032,
+            0.563509436563646
+          ],
+          "cases": 6,
+          "tool_requests": 22,
+          "duration_seconds": 0.216,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "council": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "false_positives": 0,
+          "unsupported_confirmations": 0,
+          "correct_abstentions": 5,
+          "abstention_cases": 5,
+          "exact_status_accuracy": 1.0,
+          "accuracy_interval_95": [
+            0.6096569663469354,
+            0.9999999999999999
+          ],
+          "cases": 6,
+          "tool_requests": 23,
+          "duration_seconds": 0.215,
+          "model_calls": 0,
+          "model_tokens": 0
+        }
+      }
+    },
+    "duration_seconds": 1.191,
+    "belief_revisions": 32,
+    "blocked_requests": 1,
+    "evidence_coverage": 0.9230769230769231,
+    "baseline_protocol": "Separate runs with the same fixture, specialist implementations, check permissions, 48-request budget and 120-second deadline. Single specialist performs all phases. Independent majority uses the initial relevant specialist, skeptic and risk assessor with only their own evidence and no peer delivery. Council shares evidence, recruits capabilities and applies deterministic adjudication. Additional council observations and cost are reported, so this is a system comparison rather than an isolated proof that dialogue helps.",
+    "limitations": "13 authored synthetic conditions: 7 development and 6 reserved stress cases. Holdout labels/variants are never sent to models; cases are now public and must not be described as independently collected or permanently unseen. No real-world superiority claim. Rule-mode results do not validate LLM reasoning. Memory timings exclude SLIM overhead; model billing and token pricing are not estimated. Precision/recall use adjudicable positive/benign cases, not unknown truth in abstention cases. Confirmation on an abstention case is reported separately as unsupported confirmation. Precision/recall without a denominator are null. Intervals describe case-level accuracy uncertainty, not population validity."
+  }
+}

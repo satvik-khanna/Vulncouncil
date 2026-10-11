@@ -1,0 +1,22 @@
+{
+  "browser": "Google Chrome via Playwright, headless",
+  "application": "http://127.0.0.1:8000",
+  "transport": "real AGNTCY SLIM",
+  "desktop_viewport": {"width": 1440, "height": 1080},
+  "mobile_viewport": {"width": 390, "height": 844},
+  "checks_passed": [
+    "Dashboard navigation",
+    "Six specialist capability cards",
+    "Ten benchmark result rows",
+    "Finding detail with independent evidence",
+    "Dark and light themes",
+    "Mobile layout without horizontal overflow",
+    "Start assessment through browser control",
+    "Actual SSE counterevidence and belief revision events",
+    "Durable completion event included in live stream",
+    "Report export control",
+    "Immediate stop produces NEEDS_HUMAN"
+  ],
+  "page_errors": 0,
+  "screenshots": ["dashboard-desktop.png", "dashboard-light.png", "dashboard-mobile.png"]
+}

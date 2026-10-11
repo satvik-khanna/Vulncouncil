@@ -1,0 +1,5 @@
+min_supporters: 2
+min_independent_observers: 2
+credible_confidence: 0.55
+max_rounds: 2
+

@@ -1,0 +1,1007 @@
+{
+  "transport": "memory",
+  "reasoning": "rules",
+  "dataset_sha256": "09a059111001bf093dc9c0cf8c2774f14d51e5d2abd03a549a235f501ce1e640",
+  "cases": [
+    {
+      "id": "ambiguous-parser",
+      "split": "development",
+      "scenario": "ambiguous_injection",
+      "patched": false,
+      "expected": "NOT_REPRODUCED",
+      "label": "benign",
+      "mode_metrics": {
+        "single_agent": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 1,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.021,
+          "group_messages": 14,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "simple_majority": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 2,
+          "blocked_requests": 0,
+          "tool_requests": 5,
+          "duration_seconds": 0.008,
+          "group_messages": 28,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "council": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 3,
+          "blocked_requests": 0,
+          "tool_requests": 5,
+          "duration_seconds": 0.007,
+          "group_messages": 28,
+          "peer_receipts": 42,
+          "model_calls": 0,
+          "model_tokens": 0
+        }
+      },
+      "run_ids": {
+        "single_agent": "run-98b809d2d667",
+        "simple_majority": "run-d4efdde5decf",
+        "council": "run-96fe28c1bf30"
+      },
+      "single_agent": "NOT_REPRODUCED",
+      "simple_majority": "NOT_REPRODUCED",
+      "council": "NOT_REPRODUCED",
+      "metrics": {
+        "evidence_coverage": 1.0,
+        "belief_revisions": 3,
+        "blocked_requests": 0,
+        "tool_requests": 5,
+        "duration_seconds": 0.007,
+        "group_messages": 28,
+        "peer_receipts": 42,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "run_id": "run-96fe28c1bf30"
+    },
+    {
+      "id": "visible-cross-user-record",
+      "split": "development",
+      "scenario": "access_control",
+      "patched": false,
+      "expected": "CONFIRMED",
+      "label": "positive",
+      "mode_metrics": {
+        "simple_majority": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 2,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.006,
+          "group_messages": 28,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "council": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 3,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.005,
+          "group_messages": 28,
+          "peer_receipts": 42,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "single_agent": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 1,
+          "blocked_requests": 0,
+          "tool_requests": 2,
+          "duration_seconds": 0.004,
+          "group_messages": 14,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        }
+      },
+      "run_ids": {
+        "simple_majority": "run-77a1bfa14eab",
+        "council": "run-6db0e5777220",
+        "single_agent": "run-f27526c37d8c"
+      },
+      "simple_majority": "CONFIRMED",
+      "council": "CONFIRMED",
+      "single_agent": "CONFIRMED",
+      "metrics": {
+        "evidence_coverage": 1.0,
+        "belief_revisions": 3,
+        "blocked_requests": 0,
+        "tool_requests": 3,
+        "duration_seconds": 0.005,
+        "group_messages": 28,
+        "peer_receipts": 42,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "run_id": "run-6db0e5777220"
+    },
+    {
+      "id": "guard-denies-access",
+      "split": "development",
+      "scenario": "patched_access",
+      "patched": true,
+      "expected": "NOT_REPRODUCED",
+      "label": "benign",
+      "mode_metrics": {
+        "council": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 3,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.006,
+          "group_messages": 28,
+          "peer_receipts": 42,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "single_agent": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 1,
+          "blocked_requests": 0,
+          "tool_requests": 2,
+          "duration_seconds": 0.004,
+          "group_messages": 14,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "simple_majority": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 2,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.006,
+          "group_messages": 28,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        }
+      },
+      "run_ids": {
+        "council": "run-7e01846fe19d",
+        "single_agent": "run-89a5a90f11e9",
+        "simple_majority": "run-a05bf0866862"
+      },
+      "council": "NOT_REPRODUCED",
+      "single_agent": "NOT_REPRODUCED",
+      "simple_majority": "NOT_REPRODUCED",
+      "metrics": {
+        "evidence_coverage": 1.0,
+        "belief_revisions": 3,
+        "blocked_requests": 0,
+        "tool_requests": 3,
+        "duration_seconds": 0.006,
+        "group_messages": 28,
+        "peer_receipts": 42,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "run_id": "run-7e01846fe19d"
+    },
+    {
+      "id": "absent-policy-header",
+      "split": "development",
+      "scenario": "hardening",
+      "patched": false,
+      "expected": "CONFIRMED",
+      "label": "positive",
+      "mode_metrics": {
+        "single_agent": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 1,
+          "blocked_requests": 0,
+          "tool_requests": 2,
+          "duration_seconds": 0.003,
+          "group_messages": 14,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "simple_majority": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 2,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.005,
+          "group_messages": 28,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "council": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 3,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.006,
+          "group_messages": 28,
+          "peer_receipts": 42,
+          "model_calls": 0,
+          "model_tokens": 0
+        }
+      },
+      "run_ids": {
+        "single_agent": "run-d27bd393b7d4",
+        "simple_majority": "run-b9c16718a155",
+        "council": "run-78d0a52c73d0"
+      },
+      "single_agent": "CONFIRMED",
+      "simple_majority": "CONFIRMED",
+      "council": "CONFIRMED",
+      "metrics": {
+        "evidence_coverage": 1.0,
+        "belief_revisions": 3,
+        "blocked_requests": 0,
+        "tool_requests": 3,
+        "duration_seconds": 0.006,
+        "group_messages": 28,
+        "peer_receipts": 42,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "run_id": "run-78d0a52c73d0"
+    },
+    {
+      "id": "present-policy-header",
+      "split": "development",
+      "scenario": "hardening",
+      "patched": true,
+      "expected": "NOT_REPRODUCED",
+      "label": "benign",
+      "mode_metrics": {
+        "simple_majority": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 2,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.005,
+          "group_messages": 28,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "council": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 3,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.005,
+          "group_messages": 28,
+          "peer_receipts": 42,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "single_agent": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 1,
+          "blocked_requests": 0,
+          "tool_requests": 2,
+          "duration_seconds": 0.003,
+          "group_messages": 14,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        }
+      },
+      "run_ids": {
+        "simple_majority": "run-6572b5dc48e8",
+        "council": "run-23f61ae95d9b",
+        "single_agent": "run-8a095461ed70"
+      },
+      "simple_majority": "NOT_REPRODUCED",
+      "council": "NOT_REPRODUCED",
+      "single_agent": "NOT_REPRODUCED",
+      "metrics": {
+        "evidence_coverage": 1.0,
+        "belief_revisions": 3,
+        "blocked_requests": 0,
+        "tool_requests": 3,
+        "duration_seconds": 0.005,
+        "group_messages": 28,
+        "peer_receipts": 42,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "run_id": "run-23f61ae95d9b"
+    },
+    {
+      "id": "partial-record-response",
+      "split": "development",
+      "scenario": "incomplete_access",
+      "patched": false,
+      "expected": "NEEDS_HUMAN",
+      "label": "abstain",
+      "mode_metrics": {
+        "council": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 2,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.005,
+          "group_messages": 28,
+          "peer_receipts": 42,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "single_agent": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 1,
+          "blocked_requests": 0,
+          "tool_requests": 2,
+          "duration_seconds": 0.003,
+          "group_messages": 14,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "simple_majority": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 2,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.005,
+          "group_messages": 28,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        }
+      },
+      "run_ids": {
+        "council": "run-bb43b048c901",
+        "single_agent": "run-113a522b3230",
+        "simple_majority": "run-c7fd1596f50b"
+      },
+      "council": "NEEDS_HUMAN",
+      "single_agent": "DISPUTED",
+      "simple_majority": "DISPUTED",
+      "metrics": {
+        "evidence_coverage": 1.0,
+        "belief_revisions": 2,
+        "blocked_requests": 0,
+        "tool_requests": 3,
+        "duration_seconds": 0.005,
+        "group_messages": 28,
+        "peer_receipts": 42,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "run_id": "run-bb43b048c901"
+    },
+    {
+      "id": "forbidden-check",
+      "split": "development",
+      "scenario": "scope_violation",
+      "patched": false,
+      "expected": "NEEDS_HUMAN",
+      "label": "abstain",
+      "mode_metrics": {
+        "single_agent": {
+          "evidence_coverage": 0.0,
+          "belief_revisions": 0,
+          "blocked_requests": 1,
+          "tool_requests": 0,
+          "duration_seconds": 0.0,
+          "group_messages": 2,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "simple_majority": {
+          "evidence_coverage": 0.0,
+          "belief_revisions": 0,
+          "blocked_requests": 1,
+          "tool_requests": 0,
+          "duration_seconds": 0.0,
+          "group_messages": 4,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "council": {
+          "evidence_coverage": 0.0,
+          "belief_revisions": 0,
+          "blocked_requests": 1,
+          "tool_requests": 0,
+          "duration_seconds": 0.0,
+          "group_messages": 4,
+          "peer_receipts": 6,
+          "model_calls": 0,
+          "model_tokens": 0
+        }
+      },
+      "run_ids": {
+        "single_agent": "run-138f61a5c4db",
+        "simple_majority": "run-20bf146604c3",
+        "council": "run-0ee80514b02b"
+      },
+      "single_agent": "NEEDS_HUMAN",
+      "simple_majority": "NEEDS_HUMAN",
+      "council": "NEEDS_HUMAN",
+      "metrics": {
+        "evidence_coverage": 0.0,
+        "belief_revisions": 0,
+        "blocked_requests": 1,
+        "tool_requests": 0,
+        "duration_seconds": 0.0,
+        "group_messages": 4,
+        "peer_receipts": 6,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "run_id": "run-0ee80514b02b"
+    },
+    {
+      "id": "causal-parser-change",
+      "split": "holdout",
+      "scenario": "ambiguous_injection",
+      "variant": "causal_injection",
+      "patched": false,
+      "expected": "CONFIRMED",
+      "label": "positive",
+      "mode_metrics": {
+        "simple_majority": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 2,
+          "blocked_requests": 0,
+          "tool_requests": 5,
+          "duration_seconds": 0.007,
+          "group_messages": 28,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "council": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 2,
+          "blocked_requests": 0,
+          "tool_requests": 5,
+          "duration_seconds": 0.007,
+          "group_messages": 28,
+          "peer_receipts": 42,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "single_agent": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 1,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.004,
+          "group_messages": 14,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        }
+      },
+      "run_ids": {
+        "simple_majority": "run-ae3cde71f783",
+        "council": "run-913addaf4401",
+        "single_agent": "run-683a4b59049d"
+      },
+      "simple_majority": "CONFIRMED",
+      "council": "CONFIRMED",
+      "single_agent": "CONFIRMED",
+      "metrics": {
+        "evidence_coverage": 1.0,
+        "belief_revisions": 2,
+        "blocked_requests": 0,
+        "tool_requests": 5,
+        "duration_seconds": 0.007,
+        "group_messages": 28,
+        "peer_receipts": 42,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "run_id": "run-913addaf4401"
+    },
+    {
+      "id": "different-control-incomplete-cause",
+      "split": "holdout",
+      "scenario": "ambiguous_injection",
+      "variant": "unmatched_control",
+      "patched": false,
+      "expected": "NEEDS_HUMAN",
+      "label": "abstain",
+      "mode_metrics": {
+        "council": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 2,
+          "blocked_requests": 0,
+          "tool_requests": 5,
+          "duration_seconds": 0.008,
+          "group_messages": 28,
+          "peer_receipts": 42,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "single_agent": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 1,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.005,
+          "group_messages": 14,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "simple_majority": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 2,
+          "blocked_requests": 0,
+          "tool_requests": 5,
+          "duration_seconds": 0.007,
+          "group_messages": 28,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        }
+      },
+      "run_ids": {
+        "council": "run-9fa5735deac0",
+        "single_agent": "run-a78283149425",
+        "simple_majority": "run-52761aef743c"
+      },
+      "council": "NEEDS_HUMAN",
+      "single_agent": "DISPUTED",
+      "simple_majority": "DISPUTED",
+      "metrics": {
+        "evidence_coverage": 1.0,
+        "belief_revisions": 2,
+        "blocked_requests": 0,
+        "tool_requests": 5,
+        "duration_seconds": 0.008,
+        "group_messages": 28,
+        "peer_receipts": 42,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "run_id": "run-9fa5735deac0"
+    },
+    {
+      "id": "replicas-disagree",
+      "split": "holdout",
+      "scenario": "access_control",
+      "variant": "replica_conflict",
+      "patched": false,
+      "expected": "DISPUTED",
+      "label": "abstain",
+      "mode_metrics": {
+        "single_agent": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 1,
+          "blocked_requests": 0,
+          "tool_requests": 2,
+          "duration_seconds": 0.004,
+          "group_messages": 14,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "simple_majority": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 2,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.005,
+          "group_messages": 28,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "council": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 3,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.006,
+          "group_messages": 28,
+          "peer_receipts": 42,
+          "model_calls": 0,
+          "model_tokens": 0
+        }
+      },
+      "run_ids": {
+        "single_agent": "run-4ee240ed3a76",
+        "simple_majority": "run-52f55fc19003",
+        "council": "run-85c001ab1044"
+      },
+      "single_agent": "DISPUTED",
+      "simple_majority": "NOT_REPRODUCED",
+      "council": "DISPUTED",
+      "metrics": {
+        "evidence_coverage": 1.0,
+        "belief_revisions": 3,
+        "blocked_requests": 0,
+        "tool_requests": 3,
+        "duration_seconds": 0.006,
+        "group_messages": 28,
+        "peer_receipts": 42,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "run_id": "run-85c001ab1044"
+    },
+    {
+      "id": "replica-cannot-observe",
+      "split": "holdout",
+      "scenario": "access_control",
+      "variant": "replica_incomplete",
+      "patched": false,
+      "expected": "NEEDS_HUMAN",
+      "label": "abstain",
+      "mode_metrics": {
+        "simple_majority": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 2,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.006,
+          "group_messages": 28,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "council": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 2,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.007,
+          "group_messages": 28,
+          "peer_receipts": 42,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "single_agent": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 1,
+          "blocked_requests": 0,
+          "tool_requests": 2,
+          "duration_seconds": 0.004,
+          "group_messages": 14,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        }
+      },
+      "run_ids": {
+        "simple_majority": "run-e19b62b0fb9b",
+        "council": "run-c78fa2e367e8",
+        "single_agent": "run-0070e6aef8a2"
+      },
+      "simple_majority": "CONFIRMED",
+      "council": "NEEDS_HUMAN",
+      "single_agent": "CONFIRMED",
+      "metrics": {
+        "evidence_coverage": 1.0,
+        "belief_revisions": 2,
+        "blocked_requests": 0,
+        "tool_requests": 3,
+        "duration_seconds": 0.007,
+        "group_messages": 28,
+        "peer_receipts": 42,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "run_id": "run-c78fa2e367e8"
+    },
+    {
+      "id": "headers-disagree",
+      "split": "holdout",
+      "scenario": "hardening",
+      "variant": "unstable_headers",
+      "patched": false,
+      "expected": "DISPUTED",
+      "label": "abstain",
+      "mode_metrics": {
+        "council": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 3,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.006,
+          "group_messages": 28,
+          "peer_receipts": 42,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "single_agent": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 1,
+          "blocked_requests": 0,
+          "tool_requests": 2,
+          "duration_seconds": 0.003,
+          "group_messages": 14,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "simple_majority": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 2,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.006,
+          "group_messages": 28,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        }
+      },
+      "run_ids": {
+        "council": "run-1104b67e0b3a",
+        "single_agent": "run-7e5a6d1b4ab8",
+        "simple_majority": "run-0edb7ab8708a"
+      },
+      "council": "DISPUTED",
+      "single_agent": "DISPUTED",
+      "simple_majority": "NOT_REPRODUCED",
+      "metrics": {
+        "evidence_coverage": 1.0,
+        "belief_revisions": 3,
+        "blocked_requests": 0,
+        "tool_requests": 3,
+        "duration_seconds": 0.006,
+        "group_messages": 28,
+        "peer_receipts": 42,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "run_id": "run-1104b67e0b3a"
+    },
+    {
+      "id": "guard-enabled-during-run",
+      "split": "holdout",
+      "scenario": "changing_access",
+      "patched": false,
+      "expected": "DISPUTED",
+      "label": "abstain",
+      "mode_metrics": {
+        "single_agent": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 1,
+          "blocked_requests": 0,
+          "tool_requests": 2,
+          "duration_seconds": 0.004,
+          "group_messages": 14,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "simple_majority": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 2,
+          "blocked_requests": 0,
+          "tool_requests": 3,
+          "duration_seconds": 0.006,
+          "group_messages": 28,
+          "peer_receipts": 0,
+          "model_calls": 0,
+          "model_tokens": 0
+        },
+        "council": {
+          "evidence_coverage": 1.0,
+          "belief_revisions": 3,
+          "blocked_requests": 0,
+          "tool_requests": 4,
+          "duration_seconds": 0.01,
+          "group_messages": 31,
+          "peer_receipts": 60,
+          "model_calls": 0,
+          "model_tokens": 0
+        }
+      },
+      "run_ids": {
+        "single_agent": "run-c98a51ca1f2e",
+        "simple_majority": "run-cb8a2e830670",
+        "council": "run-6417bb556775"
+      },
+      "single_agent": "DISPUTED",
+      "simple_majority": "NOT_REPRODUCED",
+      "council": "DISPUTED",
+      "metrics": {
+        "evidence_coverage": 1.0,
+        "belief_revisions": 3,
+        "blocked_requests": 0,
+        "tool_requests": 4,
+        "duration_seconds": 0.01,
+        "group_messages": 31,
+        "peer_receipts": 60,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "run_id": "run-6417bb556775"
+    }
+  ],
+  "scores": {
+    "single_agent": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "false_positives": 0,
+      "unsupported_confirmations": 1,
+      "correct_abstentions": 6,
+      "abstention_cases": 7,
+      "exact_status_accuracy": 0.7692307692307693,
+      "accuracy_interval_95": [
+        0.49743126004873084,
+        0.918206209075343
+      ],
+      "cases": 13,
+      "tool_requests": 27,
+      "duration_seconds": 0.062,
+      "model_calls": 0,
+      "model_tokens": 0
+    },
+    "simple_majority": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "false_positives": 0,
+      "unsupported_confirmations": 1,
+      "correct_abstentions": 3,
+      "abstention_cases": 7,
+      "exact_status_accuracy": 0.5384615384615384,
+      "accuracy_interval_95": [
+        0.2914343243183205,
+        0.7679424569851186
+      ],
+      "cases": 13,
+      "tool_requests": 42,
+      "duration_seconds": 0.072,
+      "model_calls": 0,
+      "model_tokens": 0
+    },
+    "council": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "false_positives": 0,
+      "unsupported_confirmations": 0,
+      "correct_abstentions": 7,
+      "abstention_cases": 7,
+      "exact_status_accuracy": 1.0,
+      "accuracy_interval_95": [
+        0.7718981569447083,
+        1.0
+      ],
+      "cases": 13,
+      "tool_requests": 43,
+      "duration_seconds": 0.078,
+      "model_calls": 0,
+      "model_tokens": 0
+    }
+  },
+  "split_scores": {
+    "development": {
+      "single_agent": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_positives": 0,
+        "unsupported_confirmations": 0,
+        "correct_abstentions": 2,
+        "abstention_cases": 2,
+        "exact_status_accuracy": 0.8571428571428571,
+        "accuracy_interval_95": [
+          0.48686549668097007,
+          0.9743210440510253
+        ],
+        "cases": 7,
+        "tool_requests": 13,
+        "duration_seconds": 0.038,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "simple_majority": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_positives": 0,
+        "unsupported_confirmations": 0,
+        "correct_abstentions": 2,
+        "abstention_cases": 2,
+        "exact_status_accuracy": 0.8571428571428571,
+        "accuracy_interval_95": [
+          0.48686549668097007,
+          0.9743210440510253
+        ],
+        "cases": 7,
+        "tool_requests": 20,
+        "duration_seconds": 0.035,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "council": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_positives": 0,
+        "unsupported_confirmations": 0,
+        "correct_abstentions": 2,
+        "abstention_cases": 2,
+        "exact_status_accuracy": 1.0,
+        "accuracy_interval_95": [
+          0.6456611570247934,
+          1.0
+        ],
+        "cases": 7,
+        "tool_requests": 20,
+        "duration_seconds": 0.034,
+        "model_calls": 0,
+        "model_tokens": 0
+      }
+    },
+    "holdout": {
+      "single_agent": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_positives": 0,
+        "unsupported_confirmations": 1,
+        "correct_abstentions": 4,
+        "abstention_cases": 5,
+        "exact_status_accuracy": 0.6666666666666666,
+        "accuracy_interval_95": [
+          0.29998832134152864,
+          0.9032306674407831
+        ],
+        "cases": 6,
+        "tool_requests": 14,
+        "duration_seconds": 0.024,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "simple_majority": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_positives": 0,
+        "unsupported_confirmations": 1,
+        "correct_abstentions": 1,
+        "abstention_cases": 5,
+        "exact_status_accuracy": 0.16666666666666666,
+        "accuracy_interval_95": [
+          0.03005258587173032,
+          0.563509436563646
+        ],
+        "cases": 6,
+        "tool_requests": 22,
+        "duration_seconds": 0.037,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "council": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_positives": 0,
+        "unsupported_confirmations": 0,
+        "correct_abstentions": 5,
+        "abstention_cases": 5,
+        "exact_status_accuracy": 1.0,
+        "accuracy_interval_95": [
+          0.6096569663469354,
+          0.9999999999999999
+        ],
+        "cases": 6,
+        "tool_requests": 23,
+        "duration_seconds": 0.044,
+        "model_calls": 0,
+        "model_tokens": 0
+      }
+    }
+  },
+  "duration_seconds": 0.24,
+  "belief_revisions": 32,
+  "blocked_requests": 1,
+  "evidence_coverage": 0.9230769230769231,
+  "baseline_protocol": "Separate runs with the same fixture, specialist implementations, check permissions, 48-request budget and 120-second deadline. Single specialist performs all phases. Independent majority uses the initial relevant specialist, skeptic and risk assessor with only their own evidence and no peer delivery. Council shares evidence, recruits capabilities and applies deterministic adjudication. Additional council observations and cost are reported, so this is a system comparison rather than an isolated proof that dialogue helps.",
+  "limitations": "13 authored synthetic conditions: 7 development and 6 reserved stress cases. Holdout labels/variants are never sent to models; cases are now public and must not be described as independently collected or permanently unseen. No real-world superiority claim. Rule-mode results do not validate LLM reasoning. Memory timings exclude SLIM overhead; model billing and token pricing are not estimated. Precision/recall use adjudicable positive/benign cases, not unknown truth in abstention cases. Confirmation on an abstention case is reported separately as unsupported confirmation. Precision/recall without a denominator are null. Intervals describe case-level accuracy uncertainty, not population validity."
+}
